@@ -1,0 +1,4 @@
+interface:
+  display_name: "Amazon Growth Opportunity Finder"
+  short_description: "Find Amazon Ads and BSR growth opportunities"
+  default_prompt: "Use $amazon-growth-opportunity-finder to identify the best ASIN, campaign, keyword, search term, and BSR growth opportunities from the provided Amazon data."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Amazon Account Growth Operating System"
+  short_description: "Prioritize profitable Amazon account growth"
+  default_prompt: "Use $amazon-account-growth-operating-system to turn Amazon performance-drop and growth-opportunity signals into a prioritized account action plan."
