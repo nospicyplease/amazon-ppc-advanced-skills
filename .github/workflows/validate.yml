@@ -20,6 +20,9 @@ jobs:
       - name: Check eval cases
         run: make eval
 
+      - name: Review examples, evals, and stress tests
+        run: make review-fixtures
+
       - name: List production skills
         run: make list-skills
 
@@ -28,11 +31,4 @@ jobs:
           ruby -e 'require "yaml"; ARGV.each { |f| YAML.load_file(f); puts "yaml ok #{f}" }' .github/ISSUE_TEMPLATE/*.yml */agents/openai.yaml templates/amazon-ppc-skill-template/agents/openai.yaml
 
       - name: Validate repo layout
-        run: |
-          for skill in amazon-ads-performance-drop-diagnosis amazon-growth-opportunity-finder amazon-account-growth-operating-system amazon-search-term-harvest-planner rocketcart-amazon-ads-live-optimization-review; do
-            test -f "$skill/SKILL.md"
-            test -f "$skill/agents/openai.yaml"
-            test -f "examples/$skill/prompt.md"
-            test -f "examples/$skill/input-summary.md"
-            test -f "examples/$skill/expected-output-outline.md"
-          done
+        run: make validate

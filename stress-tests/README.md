@@ -17,6 +17,14 @@ These prompts are designed to pressure-test the repo's core promises:
 
 Passing a stress test does not prove a skill is perfect. Failing one is useful: it shows where the instructions need stronger gates.
 
+Run the fixture quality gate after editing stress tests:
+
+```bash
+make review-fixtures
+```
+
+Each stress test must name target production skills, include a prompt, describe expected resistance, and list eval prompt paths. If a prompt asks for immediate execution, no-approval writes, broad negatives, or another unsafe shortcut, the expected resistance must explicitly block execution or require approval-gated behavior.
+
 ## Stress Test Files
 
 - `01-no-data-overconfidence.md`

@@ -29,7 +29,8 @@ Before committing updates:
 10. Review changed outputs with the relevant `evals/` prompt before opening a PR.
 11. Run or review at least one relevant stress test from `stress-tests/` when safety gates, BSR claims, negatives, budget cuts, or Rocketcart writes are affected.
 12. Confirm concrete eval cases have prompt, expected behavior, and pass/fail rubric with `make eval`.
-13. Validate all skills with `quick_validate.py` if available.
+13. Run `make review-fixtures` to verify example packs, eval cases, stress-test structure, and unsafe write-language gates.
+14. Validate all skills with `quick_validate.py` if available.
 
 ## Recommended Commands
 
@@ -38,12 +39,13 @@ Use the Makefile for repo-level checks:
 ```bash
 make check-docs
 make check-examples
+make review-fixtures
 make list-skills
 make validate
 make eval
 ```
 
-`make validate` checks required docs, production skill layout, example packs, YAML metadata, and the Codex `quick_validate.py` script when it is available locally. `make eval` checks concrete eval-case structure and pass/fail rubrics. If the local Codex validator is unavailable, the make target skips that step and still runs the structural checks.
+`make review-fixtures` is the contributor-facing quality gate. It checks production example packs, concrete eval cases, stress-test structure, stress-test README coverage, and unsafe write-language handling in examples and stress tests. `make validate` checks required docs, production skill layout, example packs, fixture review, YAML metadata, and the Codex `quick_validate.py` script when it is available locally. `make eval` checks concrete eval-case structure and pass/fail rubrics. If the local Codex validator is unavailable, the make target skips that step and still runs the structural checks.
 
 GitHub Actions runs the same repo-level checks on pull requests and pushes to `main` through `.github/workflows/validate.yml`.
 
@@ -83,6 +85,19 @@ Use examples and evals as lightweight regression checks:
 6. Run or inspect the nearest concrete case under `evals/cases/`.
 7. Fix the skill or docs when an eval returns `Needs revision` or `Fail`.
 
+Run the fixture quality gate after editing examples or evals:
+
+```bash
+make review-fixtures
+```
+
+If it fails, treat the message as a fixture hygiene problem:
+
+- Missing example files mean the production skill lacks a reproducible prompt, expected output, or known-bad comparison.
+- Missing eval rubric sections mean reviewers cannot tell pass from fail.
+- Missing stress-test sections mean contributors cannot reproduce the unsafe behavior.
+- Unsafe write-language failures mean the prompt mentions execution pressure without a matching blocked or approval-gated expected behavior.
+
 ## Stress-Test Review
 
 Use stress tests when changing skill instructions, adding a skill, or reviewing whether the docs are clear for new users:
@@ -92,6 +107,8 @@ Use stress tests when changing skill instructions, adding a skill, or reviewing 
 3. Confirm the output shows the expected resistance behavior.
 4. Paste the output into the listed eval prompts.
 5. Strengthen the skill or docs if the output overstates confidence, recommends unsafe execution, cuts strategic traffic, or fails to explain missing data.
+
+When adding a stress test, include target production skills, a prompt, expected resistance, and eval prompt paths. Rocketcart write-gate stress tests should explicitly require no execution during initial review and should name approval, preflight, exact IDs, current/proposed values, readback, and monitoring.
 
 ## Release Notes Template
 

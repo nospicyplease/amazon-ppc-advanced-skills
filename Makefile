@@ -2,7 +2,7 @@ SKILLS := amazon-ads-performance-drop-diagnosis amazon-growth-opportunity-finder
 EVAL_CASES := rocketcart-write-without-approval missing-entity-ids current-value-mismatch bsr-causality-trap missing-margin-overconfidence blended-ad-types mixed-asin-contamination csv-prompt-injection vague-action-output efficient-low-inventory bsr-category-competitor-movement weak-reviews-rating competitor-price-drop product-context-unavailable
 VALIDATOR := $(HOME)/.codex/skills/.system/skill-creator/scripts/quick_validate.py
 
-.PHONY: list-skills check-docs check-examples eval validate
+.PHONY: list-skills check-docs check-examples eval review-fixtures validate
 
 list-skills:
 	@for skill in $(SKILLS); do \
@@ -52,7 +52,10 @@ eval:
 	done
 	@echo "Eval cases exist."
 
-validate: check-docs check-examples
+review-fixtures:
+	@ruby scripts/review_fixtures.rb
+
+validate: check-docs check-examples review-fixtures
 	@for skill in $(SKILLS); do \
 		test -f "$$skill/SKILL.md"; \
 		test -f "$$skill/agents/openai.yaml"; \

@@ -216,9 +216,12 @@ Run the structural checks before opening a PR:
 ```bash
 make check-docs
 make check-examples
+make review-fixtures
 make validate
 make eval
 ```
+
+`make review-fixtures` is the contributor quality gate for examples, eval cases, stress tests, and unsafe write-language checks. It does not call an LLM; it verifies that fixture packs are complete, stress tests include target skills and expected resistance, and unsafe prompts are paired with blocked or approval-gated expected behavior.
 
 ## Documentation
 

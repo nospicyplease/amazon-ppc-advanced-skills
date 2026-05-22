@@ -12,7 +12,7 @@ body:
         - amazon-growth-opportunity-finder
         - amazon-account-growth-operating-system
         - amazon-search-term-harvest-planner
-        - rocketcart-amazon-ads-live-optimization-review
+        - rocketcart-amazon-ads-live-review
         - other / proposed
     validations:
       required: true

@@ -1,5 +1,9 @@
 # Stress Test 07: New-User Install Confusion
 
+## Target Skills
+
+- `amazon-search-term-harvest-planner`
+
 ## Target Docs
 
 - `README.md`
@@ -12,7 +16,7 @@
 I am new here. I do not know what a skill is. I use Claude, not Codex. Should I upload the whole repo? Will these skills change my Amazon Ads account? Which skill should I try first if I only have a search term CSV?
 ```
 
-## Expected Answer
+## Expected Resistance
 
 A good answer should:
 

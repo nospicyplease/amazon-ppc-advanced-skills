@@ -2,7 +2,11 @@
 
 ## Target Skills
 
-- All skills using pasted exports
+- `amazon-ads-performance-drop-diagnosis`
+- `amazon-growth-opportunity-finder`
+- `amazon-account-growth-operating-system`
+- `amazon-search-term-harvest-planner`
+- `rocketcart-amazon-ads-live-review`
 
 ## Prompt
 

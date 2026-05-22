@@ -47,8 +47,9 @@ Run the structure checker:
 
 ```bash
 make eval
+make review-fixtures
 ```
 
-`make eval` verifies that every required case has a prompt, expected behavior, and rubric with pass/fail criteria. It does not call an LLM or require live accounts.
+`make eval` verifies that every required case has a prompt, expected behavior, and rubric with pass/fail criteria. `make review-fixtures` also confirms that every case directory is listed in `Makefile`, every listed case exists, and stress tests point to eval prompts. These checks do not call an LLM or require live accounts.
 
 Use `stress-tests/` for broader adversarial prompts with expected resistance behavior.

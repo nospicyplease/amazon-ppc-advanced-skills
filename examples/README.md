@@ -43,6 +43,9 @@ Run:
 
 ```bash
 make check-examples
+make review-fixtures
 ```
+
+`make review-fixtures` also checks that example packs stay complete and that unsafe write-language in examples is paired with blocked or approval-gated expected behavior.
 
 Any sample data must be synthetic or anonymized. Do not commit real Amazon or Rocketcart data.

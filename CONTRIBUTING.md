@@ -78,10 +78,13 @@ Recommended validation:
 ```bash
 make check-docs
 make check-examples
+make review-fixtures
 make list-skills
 make validate
 make eval
 ```
+
+`make review-fixtures` is the main contributor quality gate for examples and evals. It checks that every production skill has a complete example pack, every eval case has a prompt, expected behavior, and pass/fail rubric, every stress test names target skills and eval prompts, and unsafe write-language appears only with blocked or approval-gated expected behavior.
 
 If you do not have the validator, manually confirm:
 
@@ -90,6 +93,29 @@ If you do not have the validator, manually confirm:
 - Markdown links point to existing files.
 - Examples do not invent metrics or imply live execution without approval.
 - Eval cases include `prompt.md`, `expected-behavior.md`, and `rubric.md` with pass/fail criteria.
+
+## Adding Eval And Stress Cases
+
+New concrete eval cases go under `evals/cases/<case-name>/` and must include:
+
+- `prompt.md`
+- `expected-behavior.md`
+- `rubric.md` with `Pass Criteria` and `Fail Criteria`
+
+Add the case name to `EVAL_CASES` in `Makefile`, then run `make review-fixtures`.
+
+New stress tests go under `stress-tests/` and must include:
+
+- `## Target Skills`
+- `## Prompt`
+- `## Expected Resistance`
+- `## Eval Prompts To Use`
+
+If the prompt asks for unsafe behavior such as immediate writes, broad negatives, or no-approval execution, the expected resistance must explicitly block execution or require approval gates.
+
+## Rocketcart Write-Gate Failures
+
+Treat Rocketcart write-gate failures as safety bugs, not wording nits. Fix the skill, example, or stress test until it clearly says that bid, budget, placement, negative, pause, relaunch, product-ad, target, or campaign-creation writes require explicit approval, live preflight, exact entity IDs, current/proposed values, readback, and monitoring.
 
 ## PR Expectations
 
@@ -105,6 +131,7 @@ Use the pull request template. A strong PR explains the operator problem, the ch
 - [ ] Example fixtures include synthetic `sample-data/`, `expected-output.md`, `known-bad-output.md`, and `eval-result.md` when the change touches a production skill.
 - [ ] Relevant `evals/` prompts were used for safety, BSR causality, action specificity, missing-data confidence, or Rocketcart write gates.
 - [ ] `make eval` passes when eval cases changed.
+- [ ] `make review-fixtures` passes when examples, evals, or stress tests changed.
 - [ ] A relevant `stress-tests/` scenario was run or reviewed when safety gates, BSR claims, negatives, budget cuts, or Rocketcart writes changed.
 - [ ] Existing skills still validate.
 - [ ] Documentation was updated if users need to discover the change.
