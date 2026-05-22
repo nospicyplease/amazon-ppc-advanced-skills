@@ -92,6 +92,18 @@ Use this mode when candidate rows already exist.
 - Mark each row as approval-ready only when all required fields and business gates are satisfied.
 - If live state differs from the row's current value, return a refreshed row and request refreshed approval.
 
+### Search-Term Harvest Review
+
+Use `amazon-search-term-harvest-planner` for search-term-specific Rocketcart work. The same capability categories apply, with extra emphasis on:
+
+- Resolving source campaign/ad group, destination campaign/ad group, keyword, target, negative, product-ad, ASIN, and profile IDs.
+- Checking duplicate exact keywords and duplicate product targets before harvest.
+- Checking current negatives that may block destination delivery or source traffic.
+- Checking source-negative blast radius before negative exact or phrase actions.
+- Checking destination budget/state and advertised ASIN fit before rerouting traffic.
+- Blocking duplicate harvest when a live exact already exists; use delivery fix instead.
+- Executing only exact approved row IDs, then reading back affected entities and monitoring traffic routing.
+
 ### Post-Change Readback / Monitoring Review
 
 Use this mode after approved changes have been made or when the user asks whether changes worked.

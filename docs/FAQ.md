@@ -36,6 +36,12 @@ Use $rocketcart-amazon-ads-live-review in Live Optimization Review mode. I do no
 
 A good first output should say it is in standalone mode, list missing campaign/product data, refuse execution, and ask for exports or a Rocketcart MCP connection for live reads.
 
+For search-term-specific Rocketcart testing, use:
+
+```text
+Use $amazon-search-term-harvest-planner in Live Harvest Review mode for profile example_de. Resolve live campaign/ad group/keyword/negative IDs, check duplicate exacts, current negatives, destination feasibility, product-ad ASIN/SKU context, recent drift, and product readiness. Produce approval-gated harvest rows only. Do not execute anything.
+```
+
 ## Is Rocketcart MCP just an Amazon Ads connector?
 
 No. Rocketcart MCP is the optional Amazon Ads + product-intelligence connection. It can expose live campaign state and product context such as ASIN/SKU mapping, category rank/BSR movement, price, estimated demand, rating/reviews, stock or availability, Featured Offer / Buy Box risk, competitor signals, recent-change context, and data freshness/quality signals where those reads are available.
@@ -63,6 +69,7 @@ Not by itself. These open-source skills do not execute Amazon Ads changes. Any l
 - You want one weekly plan: `amazon-account-growth-operating-system`.
 - You have a search term CSV: `amazon-search-term-harvest-planner`.
 - You use Rocketcart MCP for live Ads + product context: `rocketcart-amazon-ads-live-review`.
+- You use Rocketcart MCP specifically for search-term harvesting, source negatives, or product-target expansion: `amazon-search-term-harvest-planner`.
 
 ## Which Amazon reports should I export?
 
@@ -94,7 +101,7 @@ The skill should not assume scale readiness. Aggressive bid or budget increases 
 
 ## Where do I learn the Rocketcart flow?
 
-Read [Rocketcart MCP guide](ROCKETCART_MCP_GUIDE.md). It explains what Rocketcart adds, which context can come from Rocketcart versus the user, first-run prompts, product-aware review prompts, and the execution boundary.
+Read [Rocketcart MCP guide](ROCKETCART_MCP_GUIDE.md). It explains what Rocketcart adds, which context can come from Rocketcart versus the user, first-run prompts, product-aware review prompts, search-term harvest prompts, and the execution boundary.
 
 ## Why not just cut high ACoS or zero-order spend?
 

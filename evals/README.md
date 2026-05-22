@@ -54,6 +54,10 @@ Current cases:
 - `current-negative-conflict`
 - `one-order-overfit`
 - `mixed-sp-sb-harvest`
+- `rocketcart-harvest-profile-ambiguity`
+- `rocketcart-harvest-live-duplicate-preflight`
+- `rocketcart-harvest-execute-without-row-approval`
+- `rocketcart-harvest-readback-required`
 
 Run the structure checker:
 

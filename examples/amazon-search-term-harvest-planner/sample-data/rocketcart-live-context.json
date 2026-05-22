@@ -1,0 +1,53 @@
+{
+  "mode": "Rocketcart Live Harvest Review",
+  "profile": {
+    "id": "example_us",
+    "marketplace": "US",
+    "currency": "USD"
+  },
+  "live_resolution": {
+    "campaigns_checked": ["camp-100", "camp-102", "camp-103", "camp-104", "camp-997"],
+    "ad_groups_checked": ["ag-100", "ag-102", "ag-103", "ag-104", "ag-997"],
+    "snapshots_checked": ["snapshot-2026-05-21"],
+    "recent_drift": [
+      {
+        "entity_id": "kw-100",
+        "field": "state",
+        "snapshot_value": "enabled",
+        "live_value": "paused"
+      },
+      {
+        "entity_id": "neg-201",
+        "field": "state",
+        "snapshot_value": "missing",
+        "live_value": "enabled"
+      }
+    ]
+  },
+  "product_context": [
+    {
+      "asin": "B0SYNTHETIC1",
+      "inventory_status": "safe",
+      "featured_offer_status": "stable",
+      "category_bsr_movement": "stable",
+      "competitor_signal": "no major price drop"
+    },
+    {
+      "asin": "B0SYNTHETIC2",
+      "inventory_status": "safe",
+      "featured_offer_status": "stable",
+      "category_bsr_movement": "launch support active",
+      "competitor_signal": "insufficient context"
+    }
+  ],
+  "live_blockers": [
+    {
+      "row_id": "H-001",
+      "blocker": "existing exact keyword is paused; delivery fix required instead of duplicate harvest"
+    },
+    {
+      "row_id": "H-002",
+      "blocker": "destination exact negative neg-201 blocks delivery"
+    }
+  ]
+}

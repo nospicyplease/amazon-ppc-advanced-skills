@@ -11,7 +11,7 @@ AI assistant workflows for Amazon PPC diagnosis, growth planning, search-term ha
 | Something dropped: sales, orders, ROAS, TACoS, BSR, CVR, rank, or traffic | `amazon-ads-performance-drop-diagnosis` | Diagnose before changing bids, budgets, negatives, or launches. |
 | Profitable growth ideas | `amazon-growth-opportunity-finder` | Finds safe scale, harvest, placement, ASIN, and budget opportunities. |
 | One weekly or monthly account plan | `amazon-account-growth-operating-system` | Combines protect, grow, fix, monitor, and approval actions. |
-| Search-term harvesting and routing | `amazon-search-term-harvest-planner` | Plans exact harvesting with readiness statuses and without unsafe source negatives. |
+| Search-term harvesting and routing | `amazon-search-term-harvest-planner` | Plans and preflights exact harvesting with readiness statuses and without unsafe source negatives. |
 | Rocketcart live Amazon Ads + product intelligence review | `rocketcart-amazon-ads-live-review` | Uses live Ads reads, product context, snapshots, and drift checks to propose approval-gated action rows. |
 
 ## What This Repo Is
@@ -46,16 +46,17 @@ AI assistant workflows for Amazon PPC diagnosis, growth planning, search-term ha
 
 Rocketcart MCP is not just an Amazon Ads connector. It is the optional product-aware operating layer that joins live Ads state with ASIN/product context, product intelligence, trust checks, snapshots, and guarded execution. See [Rocketcart MCP guide](docs/ROCKETCART_MCP_GUIDE.md).
 
-## Rocketcart Bridge Review Modes
+## Rocketcart-Aware Review Modes
 
-Use `rocketcart-amazon-ads-live-review` as the single entry point when Rocketcart is involved. Pick the review mode that matches the job:
+Use `rocketcart-amazon-ads-live-review` for broad live account, product-aware growth, preflight, and monitoring reviews. Use `amazon-search-term-harvest-planner` directly when the Rocketcart job is specifically search-term harvesting, source-negative routing, product-target expansion, or harvest-row execution.
 
-| Review mode | Use when | Result |
+| Skill / review mode | Use when | Result |
 |---|---|---|
-| Live Optimization Review | You need a current live Sponsored Products review or want to reconcile static findings against the account right now. | Live-state findings, drift checks, and approval-gated action rows. |
-| Product-Aware Growth Review | You want to know what can safely scale after checking inventory, offer status, price, reviews/rating, BSR/category movement, estimated demand, competitor signals, and margin/readiness. | ASIN/campaign classifications: Grow, Fix Before Scaling, Protect, Monitor, or Blocked. |
-| Preflight / Approval Readiness Review | You already have candidate action rows and need to know whether they are approval-ready. | Executability verdicts, missing IDs/current values, stale rows, and exact approval text. |
-| Post-Change Readback / Monitoring Review | Approved changes were made and you need to verify state and outcomes. | Readback status plus 3/7/14-day monitoring verdicts. |
+| `rocketcart-amazon-ads-live-review` / Live Optimization Review | You need a current live Sponsored Products review or want to reconcile static findings against the account right now. | Live-state findings, drift checks, and approval-gated action rows. |
+| `rocketcart-amazon-ads-live-review` / Product-Aware Growth Review | You want to know what can safely scale after checking inventory, offer status, price, reviews/rating, BSR/category movement, estimated demand, competitor signals, and margin/readiness. | ASIN/campaign classifications: Grow, Fix Before Scaling, Protect, Monitor, or Blocked. |
+| `amazon-search-term-harvest-planner` / Live Harvest Review | You want search-term harvesting, source-negative routing, product-target expansion, or delivery-fix rows checked against live account state. | Live-resolved harvest classifications, duplicate/negative/destination preflight, and approval packets. |
+| `amazon-search-term-harvest-planner` / Execute Approved Rows | The user explicitly approved exact harvest row IDs after preflight. | Execute only approved rows, then read back affected entities and start monitoring. |
+| Either Rocketcart-aware skill / Post-Change Readback / Monitoring Review | Approved changes were made and you need to verify state and outcomes. | Readback status plus 3/7/14-day monitoring verdicts. |
 
 ## Try The Rocketcart Bridge In 60 Seconds
 
@@ -124,6 +125,12 @@ For a first test with one search term CSV:
 Use $amazon-search-term-harvest-planner with this search term report. Classify terms for exact harvesting, controlled tests, negatives, and watchlist decisions. Do not execute anything.
 ```
 
+For a Rocketcart search-term harvest review:
+
+```text
+Use $amazon-search-term-harvest-planner in Live Harvest Review mode for profile example_de. Resolve live campaign/ad group/keyword/negative IDs, check duplicate exacts, current negatives, destination feasibility, product-ad ASIN/SKU context, recent drift, and product readiness. Produce approval-gated harvest rows only. Do not execute anything.
+```
+
 For a first Rocketcart MCP review:
 
 ```text
@@ -176,6 +183,7 @@ Do not upload the whole repository to Claude as one skill. See [Installation](do
 
 4. `amazon-search-term-harvest-planner`
    - Finds search terms ready for exact-match harvesting from auto, broad, phrase, or discovery campaigns.
+   - Works standalone from exports or in Rocketcart MCP mode for live resolution, preflight, exact row approval, guarded execution, readback, and monitoring.
    - Produces `PLANNING_ONLY`, `NEEDS_DATA`, `BLOCKED`, `APPROVAL_REQUIRED`, or `APPROVAL_READY` rows and blocks unsafe source negatives when traffic may be brand defense, own-ASIN defense, launch/rank support, or low-sample discovery.
 
 5. `rocketcart-amazon-ads-live-review`

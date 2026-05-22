@@ -20,16 +20,17 @@ Rocketcart MCP answers: "What does the live Amazon Ads account show right now, w
 
 This repository does not install or configure Rocketcart MCP. It teaches Codex or Claude how to use Rocketcart MCP when that capability layer is already available in the host environment.
 
-## The Bridge Skill
+## Rocketcart-Aware Skills
 
-Use `rocketcart-amazon-ads-live-review` as the single Rocketcart-aware entry point. It supports four review modes:
+Use `rocketcart-amazon-ads-live-review` as the broad account and product-aware bridge. Use `amazon-search-term-harvest-planner` directly when the job is specifically search-term harvesting, source-negative routing, product-target expansion, delivery fixes, or harvest-row execution.
 
-| Review Mode | Use When | Output |
+| Skill / Review Mode | Use When | Output |
 |---|---|---|
-| Live Optimization Review | You need a current live Sponsored Products review or want to reconcile static findings with current state. | Live-state findings, drift checks, and approval-gated action rows. |
-| Product-Aware Growth Review | You want to know which ASINs/campaigns can safely grow after product context is checked. | Grow, Fix Before Scaling, Protect, Monitor, or Blocked classifications. |
-| Preflight / Approval Readiness Review | Candidate action rows exist and need approval/executability review. | Row-by-row readiness, missing data, exact approval text, and blockers. |
-| Post-Change Readback / Monitoring Review | Approved changes have been made or need outcome review. | Readback status, early results, and 3/7/14-day monitoring plan. |
+| `rocketcart-amazon-ads-live-review` / Live Optimization Review | You need a current live Sponsored Products review or want to reconcile static findings with current state. | Live-state findings, drift checks, and approval-gated action rows. |
+| `rocketcart-amazon-ads-live-review` / Product-Aware Growth Review | You want to know which ASINs/campaigns can safely grow after product context is checked. | Grow, Fix Before Scaling, Protect, Monitor, or Blocked classifications. |
+| `amazon-search-term-harvest-planner` / Live Harvest Review | You need exact search-term harvesting, product-target expansion, source-negative routing, or delivery-fix rows checked live. | Live-resolved harvest classifications, duplicate/negative/destination preflight, and approval packets. |
+| `amazon-search-term-harvest-planner` / Execute Approved Rows | Exact harvest rows were explicitly approved. | Execute only approved row IDs, then read back affected entities and monitor outcomes. |
+| Either Rocketcart-aware skill / Post-Change Readback / Monitoring Review | Approved changes have been made or need outcome review. | Readback status, early results, and 3/7/14-day monitoring plan. |
 
 ## 60-Second Smoke Test
 
@@ -59,6 +60,7 @@ Next step: provide exports or connect Rocketcart MCP
 | Data freshness/quality | User states report windows | Read with freshness and quality checks where available |
 | Recent-change context | User notes recent changes | Read from snapshots, changelogs, entity history, and pending evaluations |
 | Live writes | Not available | Available only after approval, preflight, exact IDs, readback, and monitoring |
+| Search-term harvest preflight | Manual duplicate/negative/destination checks | Live resolution of profile, campaign/ad group, keyword/target, negative, destination, product-ad, and product context where available |
 
 If Rocketcart context is unavailable, the skill must say so, lower confidence, and fall back to static-export reasoning.
 
@@ -86,6 +88,7 @@ Exact capabilities can vary by host. When present, these reads are the main brid
 - Profile discovery when the profile is missing.
 - SP campaign budgets, states, targeting type, bidding strategy, and placement modifiers.
 - Advertised ASIN/SKU mapping to campaign and ad group IDs.
+- Existing keyword, product-target, negative, and destination coverage for harvest candidates where available.
 - Marketplace bid guidance before bid changes.
 
 ### Change And Recent-Action Context
@@ -153,6 +156,24 @@ Review the approved changes from the last execution window, read back affected e
 Do not execute new writes.
 ```
 
+Search-Term Live Harvest Review:
+
+```text
+Use $amazon-search-term-harvest-planner in Live Harvest Review mode for profile example_de.
+
+Resolve live campaign/ad group/keyword/target/negative IDs, check duplicate exacts, current negatives, destination campaign/ad group feasibility, product-ad ASIN/SKU context, recent drift, snapshots/changelogs, and product readiness. Classify terms as Harvest Ready, Controlled Test, Scale Existing Exact / Delivery Fix, Product Target Candidate, Bid Down / Keep Learning, Negative Candidate, Watchlist, or Needs Data.
+
+Produce approval-gated harvest rows only. Do not execute any keyword, target, negative, bid, budget, placement, product-ad, pause, or campaign write.
+```
+
+Search-Term Execute Approved Rows:
+
+```text
+Use $amazon-search-term-harvest-planner in Execute Approved Rows mode for profile example_de.
+
+Approved rows: H-003 only. Before execution, rerun live preflight and confirm exact IDs, current values, proposed values, duplicate checks, current negative checks, destination feasibility, product readiness, approval text, readback checks, and 3/7/14-day monitoring. Execute only H-003 if preflight still matches the approved row. Read back the affected entity and report monitoring criteria.
+```
+
 ## Approval And Execution Boundary
 
 Rocketcart MCP may expose write capabilities, but availability is not permission.
@@ -169,6 +190,8 @@ Any bid, budget, placement, negative, product-ad state, target state, pause, rel
 - Monitoring window with success and failure criteria.
 
 If any requirement is missing, the action is not executable.
+
+For search-term harvesting, vague instructions such as "execute all recommendations" are not approval. Approval must identify exact row IDs or exact entity/action text, and live preflight must still match the approved current values.
 
 ## How To Explain Rocketcart To A New User
 

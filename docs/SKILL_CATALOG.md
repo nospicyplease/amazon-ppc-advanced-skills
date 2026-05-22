@@ -9,7 +9,7 @@ If you are new to the project, start with [FAQ](FAQ.md). The fastest rule is: us
 | Sales, orders, ROAS, TACoS, BSR, CVR, rank, or traffic worsened | `amazon-ads-performance-drop-diagnosis` | Current and baseline windows, campaign metrics, total sales if TACoS matters, BSR, retail readiness, change history | Diagnose the break before changing controls | Missing comparison windows, BSR, total sales, retail readiness, or change history |
 | No obvious drop, want profitable upside | `amazon-growth-opportunity-finder` | Campaign/targeting/search-term data, economics or target ACoS, inventory, Featured Offer / Buy Box, total sales if incrementality matters | Finds safe scale, harvest, budget, ASIN, and placement opportunities | Missing margin, inventory, total sales, search terms, or retail readiness |
 | Need one weekly account action plan | `amazon-account-growth-operating-system` | Drop findings, growth findings, or raw account data with scope, economics, readiness, and rank context | Prioritizes protect/grow/fix/monitor into one queue | Conflicting upstream findings or unresolved high-confidence downside risk |
-| Search-term cleanup or exact harvesting | `amazon-search-term-harvest-planner` | Search term report, targeting/keyword map, destination structure, existing exact/negatives, destination feasibility, economics/readiness | Separates harvest, route, negative, bid-down, and watchlist decisions with write-readiness statuses | Missing source/destination map, exact keyword map, current negative map, destination feasibility, or strategic-role context |
+| Search-term cleanup, exact harvesting, or Rocketcart live harvest preflight | `amazon-search-term-harvest-planner` | Search term report, targeting/keyword map, destination structure, existing exact/negatives, destination feasibility, economics/readiness; Rocketcart profile and live state when available | Separates harvest, route, negative, bid-down, watchlist, live preflight, execution, and readback decisions with write-readiness statuses | Missing source/destination map, exact keyword map, current negative map, destination feasibility, live profile, exact IDs, or strategic-role context |
 | Rocketcart live Amazon Ads + product-intelligence review | `rocketcart-amazon-ads-live-review` | Rocketcart profile, live campaigns, product ads/ASIN mapping, category/BSR movement, product context, budget changes, snapshots, action goal | Compares analysis to live Ads state, product readiness, product intelligence, and recent-change context before proposing approval-gated rows | Missing profile, product context, exact IDs, live preflight, approval, or readback |
 
 ## 1. Amazon Ads Performance Drop Diagnosis
@@ -121,6 +121,7 @@ Best for:
 - Choosing safe destination campaigns and ad groups.
 - Avoiding duplicate exact keywords or product targets.
 - Deciding whether source negatives are justified.
+- Running Rocketcart Live Harvest Review, Preflight / Approval Readiness Review, Execute Approved Rows, or Post-Change Readback / Monitoring Review for search-term-specific actions.
 - Separating brand defense, own-ASIN defense, launch/rank-defense, category generic, competitor, and exploratory traffic.
 - Producing machine-readable, approval-gated action rows for harvesting and routing.
 
@@ -130,7 +131,9 @@ Key outputs:
 - Executive summary.
 - Search term classification table.
 - Harvest action rows.
+- Rocketcart live context section when live reads are used: profile, exact ID resolution, recent drift, product context, and live limitations.
 - Write-readiness status for each row: `PLANNING_ONLY`, `NEEDS_DATA`, `BLOCKED`, `APPROVAL_REQUIRED`, or `APPROVAL_READY`.
+- Approval, execution, readback, and monitoring status for Rocketcart-mode rows.
 - Negative and routing decisions.
 - Blocked/watchlist terms.
 - Monitoring plan.
@@ -138,7 +141,7 @@ Key outputs:
 
 Important guardrail:
 
-Do not add source negatives just because a term was harvested. Source negatives require safe routing or waste evidence and must not cut brand defense, own-ASIN defense, launch/rank-defense, profitable discovery, or low-sample strategic traffic. No row is `APPROVAL_READY` without exact IDs, current/proposed values, duplicate checks, current negative checks, destination feasibility, approval text, preflight, readback, and monitoring.
+Do not add source negatives just because a term was harvested. Source negatives require safe routing or waste evidence and must not cut brand defense, own-ASIN defense, launch/rank-defense, profitable discovery, or low-sample strategic traffic. No row is `APPROVAL_READY` without exact IDs, current/proposed values, duplicate checks, current negative checks, destination feasibility, approval text, preflight, readback, and monitoring. In Rocketcart MCP mode, connection availability is not approval; execution still requires exact row-level approval, live preflight, readback, and monitoring.
 
 ## 5. Rocketcart Amazon Ads Live Review
 

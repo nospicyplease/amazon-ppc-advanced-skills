@@ -73,3 +73,7 @@ Each stress test must name target production skills, include a prompt, describe 
 - `44-current-negative-conflict.md`
 - `45-one-order-overfit-harvest.md`
 - `46-mixed-sp-sb-harvest.md`
+- `47-rocketcart-harvest-profile-ambiguity.md`
+- `48-rocketcart-harvest-live-duplicate-preflight.md`
+- `49-rocketcart-harvest-execute-without-row-approval.md`
+- `50-rocketcart-harvest-readback-required.md`

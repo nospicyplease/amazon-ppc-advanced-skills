@@ -1,6 +1,6 @@
 ---
 name: amazon-search-term-harvest-planner
-description: Find Amazon Ads search terms ready for exact-match harvesting from auto, broad, phrase, or other discovery campaigns. Use when Codex needs to classify search terms by harvest readiness, choose safe destination campaigns/ad groups, decide whether source negatives are justified, and produce deterministic planning or approval-gated Sponsored Products or Sponsored Brands action rows without unsafe negatives, duplicate routing, brand-defense cuts, own-ASIN-defense cuts, launch/rank mistakes, or low-sample overfitting.
+description: "Find Amazon Ads search terms ready for exact-match harvesting from auto, broad, phrase, or other discovery campaigns. Use when Codex needs standalone or Rocketcart MCP-aware search-term harvesting: classify terms by harvest readiness, resolve live IDs, choose safe destination campaigns/ad groups, preflight duplicates/current negatives/destination feasibility, decide whether source negatives are justified, execute only explicitly approved rows, and read back/monitor Sponsored Products or Sponsored Brands actions without unsafe negatives, duplicate routing, stale approvals, brand-defense cuts, own-ASIN-defense cuts, launch/rank mistakes, or low-sample overfitting."
 ---
 
 # Amazon Search Term Harvest Planner
@@ -11,7 +11,44 @@ Turn Amazon Ads search term data into a safe, specific harvesting plan. Identify
 
 Optimize for clean traffic control, profitable growth, and learning. Preserve brand defense, own-ASIN defense, launch/rank-defense traffic, and strategically valuable discovery until the data proves a safer route.
 
-This is a standalone planning skill by default. It may prepare approval-ready rows, but it must not create keywords, negatives, product targets, bids, budgets, or campaigns.
+This skill works in standalone mode from static exports and in Rocketcart MCP mode when a live Amazon Ads + product-intelligence layer is available. It may prepare approval-ready rows, but it must not create keywords, negatives, product targets, bids, budgets, or campaigns by default.
+
+## Connection Modes
+
+### Standalone Mode
+
+Use this mode when the user provides pasted tables, CSVs, screenshots, or summaries.
+
+- State that Rocketcart MCP was not used.
+- Build the best possible harvest plan from static search-term, targeting, negative, product, and destination data.
+- Lower confidence when live entity IDs, current negatives, current bids/states, product context, snapshots, or recent changes are unavailable.
+- Do not present rows as executable without live preflight.
+
+### Rocketcart MCP Mode
+
+Use this mode when Rocketcart MCP capabilities are available or the user asks for live Rocketcart review, preflight, execution, readback, or monitoring.
+
+Initial Rocketcart review is read-only. Do not use write capabilities until the user explicitly approves exact rows after live preflight.
+
+- If profile is missing, use profile discovery first. If exactly one profile fits, state the assumption; if multiple profiles plausibly match, ask the user to choose.
+- Read current campaign, ad group, product-ad, keyword/target, negative, budget, state, bid, and destination context where available.
+- Read search-term, targeting, recent-change, snapshot/changelog, and entity-history context where available before trusting stale exports.
+- Read product intelligence where available: ASIN/SKU mapping, inventory or availability, Featured Offer / Buy Box, price, reviews/rating, category rank/BSR movement, estimated demand, competitor signals, margin/readiness, and mixed-ASIN risk.
+- Use live reads to resolve exact IDs, detect duplicate exacts/targets, detect current negative conflicts, verify destination delivery feasibility, and detect stale rows.
+- Produce approval packets for exact candidate rows; execution remains separate.
+- After any explicitly approved execution, read back affected entities and define 3/7/14-day monitoring.
+- Read [Rocketcart search-term harvest mode](references/rocketcart-search-term-harvest-mode.md) when you need the Rocketcart-specific read, preflight, approval, execution, and readback sequence.
+
+## Rocketcart Review Modes
+
+Choose one primary mode when Rocketcart is involved:
+
+| Mode | Use When | Output |
+|---|---|---|
+| `Live Harvest Review` | The user wants a current search-term harvest plan using live account state. | Live-resolved classifications and proposed rows, no writes. |
+| `Preflight / Approval Readiness Review` | Candidate harvest, negative, target, bid, or delivery-fix rows already exist. | Row-by-row readiness, stale-row blockers, exact approval text. |
+| `Execute Approved Rows` | The user explicitly approves exact rows for execution. | Execute only the approved subset after live preflight, then read back. |
+| `Post-Change Readback / Monitoring Review` | Changes were executed and need verification or outcome review. | Readback status and 3/7/14-day monitoring verdicts. |
 
 ## Required Inputs
 
@@ -25,6 +62,7 @@ Gather, derive, or mark unavailable:
 - Traffic segmentation: branded, own-brand generic, category generic, competitor brand, competitor ASIN, own-ASIN defense, auto close/loose/substitute/complement, launch/rank-defense, and exploratory discovery where data supports it.
 - Existing exact keywords, negatives, product targets, and campaign routing rules when available.
 - Destination delivery feasibility: destination campaign/ad group state, budget status, negative conflicts, advertised ASIN fit, and whether the destination can receive traffic.
+- In Rocketcart MCP mode: exact profile, live entity IDs, current live values, recent drift, snapshots/changelogs, entity history, product-ad ASIN/SKU mapping, and product-intelligence freshness where available.
 
 ## Missing Data Handling
 
@@ -37,6 +75,9 @@ Gather, derive, or mark unavailable:
 - Missing purchased-product data: avoid ASIN leakage conclusions.
 - Missing inventory or Featured Offer / Buy Box: do not recommend aggressive bid or budget scale.
 - Missing comparison period: classify by current signal strength and confidence, not trend.
+- Missing Rocketcart profile in live mode: list or request profile selection before live reads or execution.
+- Missing live resolution or live preflight in Rocketcart mode: keep rows below `APPROVAL_READY`.
+- Live state differs from a candidate row's current value: mark the row stale, block execution, and request refreshed approval.
 
 ## Write-Readiness Statuses
 
@@ -49,6 +90,8 @@ Every action row must use exactly one status:
 - `APPROVAL_READY`: human can approve the exact row after verifying live preflight. This status is rare and requires all readiness fields below.
 
 No row may be `APPROVAL_READY` unless it includes exact profile/account, marketplace, ad type, source campaign ID, source ad group ID, destination campaign ID, destination ad group ID, keyword/target or negative ID where applicable, normalized search term, match type, current state, current value, proposed value, proposed action, duplicate checks, current negative checks, destination feasibility, approval text, preflight checks, readback checks, and 3/7/14-day monitoring criteria.
+
+In Rocketcart MCP mode, `APPROVAL_READY` means the row is ready for explicit human approval after live preflight. It does not mean "execute now." Execution requires a separate user approval message naming the exact row or row IDs.
 
 ## Hard Blockers
 
@@ -65,6 +108,7 @@ Classify the row as `BLOCKED` or `NEEDS_DATA`, not `APPROVAL_READY`, when any of
 - Negative phrase would block relevant query families, own-brand variants, size/color variants, or profitable discovery. Use narrower negative exact or block the negative.
 - Sponsored Products, Sponsored Brands, and Sponsored Display data are blended and cannot be separated for the action.
 - Product readiness, inventory, Featured Offer / Buy Box, margin, or listing relevance could change the decision and is unavailable.
+- Rocketcart live state shows a current value, entity state, negative, destination, product-readiness gate, or recent drift that differs from the candidate row.
 
 ## Evidence Thresholds
 
@@ -127,9 +171,13 @@ When producing action rows, include this schema in table form or JSON-like rows:
 
 ```text
 row_id
+mode
 action_type
 write_readiness
+approval_status
+execution_status
 profile_or_account
+rocketcart_profile
 marketplace
 ad_type
 source_campaign_id
@@ -154,6 +202,8 @@ source_negative_decision
 duplicate_check
 current_negative_check
 destination_feasibility
+live_resolution_status
+live_preflight_status
 product_readiness
 reason
 primary_risk
@@ -161,6 +211,8 @@ confidence
 approval_text
 preflight_checks
 readback_checks
+readback_status
+monitoring_owner
 monitoring_3d
 monitoring_7d
 monitoring_14d
@@ -171,22 +223,33 @@ Use `missing` for unavailable IDs or checks; do not invent them. If any required
 ## Workflow
 
 1. Establish data coverage and freshness.
-   - State windows, ad types, report freshness, attribution caveats, search-term grain, missing source/destination fields, and duplicate-risk.
+   - State connection mode, Rocketcart review mode when relevant, windows, ad types, report freshness, attribution caveats, search-term grain, missing source/destination fields, and duplicate-risk.
 
-2. Segment search terms.
+2. In Rocketcart MCP mode, resolve live scope.
+   - Confirm profile first.
+   - Read live campaigns, ad groups, product ads, keyword/target coverage, negatives, budgets, states, recent changes, snapshots/changelogs, and product context where available.
+   - If profile is ambiguous, live reads fail, or product context is unavailable for a product-sensitive action, stop at `NEEDS_DATA`, `BLOCKED`, or `APPROVAL_REQUIRED`.
+
+3. Segment search terms.
    - Classify terms by traffic type, source campaign/ad group, advertised ASIN, purchased ASIN where available, and strategic role.
 
-3. Score harvest candidates.
+4. Score harvest candidates.
    - Evaluate orders, spend, sales, ACoS/CPA, ROAS, CVR, CPC, relevance, margin fit, retail readiness, lifecycle stage, destination clarity, duplicate risk, current negative conflicts, source-negative blast radius, and incrementality caveats.
 
-4. Decide the route.
+5. Decide the route.
    - Assign each meaningful term to one primary outcome: `Harvest Ready`, `Controlled Test`, `Scale Existing Exact`, `Product Target Candidate`, `Bid Down / Keep Learning`, `Negative Candidate`, `Watchlist`, or `Needs Data`.
 
-5. Build action rows.
+6. Build action rows.
    - Use the machine-readable schema and write-readiness statuses.
    - No row can be `APPROVAL_READY` unless all required exact IDs, current/proposed values, duplicate checks, negative checks, destination feasibility, approval text, preflight, readback, and monitoring fields are complete.
 
-6. Define monitoring.
+7. In Rocketcart MCP mode, separate approval from execution.
+   - In live review and preflight modes, produce proposed rows only.
+   - In execute mode, execute only exact row IDs explicitly approved by the user after live preflight confirms current values still match.
+   - If live preflight differs from the approved row, block execution and produce a refreshed row for renewed approval.
+   - After any execution, read back affected entities before reporting success.
+
+8. Define monitoring.
    - 3-day pass: destination entity is enabled, receives impressions/clicks, and is not blocked by negatives, state, or budget.
    - 7-day pass: spend, clicks, orders, CPC, and CVR are within expected range; source traffic did not collapse unexpectedly.
    - 14-day pass: ACoS/CPA, ROAS, route quality, duplicate traffic, and query drift are acceptable.
@@ -197,24 +260,25 @@ Use `missing` for unavailable IDs or checks; do not invent them. If any required
 Return these sections unless the user asks for a shorter version:
 
 1. **Data Coverage And Harvest Gate**: windows, sources, missing fields, duplicate-risk, destination clarity, retail-readiness caveats, and whether harvest actions are action-safe.
-2. **Executive Summary**: top harvest-ready terms, blocked terms, negative-risk warnings, and budget/bid posture.
-3. **Search Term Classification Table**: Search Term | Source Campaign / Ad Group | Traffic Type | Orders | Spend | Sales | ACoS/CPA | Relevance | Destination | Classification | Confidence.
-4. **Harvest Action Rows**: include the machine-readable schema fields, especially write readiness, exact IDs, current/proposed values, duplicate check, current negative check, destination feasibility, approval text, preflight, readback, and monitoring fields.
-5. **Negative And Routing Decisions**: explain which source negatives are safe, blocked, or need more data.
-6. **Blocked / Watchlist Terms**: terms below threshold, missing data, duplicate-risk, retail-readiness blocked, or strategically sensitive.
-7. **Monitoring Plan**: 3-day, 7-day, and 14-day checks with success/failure criteria.
-8. **Missing Data / Next Pulls**: existing exact keywords, negatives, target report, purchased-product report, margin, inventory, Featured Offer / Buy Box, and destination structure.
+2. **Rocketcart Live Context**: mode, profile, live reads used, snapshots/changelogs checked, product context checked, stale-state findings, and live limitations. In standalone mode, say Rocketcart MCP was not used.
+3. **Executive Summary**: top harvest-ready terms, blocked terms, negative-risk warnings, and budget/bid posture.
+4. **Search Term Classification Table**: Search Term | Source Campaign / Ad Group | Traffic Type | Orders | Spend | Sales | ACoS/CPA | Relevance | Destination | Classification | Confidence.
+5. **Harvest Action Rows**: include the machine-readable schema fields, especially mode, write readiness, approval status, execution status, exact IDs, current/proposed values, duplicate check, current negative check, live resolution status, live preflight status, destination feasibility, approval text, preflight, readback, and monitoring fields.
+6. **Negative And Routing Decisions**: explain which source negatives are safe, blocked, or need more data.
+7. **Blocked / Watchlist Terms**: terms below threshold, missing data, duplicate-risk, retail-readiness blocked, or strategically sensitive.
+8. **Execution Gate**: state which rows are planning-only, blocked, approval-required, approval-ready, executed, readback-pending, or readback-confirmed.
+9. **Monitoring Plan**: 3-day, 7-day, and 14-day checks with success/failure criteria.
+10. **Missing Data / Next Pulls**: existing exact keywords, negatives, target report, purchased-product report, margin, inventory, Featured Offer / Buy Box, destination structure, live IDs, live negatives, snapshots, and product context.
 
 ## Live Execution
 
-This skill proposes actions only. If connected to Rocketcart MCP or another live execution layer, do not create keywords, negatives, targets, bid changes, budgets, or campaigns without explicit approval, live preflight, exact entity IDs, current/proposed values, readback, and monitoring criteria.
+This skill proposes actions by default. If connected to Rocketcart MCP or another live execution layer, do not create keywords, negatives, targets, bid changes, budgets, or campaigns without explicit approval, live preflight, exact entity IDs, current/proposed values, readback, and monitoring criteria.
 
-## Future Rocketcart-Aware Responsibilities
+When execution is explicitly requested and approved:
 
-Keep this skill standalone for now. If a future Rocketcart-aware workflow uses these rows:
-
-- Resolver: map profile, campaign, ad group, keyword, target, negative, product-ad, ASIN, and destination names to exact live IDs.
-- Preflight: verify duplicate exacts/targets, current negatives, destination state, budget feasibility, current bids/states, product readiness, and source-negative blast radius immediately before approval or execution.
-- Approval queue: show only exact rows with current/proposed values, reason, risk, confidence, approval text, preflight, readback, and monitoring fields.
-- Execution: execute only explicitly approved rows after preflight; never execute planning rows, rows with missing IDs, or rows whose current state changed.
-- Readback and monitoring: confirm created/changed entities, delivery, source traffic health, and 3/7/14-day performance outcomes.
+- Execute only rows whose `write_readiness` is `APPROVAL_READY`, whose `approval_status` is explicitly approved, and whose live preflight still matches the approved current values.
+- Never execute `PLANNING_ONLY`, `NEEDS_DATA`, `BLOCKED`, or merely `APPROVAL_REQUIRED` rows.
+- Never execute rows selected by vague language such as "all recommendations"; require exact row IDs or exact entity/action approval.
+- Execute only the approved subset; leave unrelated rows untouched.
+- Immediately read back created or changed keywords, targets, negatives, bids, budgets, product-ad states, or campaign states.
+- If readback cannot verify the change, report `readback_pending` or `readback_failed` rather than claiming success.

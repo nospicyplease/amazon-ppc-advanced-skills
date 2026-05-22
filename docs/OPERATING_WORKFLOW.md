@@ -22,11 +22,15 @@ Static exports can be stale. Any future live execution still requires approval, 
 
 Use this path when Rocketcart MCP is available.
 
-1. Run `rocketcart-amazon-ads-live-review` as the single Rocketcart bridge skill.
+1. Pick the Rocketcart-aware skill:
+   - Use `rocketcart-amazon-ads-live-review` for broad live account review, product-aware growth, general preflight, and monitoring.
+   - Use `amazon-search-term-harvest-planner` for search-term harvest, source-negative routing, product-target expansion, duplicate checks, and harvest-row execution.
 2. Choose the review mode:
    - `Live Optimization Review` for current live account review and drift checks.
    - `Product-Aware Growth Review` for Grow / Fix Before Scaling / Protect / Monitor / Blocked classification.
+   - `Live Harvest Review` for search-term-specific live resolution and preflight.
    - `Preflight / Approval Readiness Review` for candidate action rows.
+   - `Execute Approved Rows` only after exact row-level approval.
    - `Post-Change Readback / Monitoring Review` after approved changes.
 3. Confirm profile. If multiple profiles match, do not assume; ask for selection.
 4. Inspect live campaigns, product ads/ASIN mapping, budget changes, targeting or negative changes, live drift, and snapshots.
@@ -104,18 +108,19 @@ Carry forward:
 
 ### Optional Step 3b: Plan Search-Term Harvesting
 
-Run or apply `amazon-search-term-harvest-planner` when search-term exports are available and the account needs exact-match harvesting, routing cleanup, or negative decisions.
+Run or apply `amazon-search-term-harvest-planner` when search-term exports are available or Rocketcart MCP can provide live harvest context and the account needs exact-match harvesting, routing cleanup, product-target expansion, delivery fixes, or negative decisions.
 
 Use it to:
 
 - Classify search terms by harvest readiness, traffic type, strategic role, relevance, economics, and retail-readiness fit.
 - Choose exact destination campaigns or mark `Needs Destination`.
 - Check duplicate exact keywords, product targets, and existing negatives.
+- In Rocketcart MCP mode, resolve live profile/entity IDs, inspect current negatives, destination state, product-ad ASIN/SKU context, recent drift, snapshots/changelogs, and product readiness before approval readiness.
 - Decide whether source negatives are safe, blocked, or need more data.
 - Produce machine-readable action rows with write-readiness statuses: `PLANNING_ONLY`, `NEEDS_DATA`, `BLOCKED`, `APPROVAL_REQUIRED`, or `APPROVAL_READY`.
 - Mark a row `APPROVAL_READY` only when exact profile, source, destination, keyword/target/negative IDs where applicable, current/proposed values, duplicate checks, current negative checks, destination feasibility, approval text, preflight checks, readback checks, and monitoring criteria are complete.
 
-Do not add source negatives solely because a term was harvested. Preserve brand defense, own-ASIN defense, launch/rank-defense, profitable discovery, and low-sample strategic traffic unless waste or routing evidence is clear.
+Do not add source negatives solely because a term was harvested. Preserve brand defense, own-ASIN defense, launch/rank-defense, profitable discovery, and low-sample strategic traffic unless waste or routing evidence is clear. In Rocketcart MCP mode, do not execute "all recommendations"; require exact row IDs, live preflight with matching current values, readback, and monitoring.
 
 ### Step 4: Orchestrate The Account
 

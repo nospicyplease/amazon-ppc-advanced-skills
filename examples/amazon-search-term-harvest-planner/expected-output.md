@@ -7,6 +7,14 @@
 - Missing purchased-product report, organic rank, competitor movement, full margin, and some ASIN relationship context.
 - No row is executable. `APPROVAL_READY` requires exact IDs, current/proposed values, duplicate checks, current negative checks, destination feasibility, approval text, preflight, readback, and monitoring.
 
+## Rocketcart Live Context
+
+- Mode: Rocketcart MCP capable, Live Harvest Review.
+- Profile: `example_us`; marketplace and currency confirmed from live profile context.
+- Live reads used: current campaign/ad group states, product-ad ASIN/SKU mapping, existing exact keywords, current negatives, destination budget status, recent drift, and product-readiness context from the synthetic fixture.
+- Live limitation: purchased-product relationship data is still missing, so ASIN-like queries remain `NEEDS_DATA`.
+- Execution: no rows executed. Execution would require exact row approval, live preflight with matching current values, readback, and monitoring.
+
 ## Classification
 
 | Search Term | Classification | Write Readiness | Reason | Gate |
@@ -24,12 +32,12 @@
 
 ## Example Action Rows
 
-| row_id | action_type | search_term_normalized | classification | write_readiness | source_ids | destination_ids | current_value | proposed_value | duplicate_check | current_negative_check | destination_feasibility | approval_text |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| H-001 | delivery_fix | `steel water bottle 1 liter` | Scale Existing Exact / Delivery Fix | BLOCKED | `camp-100` / `ag-100` | existing exact `kw-100` | keyword paused | review/reactivate existing exact after preflight | Existing exact paused | clear | not ready until state/bid reviewed | Review existing exact; do not create duplicate |
-| H-002 | harvest_exact | `kids steel water bottle` | Harvest Ready but Negative Conflict | BLOCKED | `camp-102` / `ag-102` | `camp-997` / `ag-997` | destination negative `neg-201` blocks term | remove blocker first, then review exact harvest | no duplicate exact found | blocked by `neg-201` | blocked | Resolve negative conflict before approval |
-| H-003 | negative_exact_review | `water bottle straw replacement` | Negative Candidate | APPROVAL_REQUIRED | `camp-103` / `ag-103` | none | source query active | proposed narrow negative exact after blast-radius review | not applicable | source negative family exists | not applicable | Approve only a narrow negative after blast-radius review |
-| H-004 | controlled_test | `steel bottle` | Controlled Test | PLANNING_ONLY | `camp-104` / `ag-104` | `camp-997` / `ag-997` | one order, low sample | low-bid controlled test or watchlist | no duplicate exact found | clear | feasible | Planning only; one order is not enough for approval-ready harvest |
+| row_id | mode | action_type | search_term_normalized | classification | write_readiness | approval_status | execution_status | source_ids | destination_ids | current_value | proposed_value | duplicate_check | current_negative_check | live_preflight_status | destination_feasibility | approval_text |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| H-001 | Rocketcart Live Harvest Review | delivery_fix | `steel water bottle 1 liter` | Scale Existing Exact / Delivery Fix | BLOCKED | not_approvable | not_executed | `camp-100` / `ag-100` | existing exact `kw-100` | keyword paused | review/reactivate existing exact after preflight | Existing exact paused | clear | failed: duplicate exact exists | not ready until state/bid reviewed | Review existing exact; do not create duplicate |
+| H-002 | Rocketcart Live Harvest Review | harvest_exact | `kids steel water bottle` | Harvest Ready but Negative Conflict | BLOCKED | not_approvable | not_executed | `camp-102` / `ag-102` | `camp-997` / `ag-997` | destination negative `neg-201` blocks term | remove blocker first, then review exact harvest | no duplicate exact found | blocked by `neg-201` | failed: destination negative conflict | blocked | Resolve negative conflict before approval |
+| H-003 | Rocketcart Live Harvest Review | negative_exact_review | `water bottle straw replacement` | Negative Candidate | APPROVAL_REQUIRED | needs_explicit_approval | not_executed | `camp-103` / `ag-103` | none | source query active | proposed narrow negative exact after blast-radius review | not applicable | source negative family exists | required immediately before execution | not applicable | Approve only a narrow negative after blast-radius review |
+| H-004 | Rocketcart Live Harvest Review | controlled_test | `steel bottle` | Controlled Test | PLANNING_ONLY | not_approvable | not_executed | `camp-104` / `ag-104` | `camp-997` / `ag-997` | one order, low sample | low-bid controlled test or watchlist | no duplicate exact found | clear | not required for planning row | feasible | Planning only; one order is not enough for approval-ready harvest |
 
 ## Safety Behavior
 
@@ -41,3 +49,5 @@
 - One-order winners remain controlled tests or watchlist.
 - Mixed SP/SB data requires ad-type separation.
 - No changes are executed.
+- Rocketcart live context can make a static harvest row stale or blocked when duplicate exacts, negative conflicts, budget starvation, product-readiness issues, or current-value mismatches appear.
+- Even `APPROVAL_READY` rows need a separate approval message naming exact row IDs before execution.

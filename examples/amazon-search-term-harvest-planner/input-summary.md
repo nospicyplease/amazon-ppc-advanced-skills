@@ -16,6 +16,7 @@
 - Product context for advertised ASINs: price, target ACoS, inventory, Featured Offer / Buy Box status, review count, rating, and delivery promise.
 - Destination campaign state, exact IDs, budget status, and current negative conflicts for the synthetic examples.
 - Traffic-role and lifecycle-stage labels for brand defense, own-ASIN/substitute ambiguity, competitor conquest, launch/rank, and category generic terms.
+- Optional Rocketcart live context with profile, current campaign/ad group state, product-ad ASIN/SKU mapping, live keyword/negative coverage, recent drift, and product-readiness checks.
 
 ## Missing Data
 
@@ -32,3 +33,4 @@
 - Source negatives require routing or waste evidence.
 - Negative phrase is allowed only for clearly irrelevant query families.
 - No row is `APPROVAL_READY` unless exact IDs, current/proposed values, duplicate checks, current negative checks, destination feasibility, preflight, readback, approval text, and monitoring criteria are present.
+- In Rocketcart MCP mode, `APPROVAL_READY` still does not execute anything; execution needs a separate explicit approval naming exact row IDs, followed by live preflight and readback.

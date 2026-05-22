@@ -149,6 +149,10 @@ Use $amazon-search-term-harvest-planner to classify search terms for exact harve
 ```
 
 ```text
+Use $amazon-search-term-harvest-planner in Live Harvest Review mode for profile example_de. Resolve live campaign/ad group/keyword/negative IDs, check duplicate exacts, current negatives, destination feasibility, product-ad ASIN/SKU context, recent drift, and product readiness. Produce approval-gated harvest rows only. Do not execute anything.
+```
+
+```text
 Use $rocketcart-amazon-ads-live-review to inspect live Sponsored Products campaign state and product intelligence with Rocketcart MCP, detect recent changes, and propose approval-gated optimization actions without executing writes.
 ```
 
@@ -158,7 +162,7 @@ For a product-aware Rocketcart review:
 Use $rocketcart-amazon-ads-live-review for profile example_de. Confirm the profile, inspect live campaigns and product ads, map campaigns to ASIN context, check category/BSR movement, product readiness, inventory or availability blockers, Featured Offer / Buy Box risk, competitor signals, snapshots, and live drift. Produce proposed action rows only; do not execute writes.
 ```
 
-### Rocketcart Bridge Review Mode Prompts
+### Rocketcart Review Mode Prompts
 
 Live Optimization Review:
 
@@ -182,6 +186,12 @@ Post-Change Readback / Monitoring Review:
 
 ```text
 Use $rocketcart-amazon-ads-live-review in Post-Change Readback / Monitoring Review mode for profile example_de. Review the approved changes from the last execution window, read back affected entities, compare expected versus current state, and classify each action as Readback Confirmed, Partially Applied, Not Applied, Monitoring, Worked, Failed, or Needs More Data. Do not execute new writes.
+```
+
+Search-Term Execute Approved Rows:
+
+```text
+Use $amazon-search-term-harvest-planner in Execute Approved Rows mode for profile example_de. Approved rows: H-003 only. Rerun live preflight, confirm exact IDs and current/proposed values, execute only H-003 if the current state still matches, read back the affected entity, and report 3/7/14-day monitoring. Do not execute any other row.
 ```
 
 ## First Smoke Test
