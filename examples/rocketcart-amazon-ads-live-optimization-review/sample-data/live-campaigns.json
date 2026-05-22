@@ -1,0 +1,26 @@
+[
+  {
+    "profile": "example_de",
+    "campaign_id": "rc-camp-1001",
+    "name": "SP-DE-CORE-EXACT",
+    "state": "enabled",
+    "budget": 40,
+    "currency": "EUR",
+    "bidding_strategy": "dynamic_down_only",
+    "top_of_search_modifier": 0.35,
+    "inventory_days": 45,
+    "featured_offer_win_rate": 0.99
+  },
+  {
+    "profile": "example_de",
+    "campaign_id": "rc-camp-1002",
+    "name": "SP-DE-RANK-SUPPORT",
+    "state": "enabled",
+    "budget": 30,
+    "currency": "EUR",
+    "bidding_strategy": "dynamic_down_only",
+    "top_of_search_modifier": 0.80,
+    "inventory_days": 9,
+    "featured_offer_win_rate": 0.98
+  }
+]

@@ -9,7 +9,8 @@
 - Preserve approval gates for live write actions.
 - Keep Amazon terminology current. Use `Featured Offer / Buy Box` when referring to offer ownership.
 - Keep open-source skills useful with static exports; treat Rocketcart MCP as an optional live read, preflight, approval, execution, and readback layer.
-- Keep examples and eval prompts aligned with skill behavior whenever a skill's output format, safety gates, or actionability rules change.
+- Keep Rocketcart docs clear that MCP is the Amazon Ads + product-intelligence connection, not only a live campaign-state connector.
+- Keep examples, eval prompts, and concrete eval cases aligned with skill behavior whenever a skill's output format, safety gates, or actionability rules change.
 - Keep stress tests aligned with the most important ways a skill could become unsafe or overconfident.
 
 ## Validation Checklist
@@ -22,11 +23,13 @@ Before committing updates:
 4. Confirm examples do not invent metrics or imply unsupported live execution.
 5. Confirm the Growth Operating System still references both upstream skills correctly.
 6. Confirm new skills are listed in `README.md` and `docs/SKILL_CATALOG.md` when they are user-facing.
-7. Confirm each production skill has an example with `prompt.md`, `input-summary.md`, and `expected-output-outline.md`.
+7. Confirm each production skill has an example with `prompt.md`, `input-summary.md`, `expected-output-outline.md`, `sample-data/`, `expected-output.md`, `known-bad-output.md`, and `eval-result.md`.
 8. Confirm new-user docs answer what the skill is, how to install it, what data is needed, and whether live execution can occur.
-9. Review changed outputs with the relevant `evals/` prompt before opening a PR.
-10. Run or review at least one relevant stress test from `stress-tests/` when safety gates, BSR claims, negatives, budget cuts, or Rocketcart writes are affected.
-11. Validate all skills with `quick_validate.py` if available.
+9. Confirm Rocketcart docs explain which context comes from live Ads reads, product intelligence, optimization memory, or user-provided exports.
+10. Review changed outputs with the relevant `evals/` prompt before opening a PR.
+11. Run or review at least one relevant stress test from `stress-tests/` when safety gates, BSR claims, negatives, budget cuts, or Rocketcart writes are affected.
+12. Confirm concrete eval cases have prompt, expected behavior, and pass/fail rubric with `make eval`.
+13. Validate all skills with `quick_validate.py` if available.
 
 ## Recommended Commands
 
@@ -37,9 +40,10 @@ make check-docs
 make check-examples
 make list-skills
 make validate
+make eval
 ```
 
-`make validate` checks required docs, production skill layout, example packs, YAML metadata, and the Codex `quick_validate.py` script when it is available locally. If the local Codex validator is unavailable, the make target skips that step and still runs the structural checks.
+`make validate` checks required docs, production skill layout, example packs, YAML metadata, and the Codex `quick_validate.py` script when it is available locally. `make eval` checks concrete eval-case structure and pass/fail rubrics. If the local Codex validator is unavailable, the make target skips that step and still runs the structural checks.
 
 GitHub Actions runs the same repo-level checks on pull requests and pushes to `main` through `.github/workflows/validate.yml`.
 
@@ -67,15 +71,17 @@ Do not validate `templates/amazon-ppc-skill-template` as a production skill with
 Use examples and evals as lightweight regression checks:
 
 1. Pick the example closest to the skill or behavior you changed.
-2. Run the example prompt against the changed skill instructions.
-3. Compare the output with `expected-output-outline.md`.
-4. Paste the output into relevant eval prompts:
+2. Run the example prompt against the changed skill instructions using the relevant files under `sample-data/`.
+3. Compare the output with `expected-output-outline.md` and `expected-output.md`.
+4. Confirm the output avoids the failure mode in `known-bad-output.md`.
+5. Paste the output into relevant eval prompts:
    - `evals/safety-gate-check.md` for any execution recommendation.
    - `evals/bsr-causality-check.md` for BSR, rank, or organic-growth claims.
    - `evals/action-specificity-check.md` for proposed action rows.
    - `evals/missing-data-confidence-check.md` for partial data.
    - `evals/rocketcart-write-gate-check.md` for Rocketcart MCP write candidates.
-5. Fix the skill or docs when an eval returns `Needs revision` or `Fail`.
+6. Run or inspect the nearest concrete case under `evals/cases/`.
+7. Fix the skill or docs when an eval returns `Needs revision` or `Fail`.
 
 ## Stress-Test Review
 

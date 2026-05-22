@@ -9,8 +9,8 @@ Good contributions usually fit one of these shapes:
 - A new skill for a repeatable Amazon PPC workflow.
 - A sharper evidence threshold, safety gate, or output format for an existing skill.
 - A reference file that keeps a complex skill concise.
-- An anonymized example prompt and expected output.
-- A stress test that exposes an unsafe or overconfident behavior.
+- An anonymized example pack with synthetic sample data, expected output, known-bad output, and eval result.
+- An eval case or stress test that exposes an unsafe or overconfident behavior.
 - Documentation that makes the skills easier to install or adapt.
 
 Open an issue before large rewrites or new skill families so the scope can be discussed.
@@ -27,7 +27,7 @@ Do not commit real Amazon Ads, Rocketcart, seller, agency, customer, ASIN, keywo
 - Stronger safety gates, clearer missing-data handling, and better output formats.
 - Synthetic examples that show realistic inputs and expected behavior.
 - Evals or stress tests that catch unsafe execution, unsupported causality, vague actions, or overconfidence.
-- Rocketcart-aware workflows that still work standalone from static exports.
+- Rocketcart-aware workflows that still work standalone from static exports and clearly separate live Ads state, product intelligence, recent-change context, and approval-gated execution.
 
 ## What Maintainers Usually Reject
 
@@ -60,7 +60,7 @@ Do not add a skill that encourages blind execution. Any live Amazon Ads mutation
 - Specific about the entity, action, amount, reason, risk, and rollback or monitoring rule.
 - Verified by readback after execution.
 
-For Rocketcart MCP workflows, keep the open-source skill useful without Rocketcart. Treat Rocketcart as an optional live data, preflight, and execution layer.
+For Rocketcart MCP workflows, keep the open-source skill useful without Rocketcart. Treat Rocketcart as the optional Amazon Ads + product-intelligence layer for live Ads reads, ASIN/SKU context, product readiness, category rank/BSR movement, competitor signals, recent-change context, preflight, guarded execution, and readback.
 
 ## New Skill Workflow
 
@@ -80,6 +80,7 @@ make check-docs
 make check-examples
 make list-skills
 make validate
+make eval
 ```
 
 If you do not have the validator, manually confirm:
@@ -88,10 +89,11 @@ If you do not have the validator, manually confirm:
 - The frontmatter contains only `name` and `description`.
 - Markdown links point to existing files.
 - Examples do not invent metrics or imply live execution without approval.
+- Eval cases include `prompt.md`, `expected-behavior.md`, and `rubric.md` with pass/fail criteria.
 
 ## PR Expectations
 
-Use the pull request template. A strong PR explains the operator problem, the changed skill behavior, safety gates reviewed, examples/evals/stress tests used, and any Rocketcart-specific assumptions. For new skills, include a concise example prompt, input summary, expected-output outline, and at least one stress test or eval addition.
+Use the pull request template. A strong PR explains the operator problem, the changed skill behavior, safety gates reviewed, examples/evals/stress tests used, and any Rocketcart-specific assumptions. For new skills, include a concise example prompt, input summary, synthetic sample data, expected-output outline, concrete expected output, known-bad output, eval result, and at least one stress test or eval addition.
 
 ## Pull Request Checklist
 
@@ -100,7 +102,9 @@ Use the pull request template. A strong PR explains the operator problem, the ch
 - [ ] Missing data and confidence handling are described.
 - [ ] `agents/openai.yaml` matches the skill purpose.
 - [ ] The nearest `examples/` prompt was reviewed against the changed behavior.
+- [ ] Example fixtures include synthetic `sample-data/`, `expected-output.md`, `known-bad-output.md`, and `eval-result.md` when the change touches a production skill.
 - [ ] Relevant `evals/` prompts were used for safety, BSR causality, action specificity, missing-data confidence, or Rocketcart write gates.
+- [ ] `make eval` passes when eval cases changed.
 - [ ] A relevant `stress-tests/` scenario was run or reviewed when safety gates, BSR claims, negatives, budget cuts, or Rocketcart writes changed.
 - [ ] Existing skills still validate.
 - [ ] Documentation was updated if users need to discover the change.

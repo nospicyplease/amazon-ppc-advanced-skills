@@ -20,11 +20,19 @@ A Claude skill is a skill folder uploaded to Claude. Zip and upload one skill fo
 
 ## What is MCP?
 
-MCP means Model Context Protocol. It lets an AI assistant use external tools and data sources through a structured interface.
+MCP means Model Context Protocol. It lets an AI assistant use approved external context and action capabilities through a structured interface.
 
 ## Do I need Rocketcart?
 
-No. The skills work standalone with static exports, pasted CSVs, or summaries. Rocketcart MCP adds live reads, snapshots, preflight, approval-gated execution, and readback.
+No. The skills work standalone with static exports, pasted CSVs, or summaries. Rocketcart MCP adds live Amazon Ads reads, product intelligence, snapshots, optimization memory, preflight, approval-gated execution, and readback.
+
+## Is Rocketcart MCP just an Amazon Ads connector?
+
+No. Rocketcart MCP is the optional Amazon Ads + product-intelligence connection. It can expose live campaign state and product context such as ASIN/SKU mapping, category rank/BSR movement, price, estimated demand, rating/reviews, stock or availability, Featured Offer / Buy Box risk, competitor signals, recent-change context, and data freshness/quality signals where those reads are available.
+
+## What if Rocketcart product-intelligence context is unavailable?
+
+The skill should say which context is unavailable, lower confidence, and fall back to static exports or user-provided product data. Missing product context should block or downgrade risky scale, launch, pause, or negative recommendations.
 
 ## Can this change my Amazon Ads account?
 
@@ -36,11 +44,11 @@ Not by itself. These open-source skills do not execute Amazon Ads changes. Any l
 - You want growth ideas: `amazon-growth-opportunity-finder`.
 - You want one weekly plan: `amazon-account-growth-operating-system`.
 - You have a search term CSV: `amazon-search-term-harvest-planner`.
-- You use Rocketcart MCP: `rocketcart-amazon-ads-live-optimization-review`.
+- You use Rocketcart MCP for live Ads + product context: `rocketcart-amazon-ads-live-optimization-review`.
 
 ## Which Amazon reports should I export?
 
-Useful reports include campaign, targeting, search term, placement, advertised-product, purchased-product, Business Reports, BSR/rank history, inventory/offer data, retail-readiness data, and recent change history.
+Useful reports include campaign, targeting, search term, placement, advertised-product, purchased-product, Business Reports, BSR/rank history, inventory/offer data, retail-readiness data, and recent change history. With Rocketcart MCP, some of this context may be read live or cross-checked through product-intelligence capabilities.
 
 ## Can I paste CSVs?
 
@@ -66,6 +74,10 @@ The skill should avoid rank-growth claims and focus on ads and retail-readiness 
 
 The skill should not assume scale readiness. Aggressive bid or budget increases should be blocked or downgraded.
 
+## Where do I learn the Rocketcart flow?
+
+Read [Rocketcart MCP guide](ROCKETCART_MCP_GUIDE.md). It explains what Rocketcart adds, which context can come from Rocketcart versus the user, first-run prompts, product-aware review prompts, and the execution boundary.
+
 ## Why not just cut high ACoS or zero-order spend?
 
 High ACoS can be strategic during launch, rank defense, competitor conquesting, or brand defense. Zero-order spend may be low-sample discovery. The skills should only recommend cuts when waste is isolated and not protecting a strategic goal.
@@ -88,4 +100,4 @@ Start from `templates/amazon-ppc-skill-template/`, keep the skill narrow, add an
 
 ## What is still missing?
 
-The repo is usable, but it can still improve with sample CSV fixtures, known-good outputs, automated evals, more Rocketcart examples, and more specialist skills.
+The repo is usable, but it can still improve with deeper automated eval scoring, more Rocketcart product-intelligence examples, and more specialist skills.

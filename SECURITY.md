@@ -2,7 +2,7 @@
 
 ## Supported Scope
 
-This repository contains skill instructions, examples, docs, and lightweight validation checks. It does not contain a hosted service, credential manager, or Amazon Ads API client.
+This repository contains skill instructions, examples, docs, and lightweight validation checks. It does not contain a hosted service, credential manager, or live Amazon Ads client.
 
 ## Reporting Issues
 
@@ -11,7 +11,7 @@ Please open a GitHub issue for documentation, safety, or validation problems tha
 Do not publish:
 
 - Amazon Ads credentials or refresh tokens.
-- Rocketcart credentials, bearer tokens, MCP URLs, or customer workspace IDs.
+- Rocketcart credentials, private connection details, or customer workspace identifiers.
 - Real account IDs, profile IDs, campaign IDs, ASIN strategy maps, or proprietary account exports.
 - Customer names, email addresses, order data, or business-sensitive metrics.
 

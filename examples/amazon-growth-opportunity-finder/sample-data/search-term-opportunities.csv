@@ -1,0 +1,5 @@
+campaign_id,ad_group_id,search_term,advertised_asin,spend_30d,sales_30d,orders_30d,acos,existing_exact_keyword
+444444444444,ag-444,stainless utensil holder,UK-GAMMA-01,48,420,17,0.114,no
+444444444444,ag-444,kitchen organiser rack,UK-GAMMA-01,36,190,7,0.189,yes
+555555555555,ag-555,brand gamma replacement cup,UK-GAMMA-02,18,220,11,0.082,no
+666666666666,ag-666,kitchen accessories,UK-GAMMA-03,310,510,14,0.608,no

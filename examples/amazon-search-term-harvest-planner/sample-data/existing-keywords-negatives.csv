@@ -1,0 +1,5 @@
+entity_type,entity_id,campaign_id,ad_group_id,text,match_type,state
+keyword,kw-100,999,ag-999,steel water bottle 1 liter,exact,enabled
+keyword,kw-101,998,ag-998,delta bottle replacement lid,exact,enabled
+negative,neg-200,333,ag-333,competitor mug,phrase,enabled
+campaign,camp-997,997,ag-997,SP-US-DELTA-EXACT-CORE,exact,enabled

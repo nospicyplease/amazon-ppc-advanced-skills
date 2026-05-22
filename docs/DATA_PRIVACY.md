@@ -10,7 +10,8 @@ Do not commit:
 - Real Business Reports.
 - Real BSR or organic-rank exports tied to identifiable products.
 - Customer names, account names, profile IDs, advertiser IDs, campaign IDs, ad group IDs, keyword IDs, target IDs, or SKU/FNSKU values.
-- Rocketcart customer data, workspace IDs, bearer tokens, MCP URLs, snapshots, changelogs, or proprietary performance data.
+- Rocketcart customer data, credentials, private connection details, snapshots, changelogs, or proprietary performance data.
+- Rocketcart product-intelligence results tied to real products, including BSR/category rank, stock/availability, price, estimated demand, competitor alerts, reviews, rating, or ASIN-level controls.
 - Search terms that reveal confidential launch strategy, competitor strategy, or brand-sensitive information.
 
 ## Anonymization Rules
@@ -29,7 +30,7 @@ Examples, evals, and stress tests must be teaching fixtures, not real account ex
 
 ## Rocketcart MCP
 
-Rocketcart MCP can expose live account state in real deployments. Do not paste or commit live tool results unless they are anonymized. Do not include proprietary Rocketcart implementation details unless they are already public and intended for this repo.
+Rocketcart MCP can expose live account state in real deployments. Do not paste or commit live account results unless they are anonymized. Do not include proprietary Rocketcart implementation details unless they are already public and intended for this repo.
 
 ## Live Writes
 

@@ -35,7 +35,7 @@ Start every diagnosis with a data reliability and actionability gate:
 
 ## Workflow
 
-1. Establish data trust and exact windows.
+1. Establish data coverage, freshness, and exact windows.
    - Anchor recent windows on T-1 when current data may be incomplete.
    - Print exact date ranges used for L7, L14, L30, L60, L90, suspected drop, and baseline.
    - Separate SP, SB, and SD when the data supports it; do not blend ad types unless the user asks for an all-ad-type view.

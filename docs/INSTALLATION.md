@@ -7,7 +7,7 @@ Read [FAQ](FAQ.md) first if you are new to Codex skills, Claude skills, or Rocke
 - Codex with local skills support, or Claude with skill upload support.
 - This repository cloned locally.
 - Optional: Amazon Ads, Business Reports, BSR, inventory, and retail-readiness exports.
-- Optional: Rocketcart MCP for live reads, preflight, approval-gated writes, and readback.
+- Optional: Rocketcart MCP for live Amazon Ads reads, product intelligence, optimization memory, preflight, approval-gated writes, and readback.
 
 ## Clone The Repo
 
@@ -66,6 +66,8 @@ In Codex or Claude, start a new chat and invoke the skill by name, for example:
 Use $amazon-account-growth-operating-system to build a weekly Amazon PPC action plan from this account data.
 ```
 
+Installing these open-source skills is separate from connecting Rocketcart MCP. If Rocketcart MCP is available in your host environment, the Rocketcart-aware skill can use it for live Ads + product-intelligence reads. If it is not available, the same skill should run in standalone mode and ask for static exports or pasted product context.
+
 If you have the Codex skill validator available, run:
 
 ```bash
@@ -118,7 +120,13 @@ Use $amazon-search-term-harvest-planner to classify search terms for exact harve
 ```
 
 ```text
-Use $rocketcart-amazon-ads-live-optimization-review to inspect live Sponsored Products campaign state with Rocketcart MCP, detect recent changes, and propose approval-gated optimization actions without executing writes.
+Use $rocketcart-amazon-ads-live-optimization-review to inspect live Sponsored Products campaign state and product intelligence with Rocketcart MCP, detect recent changes, and propose approval-gated optimization actions without executing writes.
+```
+
+For a product-aware Rocketcart review:
+
+```text
+Use $rocketcart-amazon-ads-live-optimization-review for profile example_de. Confirm the profile, inspect live campaigns and product ads, map campaigns to ASIN context, check category/BSR movement, product readiness, inventory or availability blockers, Featured Offer / Buy Box risk, competitor signals, snapshots, and live drift. Produce proposed action rows only; do not execute writes.
 ```
 
 ## First Smoke Test
@@ -153,7 +161,7 @@ Examples and evals do not trigger as skills:
 Rocketcart MCP unavailable:
 
 - Use standalone mode with static exports or pasted data.
-- The Rocketcart-aware skill should lower confidence when live reads, preflight, or readback are unavailable.
+- The Rocketcart-aware skill should lower confidence when live Ads reads, product-intelligence reads, preflight, or readback are unavailable.
 
 ## Data Handling
 

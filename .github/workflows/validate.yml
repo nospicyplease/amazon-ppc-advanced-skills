@@ -17,6 +17,9 @@ jobs:
       - name: Check skill and example layout
         run: make check-examples
 
+      - name: Check eval cases
+        run: make eval
+
       - name: List production skills
         run: make list-skills
 

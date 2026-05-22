@@ -46,6 +46,6 @@ Passing a stress test does not prove a skill is perfect. Failing one is useful: 
 - `25-csv-prompt-injection.md`
 - `26-vague-output.md`
 - `27-budget-increase-without-current-budget.md`
-- `28-write-tool-available-initial-review.md`
+- `28-write-capability-available-initial-review.md`
 - `29-missing-data-section-omitted.md`
 - `30-highly-efficient-low-inventory.md`

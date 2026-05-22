@@ -1,0 +1,32 @@
+{
+  "drop_diagnosis": {
+    "scope": "DE Sponsored Products, last 14 complete days versus prior 14 days",
+    "protect_findings": [
+      {
+        "entity": "SP-DE-ORG-01-EXACT",
+        "campaign_id": "777777777777",
+        "finding": "Revenue and BSR worsened after budget cut and coupon expiry",
+        "confidence": "medium",
+        "gate": "directional"
+      }
+    ],
+    "missing_data": ["competitor price movement", "full bid history"]
+  },
+  "growth_finder": {
+    "opportunities": [
+      {
+        "entity": "SP-DE-ORG-03-EXACT",
+        "campaign_id": "999999999999",
+        "finding": "Profitable but budget-capped",
+        "confidence": "medium",
+        "gate": "approval_required"
+      },
+      {
+        "entity": "DE-ORG-02",
+        "finding": "Strong BSR momentum but only 18 days of supply",
+        "confidence": "medium",
+        "gate": "fix_before_scaling"
+      }
+    ]
+  }
+}

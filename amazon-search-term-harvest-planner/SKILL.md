@@ -67,7 +67,7 @@ Before recommending a source negative, check:
 
 ## Workflow
 
-1. Establish data trust.
+1. Establish data coverage and freshness.
    - State windows, ad types, report freshness, attribution caveats, search-term grain, missing source/destination fields, and duplicate-risk.
 
 2. Segment search terms.

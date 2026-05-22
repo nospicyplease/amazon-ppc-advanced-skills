@@ -18,16 +18,17 @@ Use this path when the user provides CSVs, pasted tables, screenshots, or summar
 
 Static exports can be stale. Any future live execution still requires approval, preflight, exact IDs, current/proposed values, readback, and monitoring.
 
-### Path B: Rocketcart Live-Read Workflow
+### Path B: Rocketcart Live Ads + Product-Intelligence Workflow
 
 Use this path when Rocketcart MCP is available.
 
 1. Run `rocketcart-amazon-ads-live-optimization-review` in read-first mode.
 2. Confirm profile. If multiple profiles match, do not assume; ask for selection.
-3. Inspect live campaigns, budget changes, live drift, and snapshots.
-4. Convert findings into proposed action rows.
-5. Do not execute writes during the initial review.
-6. Execute only after explicit approval, live preflight, exact entity IDs, current/proposed values, expected impact/risk, readback, and monitoring criteria.
+3. Inspect live campaigns, product ads/ASIN mapping, budget changes, targeting or negative changes, live drift, and snapshots.
+4. Inspect product intelligence where available: data freshness and quality, ASIN-level controls, category rank/BSR movement, price, estimated demand, rating/reviews, inventory or availability, Featured Offer / Buy Box, competitor signals, seasonality, and recent-change context.
+5. Convert findings into proposed action rows.
+6. Do not execute writes during the initial review.
+7. Execute only after explicit approval, live preflight, exact entity IDs, current/proposed values, expected impact/risk, product-readiness checks, readback, and monitoring criteria.
 
 If live state differs from an approved row, do not execute without refreshed approval.
 
@@ -35,9 +36,9 @@ If live state differs from an approved row, do not execute without refreshed app
 
 Use this workflow for a weekly or monthly account review.
 
-If Rocketcart MCP is available, `rocketcart-amazon-ads-live-optimization-review` can be used before finalizing actions to compare the plan against live Sponsored Products campaign state, recent budget changes, live drift, and optimization snapshots.
+If Rocketcart MCP is available, `rocketcart-amazon-ads-live-optimization-review` can be used before finalizing actions to compare the plan against live Sponsored Products campaign state, product ads/ASIN mapping, product intelligence, recent budget changes, live drift, optimization memory, and snapshots.
 
-### Step 1: Establish Data Trust
+### Step 1: Establish Data Coverage And Freshness
 
 Collect or state missing:
 
@@ -89,7 +90,7 @@ Answer:
 
 Carry forward:
 
-- Data source map.
+- Data coverage map.
 - Evidence thresholds.
 - Commercial-impact score.
 - Incrementality checks.
@@ -129,7 +130,7 @@ Resolve conflicts:
 - Low-confidence downside adds monitoring rather than blocking reversible high-confidence growth.
 - Waste can fund growth only when isolated and not strategically protective.
 
-### Optional Step 4b: Run Rocketcart Live Review
+### Optional Step 4b: Run Rocketcart Live Ads + Product-Intelligence Review
 
 Run or apply `rocketcart-amazon-ads-live-optimization-review` when Rocketcart MCP is available or when live Sponsored Products state may differ from static exports.
 
@@ -137,12 +138,16 @@ Use it to:
 
 - Confirm the correct profile.
 - Inspect current campaign budgets, states, bidding strategies, and placement modifiers.
+- Map product ads to ASIN/SKU context.
+- Check data freshness/quality and ASIN-level controls.
+- Inspect product intelligence where available: category rank/BSR movement, BSR versus ads, price, estimated demand, rating/reviews, inventory or availability, Featured Offer / Buy Box, competitor signals, and seasonality.
 - Detect budget changes.
+- Detect keyword/target bid or state changes and negative changes when relevant.
 - Detect live drift since optimization snapshots.
-- Review previous snapshots and changelogs.
+- Review previous snapshots, changelogs, entity history, pending evaluations, and cooldowns.
 - Convert the operating plan into exact action rows with entity IDs, current values, proposed values, preflight checks, approval status, readback checks, and monitoring windows.
 
-Do not execute writes during this review. Treat it as the live-state bridge between analysis and approval.
+Do not execute writes during this review. Treat it as the product-aware live-state bridge between analysis and approval.
 
 ### Step 5: Build The Action Queue
 
@@ -179,7 +184,7 @@ Typical windows:
 
 Use the short workflow when the operator only needs a daily action plan:
 
-1. Data trust and freshness.
+1. Data coverage, quality, and freshness.
 2. Top 3 protect risks.
 3. Top 3 growth actions.
 4. Top 3 fix-before-scale blockers.

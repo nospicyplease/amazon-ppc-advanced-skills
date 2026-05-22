@@ -11,7 +11,7 @@ Amazon PPC Advanced Skills should become an open-source library of expert agent 
 - Turning findings into approval-ready action queues.
 - Teaching safe live-operation patterns for Rocketcart MCP and other execution layers.
 
-The skills must remain useful with static exports in Codex or Claude. Rocketcart MCP should be additive: live reads, preflight checks, snapshots, guarded execution, and readback.
+The skills must remain useful with static exports in Codex or Claude. Rocketcart MCP should be additive: live Amazon Ads reads, product intelligence, recent-change context, preflight checks, snapshots, guarded execution, and readback.
 
 ## Near-Term Priorities
 
@@ -29,7 +29,7 @@ The skills must remain useful with static exports in Codex or Claude. Rocketcart
 | `amazon-growth-opportunity-finder` | Production-oriented draft | Clearer thresholds for scale vs watchlist decisions by data volume. |
 | `amazon-account-growth-operating-system` | Orchestrator draft | More examples showing conflict resolution across upstream findings. |
 | `amazon-search-term-harvest-planner` | Good-first-skill complete | Fixture coverage for duplicate exact keywords and source-negative blockers. |
-| `rocketcart-amazon-ads-live-optimization-review` | Rocketcart bridge draft | Live-read examples, preflight examples, and post-change monitor skill. |
+| `rocketcart-amazon-ads-live-optimization-review` | Rocketcart bridge draft | Deeper product-intelligence examples, preflight examples, and post-change monitor skill. |
 
 ## Needed Before v1
 
@@ -107,20 +107,21 @@ Next good first skills:
 
 The first bridge skill is `rocketcart-amazon-ads-live-optimization-review`. Future Rocketcart-specific skills should follow the same read-first pattern:
 
-1. Read live state and historical analytics.
-2. Detect changes, risks, and opportunities.
-3. Propose exact action rows.
-4. Run preflight checks before any write.
-5. Require explicit approval for all material changes.
-6. Execute only the approved changes.
-7. Read back the resulting state and define monitoring windows.
+1. Read live Ads state and historical analytics.
+2. Join product intelligence: ASIN/SKU context, inventory, Featured Offer / Buy Box, category rank/BSR movement, price, reviews/rating, competitor signals, and product readiness where available.
+3. Detect changes, risks, and opportunities.
+4. Propose exact action rows.
+5. Run preflight checks before any write.
+6. Require explicit approval for all material changes.
+7. Execute only the approved changes.
+8. Read back the resulting state and define monitoring windows.
 
 Open-source skills should describe the workflow even when Rocketcart MCP is unavailable.
 
 ## Rocketcart Upper-Funnel Goals
 
 - Let operators prove value with static exports before they connect live tooling.
-- Make Rocketcart feel like the natural next layer for live reads, drift detection, preflight, readback, and monitoring.
+- Make Rocketcart feel like the natural next layer for live Ads reads, product intelligence, drift detection, preflight, readback, and monitoring.
 - Keep trust high by making no-write-by-default behavior obvious in README, examples, evals, and Rocketcart-specific skills.
 - Encourage agencies and AI builders to customize open-source skills while preserving Rocketcart-compatible action rows.
 - Turn repeated contributor ideas into Rocketcart-aware workflows only when live state materially improves safety or execution quality.

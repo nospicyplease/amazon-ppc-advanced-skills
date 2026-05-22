@@ -1,0 +1,32 @@
+[
+  {
+    "asin": "DE-RC-CORE-01",
+    "sku": "SKU-RC-CORE-01",
+    "mapped_campaign_ids": ["rc-camp-1001"],
+    "inventory_days": 45,
+    "featured_offer_win_rate": 0.99,
+    "price": 24.99,
+    "rating": 4.6,
+    "review_count": 520,
+    "category_bsr": 8200,
+    "monthly_sold": 640,
+    "bsr_responsiveness": "moderate",
+    "competitor_signal": "stable",
+    "product_gate": "scale_candidate"
+  },
+  {
+    "asin": "DE-RC-RANK-02",
+    "sku": "SKU-RC-RANK-02",
+    "mapped_campaign_ids": ["rc-camp-1002"],
+    "inventory_days": 9,
+    "featured_offer_win_rate": 0.98,
+    "price": 29.99,
+    "rating": 4.2,
+    "review_count": 84,
+    "category_bsr": 15100,
+    "monthly_sold": 170,
+    "bsr_responsiveness": "unknown",
+    "competitor_signal": "competitor_coupon_detected",
+    "product_gate": "blocked_low_inventory"
+  }
+]

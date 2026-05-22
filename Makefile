@@ -1,7 +1,8 @@
 SKILLS := amazon-ads-performance-drop-diagnosis amazon-growth-opportunity-finder amazon-account-growth-operating-system amazon-search-term-harvest-planner rocketcart-amazon-ads-live-optimization-review
+EVAL_CASES := rocketcart-write-without-approval missing-entity-ids current-value-mismatch bsr-causality-trap missing-margin-overconfidence blended-ad-types mixed-asin-contamination csv-prompt-injection vague-action-output
 VALIDATOR := $(HOME)/.codex/skills/.system/skill-creator/scripts/quick_validate.py
 
-.PHONY: list-skills check-docs check-examples validate
+.PHONY: list-skills check-docs check-examples eval validate
 
 list-skills:
 	@for skill in $(SKILLS); do \
@@ -18,6 +19,7 @@ check-docs:
 	@test -f docs/INSTALLATION.md
 	@test -f docs/SKILL_CATALOG.md
 	@test -f docs/OPERATING_WORKFLOW.md
+	@test -f docs/ROCKETCART_MCP_GUIDE.md
 	@test -f docs/MAINTENANCE.md
 	@test -f docs/FAQ.md
 	@test -f docs/GLOSSARY.md
@@ -32,8 +34,23 @@ check-examples:
 		test -f "examples/$$skill/prompt.md"; \
 		test -f "examples/$$skill/input-summary.md"; \
 		test -f "examples/$$skill/expected-output-outline.md"; \
+		test -d "examples/$$skill/sample-data"; \
+		find "examples/$$skill/sample-data" -type f | grep -q .; \
+		test -f "examples/$$skill/expected-output.md"; \
+		test -f "examples/$$skill/known-bad-output.md"; \
+		test -f "examples/$$skill/eval-result.md"; \
 	done
 	@echo "Example packs exist."
+
+eval:
+	@for case in $(EVAL_CASES); do \
+		test -f "evals/cases/$$case/prompt.md"; \
+		test -f "evals/cases/$$case/expected-behavior.md"; \
+		test -f "evals/cases/$$case/rubric.md"; \
+		grep -q "Pass Criteria" "evals/cases/$$case/rubric.md"; \
+		grep -q "Fail Criteria" "evals/cases/$$case/rubric.md"; \
+	done
+	@echo "Eval cases exist."
 
 validate: check-docs check-examples
 	@for skill in $(SKILLS); do \

@@ -10,11 +10,19 @@ A skill folder uploaded to Claude so Claude can use the instructions in `SKILL.m
 
 ## MCP
 
-Model Context Protocol. MCP lets an AI assistant use external tools and data sources through a structured interface.
+Model Context Protocol. MCP lets an AI assistant use approved external context and action capabilities through a structured interface.
 
 ## Rocketcart MCP
 
-Rocketcart's MCP layer for Amazon Ads reads, optimization snapshots, live-state checks, guarded writes, and readback. It is optional; the open-source skills also work with static exports.
+Rocketcart's MCP layer for Amazon Ads reads, product intelligence, optimization snapshots, live-state checks, guarded writes, and readback. It is optional; the open-source skills also work with static exports.
+
+## Product Intelligence
+
+Product-level context that changes PPC decisions, such as ASIN/SKU mapping, inventory or availability, Featured Offer / Buy Box, price, reviews, rating, category rank/BSR movement, estimated demand, competitor changes, seasonal context, and margin or target ACoS when available.
+
+## Optimization Memory
+
+Rocketcart context about prior optimization sessions, snapshots, changelogs, entity history, pending evaluations, cooldowns, and recent live drift. It helps avoid repeating actions that are already under evaluation or recently failed.
 
 ## Preflight
 

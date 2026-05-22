@@ -1,0 +1,5 @@
+asin,window,total_ordered_units,total_revenue,avg_bsr,featured_offer_win_rate,inventory_days,target_acos,coupon_status
+CHILD-A1,baseline_2026-04-17_to_2026-04-30,210,7350,8420,0.99,45,0.28,active
+CHILD-A1,current_2026-05-01_to_2026-05-14,148,5180,12640,0.98,41,0.28,expired_may_5
+CHILD-A2,baseline_2026-04-17_to_2026-04-30,122,3904,10900,0.98,32,0.25,active
+CHILD-A2,current_2026-05-01_to_2026-05-14,91,2912,15120,0.98,30,0.25,expired_may_5

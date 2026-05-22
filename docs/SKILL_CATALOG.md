@@ -10,7 +10,7 @@ If you are new to the project, start with [FAQ](FAQ.md). The fastest rule is: us
 | No obvious drop, want profitable upside | `amazon-growth-opportunity-finder` | Campaign/targeting/search-term data, economics or target ACoS, inventory, Featured Offer / Buy Box, total sales if incrementality matters | Finds safe scale, harvest, budget, ASIN, and placement opportunities | Missing margin, inventory, total sales, search terms, or retail readiness |
 | Need one weekly account action plan | `amazon-account-growth-operating-system` | Drop findings, growth findings, or raw account data with scope, economics, readiness, and rank context | Prioritizes protect/grow/fix/monitor into one queue | Conflicting upstream findings or unresolved high-confidence downside risk |
 | Search-term cleanup or exact harvesting | `amazon-search-term-harvest-planner` | Search term report, targeting/keyword map, destination structure, existing exact/negatives, economics/readiness | Separates harvest, route, negative, bid-down, and watchlist decisions | Missing source/destination map, exact keyword map, or strategic-role context |
-| Rocketcart live Sponsored Products review | `rocketcart-amazon-ads-live-optimization-review` | Rocketcart profile, live campaigns, budget changes, snapshots, action goal | Compares analysis to live state and proposes approval-gated rows | Missing profile, exact IDs, live preflight, approval, or readback |
+| Rocketcart live Amazon Ads + product-intelligence review | `rocketcart-amazon-ads-live-optimization-review` | Rocketcart profile, live campaigns, product ads/ASIN mapping, category/BSR movement, product context, budget changes, snapshots, action goal | Compares analysis to live Ads state, product readiness, product intelligence, and recent-change context before proposing approval-gated rows | Missing profile, product context, exact IDs, live preflight, approval, or readback |
 
 ## 1. Amazon Ads Performance Drop Diagnosis
 
@@ -143,11 +143,13 @@ Do not add source negatives just because a term was harvested. Source negatives 
 
 Folder: `rocketcart-amazon-ads-live-optimization-review`
 
-Use when the operator wants a read-first Amazon Sponsored Products optimization review that can run from static exports or use Rocketcart MCP live reads.
+Use when the operator wants a read-first Amazon Sponsored Products optimization review that can run from static exports or use Rocketcart MCP as the Amazon Ads + product-intelligence connection.
 
 Best for:
 
 - Inspecting live Sponsored Products campaigns before proposing changes.
+- Mapping product ads to ASIN/SKU context.
+- Checking product intelligence such as category rank/BSR movement, price, estimated demand, rating/reviews, inventory or availability, Featured Offer / Buy Box, competitor signals, and BSR responsiveness where available.
 - Listing Rocketcart profiles when the target profile is unknown.
 - Detecting recent budget changes.
 - Detecting live drift since the latest optimization snapshot.
@@ -156,9 +158,10 @@ Best for:
 
 Key outputs:
 
-- Mode, scope, and data trust.
+- Mode, scope, and data coverage.
 - Executive verdict.
 - Live state and change review.
+- Product intelligence and readiness review.
 - Read-only findings.
 - Proposed action rows.
 - Execution gate.

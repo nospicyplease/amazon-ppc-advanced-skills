@@ -1,0 +1,5 @@
+priority_source,entity_type,entity_id,name,current_state,candidate_action,risk
+drop,campaign,777777777777,SP-DE-ORG-01-EXACT,budget_capped_after_cut,review budget restoration,may overspend if coupon conversion issue remains
+growth,campaign,999999999999,SP-DE-ORG-03-EXACT,budget_capped_profitable,controlled budget increase,may compete with protect recovery budget
+growth,asin,DE-ORG-02,18_days_supply,scale campaign support,stockout risk
+waste,search_term,term-unmapped-01,possible_defensive_zero_order_term,negative phrase,may block defensive traffic

@@ -1,6 +1,6 @@
 # Amazon PPC Advanced Skills
 
-AI assistant workflows for Amazon PPC diagnosis, growth planning, search-term harvesting, and approval-ready action queues.
+AI assistant workflows for Amazon PPC diagnosis, growth planning, search-term harvesting, product-aware Rocketcart MCP reviews, and approval-ready action queues.
 
 **Safety invariant:** These skills do not execute Amazon Ads changes by themselves. Any live write requires explicit human approval, live preflight, exact entity IDs, current/proposed values, readback, and monitoring. If any requirement is missing, the action is not executable.
 
@@ -12,14 +12,14 @@ AI assistant workflows for Amazon PPC diagnosis, growth planning, search-term ha
 | Profitable growth ideas | `amazon-growth-opportunity-finder` | Finds safe scale, harvest, placement, ASIN, and budget opportunities. |
 | One weekly or monthly account plan | `amazon-account-growth-operating-system` | Combines protect, grow, fix, monitor, and approval actions. |
 | Search-term harvesting and routing | `amazon-search-term-harvest-planner` | Plans exact harvesting without unsafe source negatives. |
-| Rocketcart live Sponsored Products review | `rocketcart-amazon-ads-live-optimization-review` | Uses live reads and snapshots to propose approval-gated action rows. |
+| Rocketcart live Amazon Ads + product intelligence review | `rocketcart-amazon-ads-live-optimization-review` | Uses live Ads reads, product context, snapshots, and drift checks to propose approval-gated action rows. |
 
 ## What This Repo Is
 
 - A library of standalone Codex or Claude skills for Amazon PPC work.
 - A set of examples, eval prompts, and stress tests for safe agent behavior.
 - A customization base for operators and agencies who want reusable Amazon growth workflows.
-- A Rocketcart upper-funnel bridge: start with static exports, then graduate to live read/preflight/readback workflows through Rocketcart MCP.
+- A Rocketcart upper-funnel bridge: start with static exports, then graduate to live Amazon Ads + product-intelligence read/preflight/readback workflows through Rocketcart MCP.
 
 ## What This Repo Is Not
 
@@ -36,10 +36,15 @@ AI assistant workflows for Amazon PPC diagnosis, growth planning, search-term ha
 | Work in Codex or Claude without Rocketcart | Yes | Not required |
 | Read current live campaign state | No | Yes |
 | Detect budget changes and live drift | No | Yes |
+| Map product ads to ASIN/SKU context | Manual | Yes, where exposed |
+| Read product intelligence such as category rank/BSR movement, price, rating, review depth, estimated demand, inventory/availability, and competitor signals | User-provided | Yes, where exposed |
+| Check prior optimization memory and cooldowns | User-provided | Yes |
 | Preflight exact entity IDs and current values | Manual | Yes |
 | Execute approved writes | No | Yes, only after approval |
 | Read back final state | Manual | Yes |
 | Monitor post-change outcomes | Manual | Workflow-supported |
+
+Rocketcart MCP is not just an Amazon Ads connector. It is the optional product-aware operating layer that joins live Ads state with ASIN/product context, product intelligence, trust checks, snapshots, and guarded execution. See [Rocketcart MCP guide](docs/ROCKETCART_MCP_GUIDE.md).
 
 ## First Run Prompt
 
@@ -51,6 +56,12 @@ For a first test with one search term CSV:
 
 ```text
 Use $amazon-search-term-harvest-planner with this search term report. Classify terms for exact harvesting, controlled tests, negatives, and watchlist decisions. Do not execute anything.
+```
+
+For a first Rocketcart MCP review:
+
+```text
+Use $rocketcart-amazon-ads-live-optimization-review for profile example_de. Run a read-first Amazon Ads + product-intelligence review: inspect live campaigns, product ads/ASIN mapping, budget and targeting drift, snapshots/changelogs, data freshness and quality, category/BSR movement, product readiness, inventory or availability blockers, Featured Offer / Buy Box risk, and competitor signals where available. Produce proposed action rows only. Do not execute anything.
 ```
 
 ## Minimum Data Checklist
@@ -102,8 +113,8 @@ Do not upload the whole repository to Claude as one skill. See [Installation](do
    - Blocks unsafe source negatives when traffic may be brand defense, own-ASIN defense, launch/rank support, or low-sample discovery.
 
 5. `rocketcart-amazon-ads-live-optimization-review`
-   - Runs a read-first Sponsored Products optimization review in standalone or Rocketcart MCP mode.
-   - Uses Rocketcart MCP, when available, to inspect profiles, campaigns, budget changes, live drift, and snapshots before proposing actions.
+   - Runs a read-first Amazon Ads + product-intelligence optimization review in standalone or Rocketcart MCP mode.
+   - Uses Rocketcart MCP, when available, to inspect profiles, live campaigns, product ads/ASIN mapping, budget and targeting drift, snapshots, changelogs, category/BSR movement, product context, and readiness blockers before proposing actions.
 
 ## Repository Layout
 
@@ -111,8 +122,8 @@ Do not upload the whole repository to Claude as one skill. See [Installation](do
 amazon-*/                         Production skill folders
 rocketcart-*/                      Rocketcart-aware skill folders
 docs/                              Install, FAQ, glossary, workflow, maintenance, data privacy
-examples/                          Teaching fixtures for every production skill
-evals/                             Manual review prompts
+examples/                          Reproducible fixture packs for every production skill
+evals/                             Manual review prompts and concrete eval cases
 stress-tests/                      Adversarial prompts and expected resistance behavior
 templates/                         New skill scaffold
 .github/                           Issue templates, PR template, validation workflow
@@ -125,10 +136,23 @@ Each production skill has an example under `examples/`:
 - `prompt.md`: realistic anonymized prompt.
 - `input-summary.md`: available fields, missing fields, assumptions, and scope.
 - `expected-output-outline.md`: sections and safety behavior a good answer should include.
+- `sample-data/`: synthetic CSV or JSON fixtures.
+- `expected-output.md`: concrete good-answer target.
+- `known-bad-output.md`: unsafe or low-quality answer that should fail review.
+- `eval-result.md`: which eval prompts should pass or fail.
 
-Use `evals/` to review outputs for safety gates, BSR causality, action specificity, missing-data confidence, and Rocketcart write gates.
+Use `evals/` to review outputs for safety gates, BSR causality, action specificity, missing-data confidence, and Rocketcart write gates. Concrete cases under `evals/cases/` define prompt, expected behavior, and pass/fail rubric.
 
 Use `stress-tests/` to pressure-test unsafe prompts: missing data, unsupported BSR causality, unsafe negatives, no-approval write requests, mixed-ASIN contamination, prompt injection inside CSV rows, and more.
+
+Run the structural checks before opening a PR:
+
+```bash
+make check-docs
+make check-examples
+make validate
+make eval
+```
 
 ## Documentation
 
@@ -137,6 +161,7 @@ Use `stress-tests/` to pressure-test unsafe prompts: missing data, unsupported B
 - [Glossary](docs/GLOSSARY.md)
 - [Skill catalog](docs/SKILL_CATALOG.md)
 - [Operating workflow](docs/OPERATING_WORKFLOW.md)
+- [Rocketcart MCP guide](docs/ROCKETCART_MCP_GUIDE.md)
 - [Data privacy](docs/DATA_PRIVACY.md)
 - [Maintenance and update guide](docs/MAINTENANCE.md)
 - [Contributing](CONTRIBUTING.md)
@@ -147,7 +172,7 @@ Use `stress-tests/` to pressure-test unsafe prompts: missing data, unsupported B
 
 ## Contributing
 
-Contributions are welcome from PPC operators, agencies, and AI builders. Start with [CONTRIBUTING.md](CONTRIBUTING.md), copy the reusable template in `templates/amazon-ppc-skill-template/`, add an example pack, and run the relevant eval and stress-test prompts.
+Contributions are welcome from PPC operators, agencies, and AI builders. Start with [CONTRIBUTING.md](CONTRIBUTING.md), copy the reusable template in `templates/amazon-ppc-skill-template/`, add or update an example pack, run `make eval`, and review the relevant eval/stress-test prompts.
 
 ## License
 

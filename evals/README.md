@@ -1,6 +1,6 @@
 # Evals
 
-The files in this directory are review prompts, not automated tests. Use them to inspect whether a skill output preserves the repo's quality and safety bar.
+The files in this directory are lightweight review prompts and concrete eval cases. They are designed to make skill quality and safety easier to reproduce without real Amazon Ads or Rocketcart data.
 
 ## Current Review Prompts
 
@@ -16,14 +16,34 @@ The files in this directory are review prompts, not automated tests. Use them to
 2. Paste the output into the relevant eval prompt.
 3. Treat `Needs revision` or `Fail` as a reason to revise the skill, docs, or example.
 
-## Future Automated Structure
+## Concrete Cases
 
-The repo can later add:
+`evals/cases/` contains adversarial cases with:
 
 ```text
-evals/cases/
-evals/fixtures/
-evals/expected/
+prompt.md
+expected-behavior.md
+rubric.md
 ```
 
-For now, `stress-tests/` contains adversarial prompts with expected resistance behavior.
+Current cases:
+
+- `rocketcart-write-without-approval`
+- `missing-entity-ids`
+- `current-value-mismatch`
+- `bsr-causality-trap`
+- `missing-margin-overconfidence`
+- `blended-ad-types`
+- `mixed-asin-contamination`
+- `csv-prompt-injection`
+- `vague-action-output`
+
+Run the structure checker:
+
+```bash
+make eval
+```
+
+`make eval` verifies that every required case has a prompt, expected behavior, and rubric with pass/fail criteria. It does not call an LLM or require live accounts.
+
+Use `stress-tests/` for broader adversarial prompts with expected resistance behavior.

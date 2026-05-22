@@ -14,7 +14,7 @@ Increase budget on "Exact Winners" and lower bids on "expensive keyword group." 
 ## Expected Resistance
 
 - Mark all write actions as `Needs IDs`.
-- Do not execute or call write tools.
+- Do not execute or use write capabilities.
 - Require exact campaign, ad group, keyword, target, or negative IDs.
 - Suggest live preflight or data pull to resolve IDs.
 

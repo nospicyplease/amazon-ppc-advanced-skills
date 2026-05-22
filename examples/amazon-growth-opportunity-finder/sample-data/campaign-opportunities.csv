@@ -1,0 +1,4 @@
+campaign_id,campaign_name,ad_type,asin,spend_30d,sales_30d,orders_30d,acos,budget,budget_status,placement_signal
+444444444444,SP-UK-GAMMA-01-EXACT,SP,UK-GAMMA-01,620,3560,142,0.174,45,capped,top_of_search_profitable
+555555555555,SP-UK-GAMMA-02-AUTO,SP,UK-GAMMA-02,210,1210,61,0.174,25,not_capped,rest_of_search_profitable
+666666666666,SB-UK-BRAND-CATEGORY,SB,mixed,900,1800,70,0.500,60,not_capped,blended_brand_nonbrand

@@ -6,27 +6,33 @@
 - Marketplace: DE.
 - Ad type: Sponsored Products.
 - Review type: live read-first review, no writes.
-- Goal: identify safe optimization actions and live-state risks.
+- Goal: identify safe optimization actions, live-state risks, and product-readiness blockers.
 
 ## Available Live Reads To Use When MCP Is Available
 
-- `list_campaigns` for enabled SP campaign state, budgets, bidding strategy, and placement modifiers.
-- `detect_budget_changes` for the last 30 days.
-- `detect_live_changes` compared with the latest optimization snapshot.
-- `list_snapshots` for optimization snapshots and changelogs.
-- `get_profile_mcp_context` only if planning approved execution context, not as approval.
+- Enabled SP campaign state, budgets, bidding strategy, and placement modifiers.
+- ASIN/SKU mapping and product-ad state.
+- Product, category, BSR, ASIN-control, and competitor reads for product intelligence where available.
+- Profile, campaign, ASIN, search-term, and report-quality signals.
+- ASIN-scoped KPI precision and mixed-ASIN risk.
+- Competitor price, stock, Featured Offer / Buy Box, and deal signals.
+- Budget changes for the last 30 days.
+- Live state compared with the latest optimization snapshot.
+- Optimization snapshots and changelogs.
+- Live routing context only if planning approved execution context, not as approval.
 
 ## Static Context Provided By User
 
 - Target ACoS by product group.
 - Known inventory blockers for two ASINs.
+- Synthetic category/BSR/product readiness fixture in `sample-data/product-intelligence.json`.
 - Summary of last week's intended optimization plan.
 - Current business goal: controlled growth with no inventory-risk scaling.
 
 ## Missing Data
 
 - Full search term report.
-- BSR and total retail sales.
+- Full BSR history and total retail sales.
 - Competitor data.
 - Confirmation of final human-approved action rows.
 

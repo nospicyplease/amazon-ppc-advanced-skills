@@ -1,0 +1,6 @@
+campaign_id,campaign_name,ad_group_id,ad_group_name,targeting,match_type,search_term,advertised_asin,spend_30d,sales_30d,orders_30d,acos
+111,SP-US-DELTA-AUTO,ag-111,auto-main,close-match,auto,steel water bottle 1 liter,US-DELTA-01,36,300,10,0.120
+222,SP-US-DELTA-BROAD,ag-222,broad-main,water bottle,broad,delta bottle replacement lid,US-DELTA-01,14,180,6,0.078
+333,SP-US-DELTA-PHRASE,ag-333,phrase-main,insulated bottle,phrase,competitor travel mug,US-DELTA-01,72,0,0,
+444,SP-US-DELTA-AUTO,ag-444,auto-rank,substitute asin b0example,US-DELTA-02,22,120,3,0.183
+555,SP-US-DELTA-BROAD,ag-555,broad-main,water bottle,broad,steel bottle,US-DELTA-01,18,90,1,0.200
