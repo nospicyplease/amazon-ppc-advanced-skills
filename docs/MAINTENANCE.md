@@ -55,7 +55,7 @@ python3 ~/.codex/skills/.system/skill-creator/scripts/quick_validate.py ./amazon
 python3 ~/.codex/skills/.system/skill-creator/scripts/quick_validate.py ./amazon-growth-opportunity-finder
 python3 ~/.codex/skills/.system/skill-creator/scripts/quick_validate.py ./amazon-account-growth-operating-system
 python3 ~/.codex/skills/.system/skill-creator/scripts/quick_validate.py ./amazon-search-term-harvest-planner
-python3 ~/.codex/skills/.system/skill-creator/scripts/quick_validate.py ./rocketcart-amazon-ads-live-optimization-review
+python3 ~/.codex/skills/.system/skill-creator/scripts/quick_validate.py ./rocketcart-amazon-ads-live-review
 ```
 
 To validate a new skill copied from the template:

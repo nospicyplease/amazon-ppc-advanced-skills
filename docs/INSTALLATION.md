@@ -35,7 +35,7 @@ cp -R amazon-ads-performance-drop-diagnosis ~/.codex/skills/
 cp -R amazon-growth-opportunity-finder ~/.codex/skills/
 cp -R amazon-account-growth-operating-system ~/.codex/skills/
 cp -R amazon-search-term-harvest-planner ~/.codex/skills/
-cp -R rocketcart-amazon-ads-live-optimization-review ~/.codex/skills/
+cp -R rocketcart-amazon-ads-live-review ~/.codex/skills/
 ```
 
 Reload Codex after copying.
@@ -75,7 +75,7 @@ python3 ~/.codex/skills/.system/skill-creator/scripts/quick_validate.py ~/.codex
 python3 ~/.codex/skills/.system/skill-creator/scripts/quick_validate.py ~/.codex/skills/amazon-growth-opportunity-finder
 python3 ~/.codex/skills/.system/skill-creator/scripts/quick_validate.py ~/.codex/skills/amazon-account-growth-operating-system
 python3 ~/.codex/skills/.system/skill-creator/scripts/quick_validate.py ~/.codex/skills/amazon-search-term-harvest-planner
-python3 ~/.codex/skills/.system/skill-creator/scripts/quick_validate.py ~/.codex/skills/rocketcart-amazon-ads-live-optimization-review
+python3 ~/.codex/skills/.system/skill-creator/scripts/quick_validate.py ~/.codex/skills/rocketcart-amazon-ads-live-review
 ```
 
 Expected result for each skill:
@@ -120,13 +120,13 @@ Use $amazon-search-term-harvest-planner to classify search terms for exact harve
 ```
 
 ```text
-Use $rocketcart-amazon-ads-live-optimization-review to inspect live Sponsored Products campaign state and product intelligence with Rocketcart MCP, detect recent changes, and propose approval-gated optimization actions without executing writes.
+Use $rocketcart-amazon-ads-live-review to inspect live Sponsored Products campaign state and product intelligence with Rocketcart MCP, detect recent changes, and propose approval-gated optimization actions without executing writes.
 ```
 
 For a product-aware Rocketcart review:
 
 ```text
-Use $rocketcart-amazon-ads-live-optimization-review for profile example_de. Confirm the profile, inspect live campaigns and product ads, map campaigns to ASIN context, check category/BSR movement, product readiness, inventory or availability blockers, Featured Offer / Buy Box risk, competitor signals, snapshots, and live drift. Produce proposed action rows only; do not execute writes.
+Use $rocketcart-amazon-ads-live-review for profile example_de. Confirm the profile, inspect live campaigns and product ads, map campaigns to ASIN context, check category/BSR movement, product readiness, inventory or availability blockers, Featured Offer / Buy Box risk, competitor signals, snapshots, and live drift. Produce proposed action rows only; do not execute writes.
 ```
 
 ## First Smoke Test

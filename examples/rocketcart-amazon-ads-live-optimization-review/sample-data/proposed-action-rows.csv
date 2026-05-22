@@ -1,4 +1,0 @@
-entity_type,entity_id,name,current_state,proposed_action,expected_impact,risk,approval_status
-campaign_budget,rc-camp-1001,SP-DE-CORE-EXACT,budget_40_eur,increase_to_55_eur,reduce budget cap on profitable exact traffic,higher marginal CPC,approval_required
-campaign_budget,rc-camp-1002,SP-DE-RANK-SUPPORT,budget_30_eur,increase_to_45_eur,more rank support traffic,stockout risk due 9 days inventory,blocked
-negative_keyword,,SP-DE-AUTO,add_negative_for_brand_term,reduce spend,may block brand defense,needs_ids

@@ -12,7 +12,7 @@ AI assistant workflows for Amazon PPC diagnosis, growth planning, search-term ha
 | Profitable growth ideas | `amazon-growth-opportunity-finder` | Finds safe scale, harvest, placement, ASIN, and budget opportunities. |
 | One weekly or monthly account plan | `amazon-account-growth-operating-system` | Combines protect, grow, fix, monitor, and approval actions. |
 | Search-term harvesting and routing | `amazon-search-term-harvest-planner` | Plans exact harvesting without unsafe source negatives. |
-| Rocketcart live Amazon Ads + product intelligence review | `rocketcart-amazon-ads-live-optimization-review` | Uses live Ads reads, product context, snapshots, and drift checks to propose approval-gated action rows. |
+| Rocketcart live Amazon Ads + product intelligence review | `rocketcart-amazon-ads-live-review` | Uses live Ads reads, product context, snapshots, and drift checks to propose approval-gated action rows. |
 
 ## What This Repo Is
 
@@ -38,13 +38,24 @@ AI assistant workflows for Amazon PPC diagnosis, growth planning, search-term ha
 | Detect budget changes and live drift | No | Yes |
 | Map product ads to ASIN/SKU context | Manual | Yes, where exposed |
 | Read product intelligence such as category rank/BSR movement, price, rating, review depth, estimated demand, inventory/availability, and competitor signals | User-provided | Yes, where exposed |
-| Check prior optimization memory and cooldowns | User-provided | Yes |
+| Check prior optimization context and cooldowns | User-provided | Yes |
 | Preflight exact entity IDs and current values | Manual | Yes |
 | Execute approved writes | No | Yes, only after approval |
 | Read back final state | Manual | Yes |
 | Monitor post-change outcomes | Manual | Workflow-supported |
 
 Rocketcart MCP is not just an Amazon Ads connector. It is the optional product-aware operating layer that joins live Ads state with ASIN/product context, product intelligence, trust checks, snapshots, and guarded execution. See [Rocketcart MCP guide](docs/ROCKETCART_MCP_GUIDE.md).
+
+## Rocketcart Bridge Review Modes
+
+Use `rocketcart-amazon-ads-live-review` as the single entry point when Rocketcart is involved. Pick the review mode that matches the job:
+
+| Review mode | Use when | Result |
+|---|---|---|
+| Live Optimization Review | You need a current live Sponsored Products review or want to reconcile static findings against the account right now. | Live-state findings, drift checks, and approval-gated action rows. |
+| Product-Aware Growth Review | You want to know what can safely scale after checking inventory, offer status, price, reviews/rating, BSR/category movement, estimated demand, competitor signals, and margin/readiness. | ASIN/campaign classifications: Grow, Fix Before Scaling, Protect, Monitor, or Blocked. |
+| Preflight / Approval Readiness Review | You already have candidate action rows and need to know whether they are approval-ready. | Executability verdicts, missing IDs/current values, stale rows, and exact approval text. |
+| Post-Change Readback / Monitoring Review | Approved changes were made and you need to verify state and outcomes. | Readback status plus 3/7/14-day monitoring verdicts. |
 
 ## First Run Prompt
 
@@ -61,7 +72,7 @@ Use $amazon-search-term-harvest-planner with this search term report. Classify t
 For a first Rocketcart MCP review:
 
 ```text
-Use $rocketcart-amazon-ads-live-optimization-review for profile example_de. Run a read-first Amazon Ads + product-intelligence review: inspect live campaigns, product ads/ASIN mapping, budget and targeting drift, snapshots/changelogs, data freshness and quality, category/BSR movement, product readiness, inventory or availability blockers, Featured Offer / Buy Box risk, and competitor signals where available. Produce proposed action rows only. Do not execute anything.
+Use $rocketcart-amazon-ads-live-review for profile example_de. Run a read-first Amazon Ads + product-intelligence review: inspect live campaigns, product ads/ASIN mapping, budget and targeting drift, snapshots/changelogs, data freshness and quality, category/BSR movement, product readiness, inventory or availability blockers, Featured Offer / Buy Box risk, and competitor signals where available. Produce proposed action rows only. Do not execute anything.
 ```
 
 ## Minimum Data Checklist
@@ -112,9 +123,9 @@ Do not upload the whole repository to Claude as one skill. See [Installation](do
    - Finds search terms ready for exact-match harvesting from auto, broad, phrase, or discovery campaigns.
    - Blocks unsafe source negatives when traffic may be brand defense, own-ASIN defense, launch/rank support, or low-sample discovery.
 
-5. `rocketcart-amazon-ads-live-optimization-review`
-   - Runs a read-first Amazon Ads + product-intelligence optimization review in standalone or Rocketcart MCP mode.
-   - Uses Rocketcart MCP, when available, to inspect profiles, live campaigns, product ads/ASIN mapping, budget and targeting drift, snapshots, changelogs, category/BSR movement, product context, and readiness blockers before proposing actions.
+5. `rocketcart-amazon-ads-live-review`
+   - Runs read-first live optimization, product-aware growth, preflight readiness, and post-change monitoring reviews in standalone or Rocketcart MCP mode.
+   - Uses Rocketcart MCP, when available, to inspect profiles, live campaigns, product ads/ASIN mapping, budget and targeting drift, snapshots, changelogs, category/BSR movement, product context, and readiness blockers before classifying ASINs/campaigns as Grow, Fix Before Scaling, Protect, Monitor, or Blocked.
 
 ## Repository Layout
 

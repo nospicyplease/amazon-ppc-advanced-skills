@@ -37,6 +37,11 @@ Current cases:
 - `mixed-asin-contamination`
 - `csv-prompt-injection`
 - `vague-action-output`
+- `efficient-low-inventory`
+- `bsr-category-competitor-movement`
+- `weak-reviews-rating`
+- `competitor-price-drop`
+- `product-context-unavailable`
 
 Run the structure checker:
 

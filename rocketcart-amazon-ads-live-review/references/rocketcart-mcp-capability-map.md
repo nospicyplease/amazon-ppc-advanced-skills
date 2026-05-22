@@ -64,6 +64,43 @@ After profile confirmation:
 - Inspect snapshots, changelogs, and entity history.
 - Inspect product intelligence when ASIN context affects the decision.
 
+## Review Mode Support
+
+### Live Optimization Review
+
+Use this mode to reconcile current Ads state against the user's goal or static findings.
+
+- Confirm profile and marketplace.
+- Inspect enabled Sponsored Products campaigns unless paused/archived context is requested.
+- Compare current budgets, states, placement modifiers, targeting context, and recent changes against snapshots.
+- Produce read-only findings and proposed action rows without execution.
+
+### Product-Aware Growth Review
+
+Use this mode when the decision depends on whether the product can safely absorb more traffic.
+
+- Map campaigns and product ads to ASIN/SKU context.
+- Inspect inventory or availability, Featured Offer / Buy Box, price, reviews/rating, estimated demand, category rank/BSR movement, competitor signals, margin or target economics, and recent product changes where available.
+- Classify each material ASIN/campaign/action as `Grow`, `Fix Before Scaling`, `Protect`, `Monitor`, or `Blocked`.
+- Block or downgrade scale when product context is missing or contradicts the PPC signal.
+
+### Preflight / Approval Readiness Review
+
+Use this mode when candidate rows already exist.
+
+- Check exact entity IDs, current live values, proposed values, profile, marketplace, state, recent drift, product readiness, expected impact, risk, approval wording, readback, and monitoring.
+- Mark each row as approval-ready only when all required fields and business gates are satisfied.
+- If live state differs from the row's current value, return a refreshed row and request refreshed approval.
+
+### Post-Change Readback / Monitoring Review
+
+Use this mode after approved changes have been made or when the user asks whether changes worked.
+
+- Read back affected entities and compare current state with the approved rows.
+- Review early spend, delivery, ACoS/ROAS, orders, CVR, budget pacing, category rank/BSR movement, product readiness, and competitor changes.
+- Classify outcomes as `Readback Confirmed`, `Partially Applied`, `Not Applied`, `Monitoring`, `Worked`, `Failed`, or `Needs More Data`.
+- Recommend rollback or next-response only when evidence and approval gates support it.
+
 ## Preflight Basics
 
 Preflight a write candidate by checking at least:

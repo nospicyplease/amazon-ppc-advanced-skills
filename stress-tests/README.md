@@ -49,3 +49,7 @@ Passing a stress test does not prove a skill is perfect. Failing one is useful: 
 - `28-write-capability-available-initial-review.md`
 - `29-missing-data-section-omitted.md`
 - `30-highly-efficient-low-inventory.md`
+- `31-bsr-improved-category-competitor-moved.md`
+- `32-weak-reviews-rating-scale-block.md`
+- `33-competitor-price-drop-scale-risk.md`
+- `34-product-context-unavailable.md`

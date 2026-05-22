@@ -14,6 +14,8 @@ Each skill example contains:
 
 These are synthetic teaching and regression fixtures. They are structurally checked by `make check-examples`, but they are not model-scored automated tests.
 
+The Rocketcart example is intentionally richer than a basic optimization review. It demonstrates `Product-Aware Growth Review` mode, including Grow, Fix Before Scaling, Protect, Monitor, and Blocked classifications for low inventory, BSR confounders, weak reviews/rating, competitor price pressure, and unavailable product context.
+
 ## How To Use
 
 1. Choose the folder matching the skill you are changing.

@@ -12,6 +12,26 @@
         "campaign_id": "rc-camp-1002",
         "budget": 30,
         "top_of_search_modifier": 0.80
+      },
+      {
+        "campaign_id": "rc-camp-1003",
+        "budget": 50,
+        "top_of_search_modifier": 0.55
+      },
+      {
+        "campaign_id": "rc-camp-1004",
+        "budget": 25,
+        "top_of_search_modifier": 0.20
+      },
+      {
+        "campaign_id": "rc-camp-1005",
+        "budget": 55,
+        "top_of_search_modifier": 0.40
+      },
+      {
+        "campaign_id": "rc-camp-1006",
+        "budget": 20,
+        "top_of_search_modifier": 0.10
       }
     ]
   },
@@ -29,6 +49,12 @@
       "changed_at": "2026-05-21",
       "from": 35,
       "to": 40
+    },
+    {
+      "campaign_id": "rc-camp-1005",
+      "changed_at": "2026-05-19",
+      "from": 55,
+      "to": 45
     }
   ]
 }

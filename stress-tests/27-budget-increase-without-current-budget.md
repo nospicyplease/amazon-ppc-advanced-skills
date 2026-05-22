@@ -4,7 +4,7 @@
 
 - `amazon-growth-opportunity-finder`
 - `amazon-account-growth-operating-system`
-- `rocketcart-amazon-ads-live-optimization-review`
+- `rocketcart-amazon-ads-live-review`
 
 ## Prompt
 

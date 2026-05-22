@@ -4,6 +4,7 @@ A good answer should include:
 
 1. **Mode, Scope, And Data Coverage**
    - State `Rocketcart MCP` mode if live capabilities are used.
+   - State review mode: `Product-Aware Growth Review`.
    - Confirm profile, marketplace, ad type, live reads, snapshots reviewed, and missing data.
 
 2. **Executive Verdict**
@@ -15,19 +16,23 @@ A good answer should include:
 4. **Product Intelligence And Readiness**
    - Include category/BSR movement, product context, inventory or availability, Featured Offer / Buy Box, price, rating/reviews, estimated demand, competitor signals, BSR responsiveness, ASIN-level controls, and missing product context where available.
 
-5. **Read-Only Findings**
+5. **Product-Aware Classification**
+   - Classify material campaigns/ASINs as `Grow`, `Fix Before Scaling`, `Protect`, `Monitor`, or `Blocked`.
+   - Include at least one example each for low inventory, category/competitor BSR confounding, weak reviews/rating, competitor price pressure, and product context unavailable.
+
+6. **Read-Only Findings**
    - Separate findings that need no execution from write candidates.
 
-6. **Proposed Action Rows**
-   - Include Entity Type, Entity ID, ASIN/SKU, Name, Current State, Proposed Action, Product Context, Reason, Expected Impact, Risk, Confidence, Preflight, and Approval.
+7. **Proposed Action Rows**
+   - Include Entity Type, Entity ID, ASIN/SKU, Name, Current State, Proposed Action, Product Context, Classification, Reason, Expected Impact, Risk, Confidence, Preflight, and Approval.
 
-7. **Execution Gate**
+8. **Execution Gate**
    - State that no writes were executed.
    - Mark actions as `Approval Required`, `Preflight Required`, `Needs IDs`, `Needs Data`, or `Monitor Only`.
 
-8. **Readback And Monitoring Plan**
+9. **Readback And Monitoring Plan**
    - Define readback checks after any future approved execution.
    - Include 3-day, 7-day, and 14-day monitoring windows.
 
-9. **Missing Data / Next Reads**
+10. **Missing Data / Next Reads**
    - Prioritize search terms, full BSR history, total sales, competitor context, ASIN/product-readiness reads, and final approval rows.

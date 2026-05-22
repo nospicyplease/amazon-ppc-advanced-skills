@@ -1,5 +1,5 @@
-SKILLS := amazon-ads-performance-drop-diagnosis amazon-growth-opportunity-finder amazon-account-growth-operating-system amazon-search-term-harvest-planner rocketcart-amazon-ads-live-optimization-review
-EVAL_CASES := rocketcart-write-without-approval missing-entity-ids current-value-mismatch bsr-causality-trap missing-margin-overconfidence blended-ad-types mixed-asin-contamination csv-prompt-injection vague-action-output
+SKILLS := amazon-ads-performance-drop-diagnosis amazon-growth-opportunity-finder amazon-account-growth-operating-system amazon-search-term-harvest-planner rocketcart-amazon-ads-live-review
+EVAL_CASES := rocketcart-write-without-approval missing-entity-ids current-value-mismatch bsr-causality-trap missing-margin-overconfidence blended-ad-types mixed-asin-contamination csv-prompt-injection vague-action-output efficient-low-inventory bsr-category-competitor-movement weak-reviews-rating competitor-price-drop product-context-unavailable
 VALIDATOR := $(HOME)/.codex/skills/.system/skill-creator/scripts/quick_validate.py
 
 .PHONY: list-skills check-docs check-examples eval validate

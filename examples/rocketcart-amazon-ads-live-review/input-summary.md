@@ -5,8 +5,8 @@
 - Rocketcart profile: `example_de`.
 - Marketplace: DE.
 - Ad type: Sponsored Products.
-- Review type: live read-first review, no writes.
-- Goal: identify safe optimization actions, live-state risks, and product-readiness blockers.
+- Review type: Product-Aware Growth Review, no writes.
+- Goal: classify campaigns and ASINs as Grow, Fix Before Scaling, Protect, Monitor, or Blocked before proposing approval-gated action rows.
 
 ## Available Live Reads To Use When MCP Is Available
 
@@ -33,7 +33,8 @@
 
 - Full search term report.
 - Full BSR history and total retail sales.
-- Competitor data.
+- Complete competitor history.
+- Product context for `rc-camp-1006`.
 - Confirmation of final human-approved action rows.
 
 ## Assumptions
@@ -41,3 +42,4 @@
 - Initial review is read-only.
 - Writes are not allowed without a separate explicit approval step.
 - Any proposed action that lacks exact IDs or preflight is not executable.
+- Product context can block scale even when ACoS, ROAS, or conversion look efficient.

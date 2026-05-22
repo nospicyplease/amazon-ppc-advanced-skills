@@ -10,7 +10,7 @@ If you are new to the project, start with [FAQ](FAQ.md). The fastest rule is: us
 | No obvious drop, want profitable upside | `amazon-growth-opportunity-finder` | Campaign/targeting/search-term data, economics or target ACoS, inventory, Featured Offer / Buy Box, total sales if incrementality matters | Finds safe scale, harvest, budget, ASIN, and placement opportunities | Missing margin, inventory, total sales, search terms, or retail readiness |
 | Need one weekly account action plan | `amazon-account-growth-operating-system` | Drop findings, growth findings, or raw account data with scope, economics, readiness, and rank context | Prioritizes protect/grow/fix/monitor into one queue | Conflicting upstream findings or unresolved high-confidence downside risk |
 | Search-term cleanup or exact harvesting | `amazon-search-term-harvest-planner` | Search term report, targeting/keyword map, destination structure, existing exact/negatives, economics/readiness | Separates harvest, route, negative, bid-down, and watchlist decisions | Missing source/destination map, exact keyword map, or strategic-role context |
-| Rocketcart live Amazon Ads + product-intelligence review | `rocketcart-amazon-ads-live-optimization-review` | Rocketcart profile, live campaigns, product ads/ASIN mapping, category/BSR movement, product context, budget changes, snapshots, action goal | Compares analysis to live Ads state, product readiness, product intelligence, and recent-change context before proposing approval-gated rows | Missing profile, product context, exact IDs, live preflight, approval, or readback |
+| Rocketcart live Amazon Ads + product-intelligence review | `rocketcart-amazon-ads-live-review` | Rocketcart profile, live campaigns, product ads/ASIN mapping, category/BSR movement, product context, budget changes, snapshots, action goal | Compares analysis to live Ads state, product readiness, product intelligence, and recent-change context before proposing approval-gated rows | Missing profile, product context, exact IDs, live preflight, approval, or readback |
 
 ## 1. Amazon Ads Performance Drop Diagnosis
 
@@ -139,14 +139,18 @@ Important guardrail:
 
 Do not add source negatives just because a term was harvested. Source negatives require safe routing or waste evidence and must not cut brand defense, own-ASIN defense, launch/rank-defense, profitable discovery, or low-sample strategic traffic.
 
-## 5. Rocketcart Amazon Ads Live Optimization Review
+## 5. Rocketcart Amazon Ads Live Review
 
-Folder: `rocketcart-amazon-ads-live-optimization-review`
+Folder: `rocketcart-amazon-ads-live-review`
 
 Use when the operator wants a read-first Amazon Sponsored Products optimization review that can run from static exports or use Rocketcart MCP as the Amazon Ads + product-intelligence connection.
 
 Best for:
 
+- Live Optimization Review: current account review, live drift checks, and safer optimization recommendations.
+- Product-Aware Growth Review: deciding what to Grow, Fix Before Scaling, Protect, Monitor, or Blocked using Ads and product context together.
+- Preflight / Approval Readiness Review: checking whether candidate action rows have exact IDs, current values, product gates, approval text, readback, and monitoring.
+- Post-Change Readback / Monitoring Review: confirming approved changes and monitoring early outcomes.
 - Inspecting live Sponsored Products campaigns before proposing changes.
 - Mapping product ads to ASIN/SKU context.
 - Checking product intelligence such as category rank/BSR movement, price, estimated demand, rating/reviews, inventory or availability, Featured Offer / Buy Box, competitor signals, and BSR responsiveness where available.
@@ -162,6 +166,7 @@ Key outputs:
 - Executive verdict.
 - Live state and change review.
 - Product intelligence and readiness review.
+- Product-aware classifications: `Grow`, `Fix Before Scaling`, `Protect`, `Monitor`, and `Blocked`.
 - Read-only findings.
 - Proposed action rows.
 - Execution gate.
@@ -186,7 +191,7 @@ Good next categories:
 - Brand-defense audit.
 - Product-target expansion.
 - Launch-readiness PPC planning.
-- Rocketcart post-change monitoring.
+- Standalone post-change learning review.
 - Rocketcart approval-action verifier.
 
 See [../ROADMAP.md](../ROADMAP.md) for scoped good-first-skill ideas.

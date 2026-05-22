@@ -1,5 +1,0 @@
-interface:
-  display_name: "Rocketcart Ads + Product Review"
-  short_description: "Read-first Rocketcart MCP review for live Ads and product context"
-  default_prompt: >
-    Use $rocketcart-amazon-ads-live-optimization-review to run a read-first Amazon Sponsored Products optimization review with live Ads state and product intelligence. If Rocketcart MCP is available, list profiles when the profile is missing, inspect SP campaigns, product ads and ASIN/SKU mapping, category rank/BSR movement, competitor signals, product readiness, budget and targeting drift, snapshots/changelogs, and produce proposed action rows. Do not execute writes by default. Any bid, budget, placement, negative, product-ad state, pause, relaunch, or campaign-creation action must require explicit approval, live preflight, exact entity IDs, expected impact and risk, readback after execution, and a monitoring window.

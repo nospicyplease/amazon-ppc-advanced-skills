@@ -1,9 +1,9 @@
 ---
-name: rocketcart-amazon-ads-live-optimization-review
-description: Use for read-first Amazon Sponsored Products optimization reviews that can run standalone from static exports or use Rocketcart MCP as an optional Amazon Ads plus product-intelligence layer. Guides Codex to inspect Rocketcart profiles, live SP campaigns, product ads/ASIN context, category rank/BSR movement, competitor signals, product readiness, budget and targeting drift, snapshots/changelogs, and proposed approval-gated action rows without executing writes by default.
+name: rocketcart-amazon-ads-live-review
+description: Use for read-first Amazon Sponsored Products optimization, product-aware growth, preflight readiness, and post-change monitoring reviews that can run standalone from static exports or use Rocketcart MCP as an optional Amazon Ads plus product-intelligence layer. Guides Codex to inspect Rocketcart profiles, live SP campaigns, product ads/ASIN context, category rank/BSR movement, competitor signals, product readiness, budget and targeting drift, snapshots/changelogs, and proposed approval-gated action rows without executing writes by default.
 ---
 
-# Rocketcart Amazon Ads Live Optimization Review
+# Rocketcart Amazon Ads Live Review
 
 ## Purpose
 
@@ -11,11 +11,11 @@ Initial review is read-only.
 
 Review Amazon Sponsored Products accounts with a read-first, approval-gated operating model. Use static exports when Rocketcart MCP is unavailable. When Rocketcart MCP capabilities are available, use them as the Amazon Ads + product-intelligence connection: inspect live account state, campaign settings, product ads/ASIN mapping, product readiness, category rank/BSR movement, competitor signals, budget changes, live changes since optimization snapshots, and previous snapshots/changelogs before proposing actions.
 
-MCP means Model Context Protocol: a structured way for an assistant to use external tools and data sources. See the repo [glossary](../docs/GLOSSARY.md) for definitions of MCP, preflight, readback, action gates, and exact entity IDs.
+MCP means Model Context Protocol: a structured way for an assistant to use approved external context and action capabilities. See the repo [glossary](../docs/GLOSSARY.md) for definitions of MCP, preflight, readback, action gates, and exact entity IDs.
 
-This skill is the bridge between open-source Amazon PPC reasoning and Rocketcart's live product-aware account layer. It should produce sharper recommendations because it can compare proposed actions against current Ads state, product context, and optimization memory, but it must not execute writes by default.
+This skill is the bridge between open-source Amazon PPC reasoning and Rocketcart's live product-aware account layer. It should produce sharper recommendations because it can compare proposed actions against current Ads state, product context, recent-change context, and prior snapshots, but it must not execute writes by default.
 
-## Modes
+## Connection Modes
 
 ### Standalone Mode
 
@@ -40,6 +40,24 @@ Use this mode when Rocketcart MCP capabilities are available or the user asks fo
 - When a write action would need live routing context, use that context only for the approval/preflight plan; do not use it as permission to execute.
 - Read [rocketcart-mcp-capability-map.md](references/rocketcart-mcp-capability-map.md) when you need Rocketcart capability categories, write surfaces, and preflight/readback expectations.
 
+## Review Modes
+
+Choose one primary review mode. If the user's request is ambiguous, default to `Live Optimization Review` and note any secondary mode that would improve confidence.
+
+| Review Mode | Use When | Main Output |
+|---|---|---|
+| `Live Optimization Review` | The user wants a current account review, optimization recommendations, drift checks, or a safer version of static-export findings. | Live-state findings, risk/opportunity summary, and approval-gated action rows. |
+| `Product-Aware Growth Review` | The user asks what to scale, protect, fix, or block using product intelligence as well as Ads performance. | ASIN/campaign classifications: `Grow`, `Fix Before Scaling`, `Protect`, `Monitor`, or `Blocked`. |
+| `Preflight / Approval Readiness Review` | The user has candidate action rows and asks whether they are executable or ready for approval. | Executability verdict by row, missing IDs/current values, stale approvals, product-readiness gates, and exact approval text. |
+| `Post-Change Readback / Monitoring Review` | The user already approved or executed changes and wants the outcome checked. | Readback status, what changed, what did not, early risk signals, and 3/7/14-day monitoring verdicts. |
+
+### Mode Guidance
+
+- Use `Live Optimization Review` for the first Rocketcart pass unless the user explicitly asks for growth, preflight, or post-change monitoring.
+- Use `Product-Aware Growth Review` when product context can change the PPC decision: inventory, availability, Featured Offer / Buy Box, price, rating/reviews, category rank/BSR movement, estimated demand, competitor signals, margin, or recent product events.
+- Use `Preflight / Approval Readiness Review` only after candidate rows exist. It does not imply execution.
+- Use `Post-Change Readback / Monitoring Review` only after the user identifies approved changes, expected outcomes, or an execution window.
+
 ## Required Inputs
 
 Gather, derive, or mark unavailable:
@@ -53,25 +71,44 @@ Gather, derive, or mark unavailable:
 - Product intelligence and retail readiness: ASIN/SKU mapping, margin or target ACoS/CPA, inventory or availability, Featured Offer / Buy Box, price, reviews, rating, delivery promise, listing status, category rank/BSR movement, estimated demand, BSR responsiveness, competitor signals, total sales, and TACoS when available.
 - Previous optimization snapshots, changelogs, live drift, and user-approved changes.
 
+## Product-Aware Classifications
+
+Use these labels for ASINs, campaigns, or action rows when product context matters:
+
+- `Grow`: Ads performance and product readiness both support controlled scale. Inventory/availability, Featured Offer / Buy Box, price, rating/reviews, margin, category/BSR context, and competitor signals do not block the action.
+- `Fix Before Scaling`: There is upside, but scale should wait for a product or retail-readiness fix such as weak reviews/rating, listing issue, price disadvantage, margin uncertainty, conversion issue, or incomplete ASIN-level control.
+- `Protect`: The entity supports brand defense, own-ASIN defense, rank/launch support, revenue stability, or an active winner. Avoid reductions, pauses, or negatives unless waste is isolated and the strategic role is protected.
+- `Monitor`: Evidence is promising or concerning but not action-ready. Use when sample size is thin, same-day data is incomplete, BSR movement has confounders, competitor/category movement may explain results, or recent changes need more time.
+- `Blocked`: The action is unsafe or non-executable now because of low inventory, availability risk, unstable Featured Offer / Buy Box, missing exact IDs, stale current values, missing approval, product context unavailable for a product-level decision, or a failed preflight gate.
+
 ## Review Workflow
 
-1. Establish mode and scope.
+1. Establish connection mode, review mode, and scope.
    - State whether the review is `Standalone` or `Rocketcart MCP`.
-   - Print profile, marketplace, ad type scope, date windows, freshness, attribution caveats, and missing data.
+   - State the review mode: `Live Optimization Review`, `Product-Aware Growth Review`, `Preflight / Approval Readiness Review`, or `Post-Change Readback / Monitoring Review`.
+   - Print profile, marketplace, ad type scope, date windows, freshness, attribution caveats, approval/execution boundary, and missing data.
 
-2. Read current state.
+2. Resolve profile and read current state.
    - In Rocketcart MCP mode, list or confirm the profile, inspect campaigns, product ads/ASIN context, product intelligence, report freshness/quality, budget changes, targeting or negative drift, live drift, and snapshots/changelogs.
    - In Standalone mode, map provided fields to the closest equivalent live-state concepts.
 
-3. Identify risks before upside.
-   - Flag budget cuts, bid/placement drift, out-of-budget winners, paused or changed winner campaigns, waste concentration, poor query mix, retail-readiness blockers, inventory or availability risk, Featured Offer / Buy Box risk, weak product intelligence coverage, missing margin, and low-confidence data.
-   - Preserve the guardrails from `amazon-ads-performance-drop-diagnosis` and `amazon-growth-opportunity-finder` when the review overlaps with drop diagnosis or growth discovery.
+3. Build the product-aware map.
+   - Join live campaigns to product ads and ASIN/SKU context where available.
+   - Inspect category rank/BSR movement, inventory or availability, Featured Offer / Buy Box, price, reviews/rating, estimated demand, competitor signals, BSR responsiveness, margin or target economics, product readiness, and recent product/account changes.
+   - If product context is unavailable and could change a bid, budget, launch, pause, negative, or rank-support decision, classify the action as `Needs Data`, `Monitor`, or `Blocked`.
 
-4. Build proposed action rows.
+4. Identify risks before upside.
+   - Flag budget cuts, bid/placement drift, out-of-budget winners, paused or changed winner campaigns, waste concentration, poor query mix, retail-readiness blockers, inventory or availability risk, Featured Offer / Buy Box risk, weak product intelligence coverage, missing margin, weak reviews/rating, competitor price/deal pressure, BSR movement explained by category/competitor changes, and low-confidence data.
+   - Preserve the guardrails from `amazon-ads-performance-drop-diagnosis` and `amazon-growth-opportunity-finder` when the review overlaps with drop diagnosis or growth discovery.
+   - Classify each important ASIN/campaign/action as `Grow`, `Fix Before Scaling`, `Protect`, `Monitor`, or `Blocked`.
+
+5. Build proposed action rows or review candidate rows.
    - Separate read-only findings from write candidates.
    - For every candidate, specify entity type, exact entity ID when available, current state, proposed state, reason, expected impact, risk, confidence, timing, approval status, preflight checks, readback checks, and monitoring window.
+   - In `Preflight / Approval Readiness Review`, mark each row as `Approval Ready`, `Needs IDs`, `Needs Current Value`, `Preflight Required`, `Needs Product Context`, `Stale Approval`, `Blocked`, or `Monitor Only`.
+   - In `Post-Change Readback / Monitoring Review`, compare expected versus current state and classify each prior action as `Readback Confirmed`, `Partially Applied`, `Not Applied`, `Monitoring`, `Worked`, `Failed`, or `Needs More Data`.
 
-5. Keep execution separate.
+6. Keep execution separate.
    - Do not use write capabilities during the initial review.
    - If the user asks to execute, first restate the exact approved action rows and run live preflight.
    - Execute only the approved subset, then read back state and define monitoring.
@@ -120,11 +157,12 @@ Return these sections unless the user asks for a shorter version:
 2. **Executive Verdict**: 3-6 bullets covering what to protect, what to scale or fix, what changed recently, and whether execution is safe.
 3. **Live State And Change Review**: campaigns inspected, budget changes, live drift since snapshot, snapshot/changelog context, and any reconciliation caveats.
 4. **Product Intelligence And Readiness**: ASIN/SKU mapping, inventory or availability, Featured Offer / Buy Box, category rank/BSR movement, price, reviews/rating, estimated demand, competitor signals, margin, and missing product context.
-5. **Read-Only Findings**: risks, opportunities, anomalies, and missing data that do not require execution.
-6. **Proposed Action Rows**: table with Entity Type | Entity ID | ASIN/SKU | Name | Current State | Proposed Action | Product Context | Reason | Expected Impact | Risk | Confidence | Preflight | Approval.
-7. **Execution Gate**: which actions are blocked, which are approval-ready, and what exact approval text or decision is needed.
-8. **Readback And Monitoring Plan**: readback checks after execution plus 3-day, 7-day, and 14-day monitoring rules.
-9. **Missing Data / Next Reads**: data or Rocketcart reads that would improve confidence.
+5. **Product-Aware Classification**: classify material ASINs/campaigns/actions as `Grow`, `Fix Before Scaling`, `Protect`, `Monitor`, or `Blocked`, with the product-context reason.
+6. **Read-Only Findings**: risks, opportunities, anomalies, and missing data that do not require execution.
+7. **Proposed Action Rows**: table with Entity Type | Entity ID | ASIN/SKU | Name | Current State | Proposed Action | Product Context | Classification | Reason | Expected Impact | Risk | Confidence | Preflight | Approval.
+8. **Execution Gate**: which actions are blocked, which are approval-ready, and what exact approval text or decision is needed.
+9. **Readback And Monitoring Plan**: readback checks after execution plus 3-day, 7-day, and 14-day monitoring rules.
+10. **Missing Data / Next Reads**: data or Rocketcart reads that would improve confidence.
 
 ## Default Stance
 

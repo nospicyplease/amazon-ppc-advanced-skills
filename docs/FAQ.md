@@ -44,7 +44,7 @@ Not by itself. These open-source skills do not execute Amazon Ads changes. Any l
 - You want growth ideas: `amazon-growth-opportunity-finder`.
 - You want one weekly plan: `amazon-account-growth-operating-system`.
 - You have a search term CSV: `amazon-search-term-harvest-planner`.
-- You use Rocketcart MCP for live Ads + product context: `rocketcart-amazon-ads-live-optimization-review`.
+- You use Rocketcart MCP for live Ads + product context: `rocketcart-amazon-ads-live-review`.
 
 ## Which Amazon reports should I export?
 

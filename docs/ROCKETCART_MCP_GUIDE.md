@@ -20,6 +20,17 @@ Rocketcart MCP answers: "What does the live Amazon Ads account show right now, w
 
 This repository does not install or configure Rocketcart MCP. It teaches Codex or Claude how to use Rocketcart MCP when that capability layer is already available in the host environment.
 
+## The Bridge Skill
+
+Use `rocketcart-amazon-ads-live-review` as the single Rocketcart-aware entry point. It supports four review modes:
+
+| Review Mode | Use When | Output |
+|---|---|---|
+| Live Optimization Review | You need a current live Sponsored Products review or want to reconcile static findings with current state. | Live-state findings, drift checks, and approval-gated action rows. |
+| Product-Aware Growth Review | You want to know which ASINs/campaigns can safely grow after product context is checked. | Grow, Fix Before Scaling, Protect, Monitor, or Blocked classifications. |
+| Preflight / Approval Readiness Review | Candidate action rows exist and need approval/executability review. | Row-by-row readiness, missing data, exact approval text, and blockers. |
+| Post-Change Readback / Monitoring Review | Approved changes have been made or need outcome review. | Readback status, early results, and 3/7/14-day monitoring plan. |
+
 ## What Comes From Rocketcart Vs The User
 
 | Need | Standalone Mode | Rocketcart MCP Mode |
@@ -59,7 +70,7 @@ Exact capabilities can vary by host. When present, these reads are the main brid
 - Advertised ASIN/SKU mapping to campaign and ad group IDs.
 - Marketplace bid guidance before bid changes.
 
-### Change And Memory Context
+### Change And Recent-Action Context
 
 - Recent budget changes.
 - Live Ads state compared with the latest optimization snapshot.
@@ -85,7 +96,7 @@ Rocketcart MCP may expose product-intelligence reads for:
 ## First Rocketcart Review Prompt
 
 ```text
-Use $rocketcart-amazon-ads-live-optimization-review for profile example_de.
+Use $rocketcart-amazon-ads-live-review for profile example_de.
 
 Run a read-first Amazon Ads + product-intelligence review. Confirm the profile, inspect live Sponsored Products campaigns, product ads/ASIN mapping, recent budget and targeting drift, snapshots/changelogs, data freshness/quality, category/BSR movement, product context, inventory or availability blockers, Featured Offer / Buy Box risk, and competitor/product signals where available.
 
@@ -95,7 +106,7 @@ Produce proposed action rows only. Do not execute any bid, budget, placement, ne
 ## Product-Aware Growth Prompt
 
 ```text
-Use Rocketcart MCP with $amazon-growth-opportunity-finder and $rocketcart-amazon-ads-live-optimization-review to find product-aware growth opportunities.
+Use $rocketcart-amazon-ads-live-review in Product-Aware Growth Review mode for profile example_de.
 
 For each ASIN or campaign, join Amazon Ads performance with product context: inventory/availability, Featured Offer / Buy Box, price, reviews/rating, category rank/BSR movement, estimated demand, BSR responsiveness, competitor movement, margin or target ACoS, recent changes, and recent optimization context. Classify each opportunity as Grow, Fix Before Scaling, Protect, Monitor, or Blocked.
 

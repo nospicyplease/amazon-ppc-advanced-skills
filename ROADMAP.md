@@ -29,7 +29,7 @@ The skills must remain useful with static exports in Codex or Claude. Rocketcart
 | `amazon-growth-opportunity-finder` | Production-oriented draft | Clearer thresholds for scale vs watchlist decisions by data volume. |
 | `amazon-account-growth-operating-system` | Orchestrator draft | More examples showing conflict resolution across upstream findings. |
 | `amazon-search-term-harvest-planner` | Good-first-skill complete | Fixture coverage for duplicate exact keywords and source-negative blockers. |
-| `rocketcart-amazon-ads-live-optimization-review` | Rocketcart bridge draft | Deeper product-intelligence examples, preflight examples, and post-change monitor skill. |
+| `rocketcart-amazon-ads-live-review` | Product-aware Rocketcart bridge draft | More full-cycle examples for preflight/readback outcomes and broader Sponsored Brands/Sponsored Display boundaries. |
 
 ## Needed Before v1
 
@@ -89,9 +89,9 @@ Next good first skills:
    - Builds a controlled launch plan from margin, stock, listing readiness, review position, target keywords, and budget.
    - Must include monitoring and stop-loss criteria.
 
-9. `rocketcart-post-change-monitor`
-   - Reviews approved Rocketcart changes after execution and classifies each action as worked, failed, inconclusive, or needs more data.
-   - Should use readback, 3-day, 7-day, and 14-day monitoring rules.
+9. `amazon-post-change-learning-review`
+   - Reviews approved PPC changes after execution and classifies each action as worked, failed, inconclusive, or needs more data.
+   - Should work standalone from exports and stay compatible with the Rocketcart bridge's readback, 3-day, 7-day, and 14-day monitoring rules.
 
 ## Advanced Skill Ideas
 
@@ -105,7 +105,9 @@ Next good first skills:
 
 ## Rocketcart MCP Direction
 
-The first bridge skill is `rocketcart-amazon-ads-live-optimization-review`. Future Rocketcart-specific skills should follow the same read-first pattern:
+The main bridge skill is `rocketcart-amazon-ads-live-review`. It should stay the single entry point for live Sponsored Products optimization review, product-aware growth review, preflight readiness, and post-change readback/monitoring. Future Rocketcart-specific skills should be justified only when they cover a distinct workflow that would make this bridge too broad.
+
+Rocketcart-aware workflows should follow the same read-first pattern:
 
 1. Read live Ads state and historical analytics.
 2. Join product intelligence: ASIN/SKU context, inventory, Featured Offer / Buy Box, category rank/BSR movement, price, reviews/rating, competitor signals, and product readiness where available.

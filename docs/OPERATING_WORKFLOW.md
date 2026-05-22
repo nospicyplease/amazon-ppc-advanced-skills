@@ -22,13 +22,18 @@ Static exports can be stale. Any future live execution still requires approval, 
 
 Use this path when Rocketcart MCP is available.
 
-1. Run `rocketcart-amazon-ads-live-optimization-review` in read-first mode.
-2. Confirm profile. If multiple profiles match, do not assume; ask for selection.
-3. Inspect live campaigns, product ads/ASIN mapping, budget changes, targeting or negative changes, live drift, and snapshots.
-4. Inspect product intelligence where available: data freshness and quality, ASIN-level controls, category rank/BSR movement, price, estimated demand, rating/reviews, inventory or availability, Featured Offer / Buy Box, competitor signals, seasonality, and recent-change context.
-5. Convert findings into proposed action rows.
-6. Do not execute writes during the initial review.
-7. Execute only after explicit approval, live preflight, exact entity IDs, current/proposed values, expected impact/risk, product-readiness checks, readback, and monitoring criteria.
+1. Run `rocketcart-amazon-ads-live-review` as the single Rocketcart bridge skill.
+2. Choose the review mode:
+   - `Live Optimization Review` for current live account review and drift checks.
+   - `Product-Aware Growth Review` for Grow / Fix Before Scaling / Protect / Monitor / Blocked classification.
+   - `Preflight / Approval Readiness Review` for candidate action rows.
+   - `Post-Change Readback / Monitoring Review` after approved changes.
+3. Confirm profile. If multiple profiles match, do not assume; ask for selection.
+4. Inspect live campaigns, product ads/ASIN mapping, budget changes, targeting or negative changes, live drift, and snapshots.
+5. Inspect product intelligence where available: data freshness and quality, ASIN-level controls, category rank/BSR movement, price, estimated demand, rating/reviews, inventory or availability, Featured Offer / Buy Box, competitor signals, seasonality, and recent-change context.
+6. Convert findings into classifications and proposed action rows.
+7. Do not execute writes during the initial review.
+8. Execute only after explicit approval, live preflight, exact entity IDs, current/proposed values, expected impact/risk, product-readiness checks, readback, and monitoring criteria.
 
 If live state differs from an approved row, do not execute without refreshed approval.
 
@@ -36,7 +41,7 @@ If live state differs from an approved row, do not execute without refreshed app
 
 Use this workflow for a weekly or monthly account review.
 
-If Rocketcart MCP is available, `rocketcart-amazon-ads-live-optimization-review` can be used before finalizing actions to compare the plan against live Sponsored Products campaign state, product ads/ASIN mapping, product intelligence, recent budget changes, live drift, optimization memory, and snapshots.
+If Rocketcart MCP is available, `rocketcart-amazon-ads-live-review` can be used before finalizing actions to compare the plan against live Sponsored Products campaign state, product ads/ASIN mapping, product intelligence, recent budget changes, live drift, prior optimization context, and snapshots.
 
 ### Step 1: Establish Data Coverage And Freshness
 
@@ -132,10 +137,11 @@ Resolve conflicts:
 
 ### Optional Step 4b: Run Rocketcart Live Ads + Product-Intelligence Review
 
-Run or apply `rocketcart-amazon-ads-live-optimization-review` when Rocketcart MCP is available or when live Sponsored Products state may differ from static exports.
+Run or apply `rocketcart-amazon-ads-live-review` when Rocketcart MCP is available or when live Sponsored Products state may differ from static exports.
 
 Use it to:
 
+- Choose a review mode: `Live Optimization Review`, `Product-Aware Growth Review`, `Preflight / Approval Readiness Review`, or `Post-Change Readback / Monitoring Review`.
 - Confirm the correct profile.
 - Inspect current campaign budgets, states, bidding strategies, and placement modifiers.
 - Map product ads to ASIN/SKU context.
@@ -145,6 +151,7 @@ Use it to:
 - Detect keyword/target bid or state changes and negative changes when relevant.
 - Detect live drift since optimization snapshots.
 - Review previous snapshots, changelogs, entity history, pending evaluations, and cooldowns.
+- Classify ASINs/campaigns/actions as `Grow`, `Fix Before Scaling`, `Protect`, `Monitor`, or `Blocked`.
 - Convert the operating plan into exact action rows with entity IDs, current values, proposed values, preflight checks, approval status, readback checks, and monitoring windows.
 
 Do not execute writes during this review. Treat it as the product-aware live-state bridge between analysis and approval.

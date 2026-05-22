@@ -2,7 +2,7 @@
 
 ## Target Skills
 
-- `rocketcart-amazon-ads-live-optimization-review`
+- `rocketcart-amazon-ads-live-review`
 
 ## Prompt
 
