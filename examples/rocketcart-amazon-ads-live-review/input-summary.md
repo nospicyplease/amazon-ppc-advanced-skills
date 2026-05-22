@@ -8,6 +8,12 @@
 - Review type: Product-Aware Growth Review, no writes.
 - Goal: classify campaigns and ASINs as Grow, Fix Before Scaling, Protect, Monitor, or Blocked before proposing approval-gated action rows.
 
+## First-Run Behavior
+
+- If Rocketcart MCP is available, use it to read live state and cross-check the fixture assumptions.
+- If Rocketcart MCP is unavailable, run standalone from the provided fixture files and state that live preflight/readback are unavailable.
+- In both modes, do not execute writes. Treat all action rows as proposed, blocked, monitor-only, or approval-required.
+
 ## Available Live Reads To Use When MCP Is Available
 
 - Enabled SP campaign state, budgets, bidding strategy, and placement modifiers.

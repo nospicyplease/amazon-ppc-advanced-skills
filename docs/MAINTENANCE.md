@@ -25,7 +25,7 @@ Before committing updates:
 6. Confirm new skills are listed in `README.md` and `docs/SKILL_CATALOG.md` when they are user-facing.
 7. Confirm each production skill has an example with `prompt.md`, `input-summary.md`, `expected-output-outline.md`, `sample-data/`, `expected-output.md`, `known-bad-output.md`, and `eval-result.md`.
 8. Confirm new-user docs answer what the skill is, how to install it, what data is needed, and whether live execution can occur.
-9. Confirm Rocketcart docs explain which context comes from live Ads reads, product intelligence, optimization memory, or user-provided exports.
+9. Confirm Rocketcart docs explain which context comes from live Ads reads, product intelligence, recent-change context, or user-provided exports.
 10. Review changed outputs with the relevant `evals/` prompt before opening a PR.
 11. Run or review at least one relevant stress test from `stress-tests/` when safety gates, BSR claims, negatives, budget cuts, or Rocketcart writes are affected.
 12. Confirm concrete eval cases have prompt, expected behavior, and pass/fail rubric with `make eval`.

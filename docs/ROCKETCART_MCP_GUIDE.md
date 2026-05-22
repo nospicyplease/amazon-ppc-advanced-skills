@@ -31,6 +31,24 @@ Use `rocketcart-amazon-ads-live-review` as the single Rocketcart-aware entry poi
 | Preflight / Approval Readiness Review | Candidate action rows exist and need approval/executability review. | Row-by-row readiness, missing data, exact approval text, and blockers. |
 | Post-Change Readback / Monitoring Review | Approved changes have been made or need outcome review. | Readback status, early results, and 3/7/14-day monitoring plan. |
 
+## 60-Second Smoke Test
+
+Use this after installing the skill, even before Rocketcart MCP is connected:
+
+```text
+Use $rocketcart-amazon-ads-live-review in Live Optimization Review mode. I do not have Rocketcart MCP connected yet. Run in standalone mode and tell me the exact Amazon Ads and product data you need for a safe first review. Do not execute anything.
+```
+
+Expected shape:
+
+```text
+Mode: Standalone
+Review mode: Live Optimization Review
+Execution: no writes
+Missing data: campaign metrics, search terms, product/ASIN context, inventory, offer status, margin, BSR/category movement, competitor signals, recent changes
+Next step: provide exports or connect Rocketcart MCP
+```
+
 ## What Comes From Rocketcart Vs The User
 
 | Need | Standalone Mode | Rocketcart MCP Mode |
@@ -95,6 +113,8 @@ Rocketcart MCP may expose product-intelligence reads for:
 
 ## First Rocketcart Review Prompt
 
+Live Optimization Review:
+
 ```text
 Use $rocketcart-amazon-ads-live-review for profile example_de.
 
@@ -103,7 +123,7 @@ Run a read-first Amazon Ads + product-intelligence review. Confirm the profile, 
 Produce proposed action rows only. Do not execute any bid, budget, placement, negative, pause, relaunch, product-ad, target, or campaign-creation write. Any write candidate must include exact IDs, current value, proposed value, expected impact, risk, approval requirement, live preflight, readback, and 3/7/14-day monitoring.
 ```
 
-## Product-Aware Growth Prompt
+Product-Aware Growth Review:
 
 ```text
 Use $rocketcart-amazon-ads-live-review in Product-Aware Growth Review mode for profile example_de.
@@ -111,6 +131,26 @@ Use $rocketcart-amazon-ads-live-review in Product-Aware Growth Review mode for p
 For each ASIN or campaign, join Amazon Ads performance with product context: inventory/availability, Featured Offer / Buy Box, price, reviews/rating, category rank/BSR movement, estimated demand, BSR responsiveness, competitor movement, margin or target ACoS, recent changes, and recent optimization context. Classify each opportunity as Grow, Fix Before Scaling, Protect, Monitor, or Blocked.
 
 Keep all live write actions approval-gated. Do not execute.
+```
+
+Preflight / Approval Readiness Review:
+
+```text
+Use $rocketcart-amazon-ads-live-review in Preflight / Approval Readiness Review mode for profile example_de.
+
+Review these candidate action rows for exact entity IDs, current values, proposed values, product-readiness gates, expected impact, risk, approval text, readback, and monitoring. Mark each row Approval Ready, Needs IDs, Needs Current Value, Needs Product Context, Stale Approval, Blocked, or Monitor Only.
+
+Do not execute anything.
+```
+
+Post-Change Readback / Monitoring Review:
+
+```text
+Use $rocketcart-amazon-ads-live-review in Post-Change Readback / Monitoring Review mode for profile example_de.
+
+Review the approved changes from the last execution window, read back affected entities, compare expected versus current state, and classify each action as Readback Confirmed, Partially Applied, Not Applied, Monitoring, Worked, Failed, or Needs More Data.
+
+Do not execute new writes.
 ```
 
 ## Approval And Execution Boundary

@@ -7,7 +7,7 @@ Read [FAQ](FAQ.md) first if you are new to Codex skills, Claude skills, or Rocke
 - Codex with local skills support, or Claude with skill upload support.
 - This repository cloned locally.
 - Optional: Amazon Ads, Business Reports, BSR, inventory, and retail-readiness exports.
-- Optional: Rocketcart MCP for live Amazon Ads reads, product intelligence, optimization memory, preflight, approval-gated writes, and readback.
+- Optional: Rocketcart MCP for live Amazon Ads reads, product intelligence, recent-change context, preflight, approval-gated writes, and readback.
 
 ## Clone The Repo
 
@@ -26,6 +26,13 @@ cp -R amazon-account-growth-operating-system ~/.codex/skills/
 ```
 
 Reload Codex so the skills list refreshes.
+
+For the Rocketcart bridge only:
+
+```bash
+mkdir -p ~/.codex/skills
+cp -R rocketcart-amazon-ads-live-review ~/.codex/skills/
+```
 
 ## Install All Skills In Codex
 
@@ -50,6 +57,12 @@ zip -r amazon-account-growth-operating-system.zip amazon-account-growth-operatin
 
 Upload that ZIP in Claude's skill settings.
 
+For the Rocketcart bridge only:
+
+```bash
+zip -r rocketcart-amazon-ads-live-review.zip rocketcart-amazon-ads-live-review
+```
+
 Do not upload the entire repository as one Claude skill. Each top-level skill folder is intended to be installed separately.
 
 Include:
@@ -67,6 +80,22 @@ Use $amazon-account-growth-operating-system to build a weekly Amazon PPC action 
 ```
 
 Installing these open-source skills is separate from connecting Rocketcart MCP. If Rocketcart MCP is available in your host environment, the Rocketcart-aware skill can use it for live Ads + product-intelligence reads. If it is not available, the same skill should run in standalone mode and ask for static exports or pasted product context.
+
+To smoke-test the Rocketcart bridge after install:
+
+```text
+Use $rocketcart-amazon-ads-live-review in Live Optimization Review mode. I do not have Rocketcart MCP connected yet. Run in standalone mode and tell me the exact Amazon Ads and product data you need for a safe first review. Do not execute anything.
+```
+
+Expected first output:
+
+```text
+Mode: Standalone
+Review mode: Live Optimization Review
+Execution: no writes; approval required for any future live action
+Missing data: campaign metrics, search terms, product/ASIN context, inventory, offer status, margin, BSR/category movement, competitor signals, and recent changes
+Next step: provide exports or connect Rocketcart MCP for live reads
+```
 
 If you have the Codex skill validator available, run:
 
@@ -127,6 +156,32 @@ For a product-aware Rocketcart review:
 
 ```text
 Use $rocketcart-amazon-ads-live-review for profile example_de. Confirm the profile, inspect live campaigns and product ads, map campaigns to ASIN context, check category/BSR movement, product readiness, inventory or availability blockers, Featured Offer / Buy Box risk, competitor signals, snapshots, and live drift. Produce proposed action rows only; do not execute writes.
+```
+
+### Rocketcart Bridge Review Mode Prompts
+
+Live Optimization Review:
+
+```text
+Use $rocketcart-amazon-ads-live-review in Live Optimization Review mode for profile example_de. Confirm the profile, inspect live Sponsored Products campaigns, product ads/ASIN mapping, budget and targeting drift, snapshots/changelogs, product readiness, category/BSR movement, and competitor signals. Produce proposed action rows only. Do not execute anything.
+```
+
+Product-Aware Growth Review:
+
+```text
+Use $rocketcart-amazon-ads-live-review in Product-Aware Growth Review mode for profile example_de. Classify each ASIN/campaign as Grow, Fix Before Scaling, Protect, Monitor, or Blocked using Ads performance plus inventory, Featured Offer / Buy Box, price, reviews/rating, estimated demand, category/BSR movement, competitor signals, margin, and recent changes. Do not execute anything.
+```
+
+Preflight / Approval Readiness Review:
+
+```text
+Use $rocketcart-amazon-ads-live-review in Preflight / Approval Readiness Review mode for profile example_de. Review these candidate action rows for exact entity IDs, current values, proposed values, product-readiness gates, expected impact, risk, approval text, readback, and monitoring. Mark each row Approval Ready, Needs IDs, Needs Current Value, Needs Product Context, Stale Approval, Blocked, or Monitor Only. Do not execute anything.
+```
+
+Post-Change Readback / Monitoring Review:
+
+```text
+Use $rocketcart-amazon-ads-live-review in Post-Change Readback / Monitoring Review mode for profile example_de. Review the approved changes from the last execution window, read back affected entities, compare expected versus current state, and classify each action as Readback Confirmed, Partially Applied, Not Applied, Monitoring, Worked, Failed, or Needs More Data. Do not execute new writes.
 ```
 
 ## First Smoke Test

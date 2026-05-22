@@ -16,11 +16,23 @@ Model Context Protocol. MCP lets an AI assistant use approved external context a
 
 Rocketcart's MCP layer for Amazon Ads reads, product intelligence, optimization snapshots, live-state checks, guarded writes, and readback. It is optional; the open-source skills also work with static exports.
 
+## Standalone Mode
+
+Using a skill with user-provided exports, pasted data, screenshots, or summaries instead of live Rocketcart MCP reads. The skill should lower confidence when live state, product context, exact IDs, or recent changes are missing.
+
+## Rocketcart MCP Mode
+
+Using the Rocketcart bridge skill when Rocketcart MCP is available for live Ads state, product-ad/ASIN mapping, product intelligence, recent-change context, preflight, readback, and guarded execution.
+
+## Review Mode
+
+The job selected inside `rocketcart-amazon-ads-live-review`: Live Optimization Review, Product-Aware Growth Review, Preflight / Approval Readiness Review, or Post-Change Readback / Monitoring Review.
+
 ## Product Intelligence
 
 Product-level context that changes PPC decisions, such as ASIN/SKU mapping, inventory or availability, Featured Offer / Buy Box, price, reviews, rating, category rank/BSR movement, estimated demand, competitor changes, seasonal context, and margin or target ACoS when available.
 
-## Optimization Memory
+## Recent-Change Context
 
 Rocketcart context about prior optimization sessions, snapshots, changelogs, entity history, pending evaluations, cooldowns, and recent live drift. It helps avoid repeating actions that are already under evaluation or recently failed.
 

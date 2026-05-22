@@ -24,7 +24,17 @@ MCP means Model Context Protocol. It lets an AI assistant use approved external 
 
 ## Do I need Rocketcart?
 
-No. The skills work standalone with static exports, pasted CSVs, or summaries. Rocketcart MCP adds live Amazon Ads reads, product intelligence, snapshots, optimization memory, preflight, approval-gated execution, and readback.
+No. The skills work standalone with static exports, pasted CSVs, or summaries. Rocketcart MCP adds live Amazon Ads reads, product intelligence, snapshots, recent-change context, preflight, approval-gated execution, and readback.
+
+## How do I test the Rocketcart bridge after installing it?
+
+Paste this into Codex or Claude:
+
+```text
+Use $rocketcart-amazon-ads-live-review in Live Optimization Review mode. I do not have Rocketcart MCP connected yet. Run in standalone mode and tell me the exact Amazon Ads and product data you need for a safe first review. Do not execute anything.
+```
+
+A good first output should say it is in standalone mode, list missing campaign/product data, refuse execution, and ask for exports or a Rocketcart MCP connection for live reads.
 
 ## Is Rocketcart MCP just an Amazon Ads connector?
 
@@ -33,6 +43,14 @@ No. Rocketcart MCP is the optional Amazon Ads + product-intelligence connection.
 ## What if Rocketcart product-intelligence context is unavailable?
 
 The skill should say which context is unavailable, lower confidence, and fall back to static exports or user-provided product data. Missing product context should block or downgrade risky scale, launch, pause, or negative recommendations.
+
+## What do I provide in standalone mode?
+
+Provide the best available exports or summaries: campaign, targeting, search term, placement, advertised-product, purchased-product, Business Reports, BSR/category movement, inventory or availability, Featured Offer / Buy Box, price, reviews/rating, margin or target ACoS, competitor signals, and recent changes.
+
+## What does Rocketcart MCP add?
+
+When available, Rocketcart MCP can read or cross-check live campaign state, product-ad/ASIN mapping, product intelligence, recent-change context, snapshots, preflight state, and readback. It still does not remove the need for human approval before any live write.
 
 ## Can this change my Amazon Ads account?
 
