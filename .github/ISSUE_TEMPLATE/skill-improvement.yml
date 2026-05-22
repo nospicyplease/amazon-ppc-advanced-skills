@@ -1,0 +1,48 @@
+name: Skill improvement
+description: Improve an existing skill, evidence gate, output format, or reference.
+title: "Improve skill: "
+labels: ["skill improvement"]
+body:
+  - type: dropdown
+    id: skill
+    attributes:
+      label: Skill
+      options:
+        - amazon-ads-performance-drop-diagnosis
+        - amazon-growth-opportunity-finder
+        - amazon-account-growth-operating-system
+        - amazon-search-term-harvest-planner
+        - rocketcart-amazon-ads-live-optimization-review
+        - other / proposed
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or gap
+      description: What is unclear, unsafe, missing, or too broad?
+    validations:
+      required: true
+  - type: textarea
+    id: proposed-change
+    attributes:
+      label: Proposed change
+      description: Describe the evidence gate, workflow, output, or wording change.
+    validations:
+      required: true
+  - type: textarea
+    id: example
+    attributes:
+      label: Example
+      description: Add an anonymized prompt, output excerpt, or account scenario if helpful.
+    validations:
+      required: false
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safety check
+      options:
+        - label: This change preserves approval gates for live Amazon Ads mutations.
+          required: true
+        - label: This change handles missing or low-confidence data explicitly.
+          required: true

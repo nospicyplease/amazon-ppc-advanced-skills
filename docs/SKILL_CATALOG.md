@@ -97,3 +97,81 @@ Important guardrail:
 
 The Growth Operating System must preserve the downside skill's actionability gates and the upside skill's evidence thresholds. It should not average conflicting recommendations. It should resolve conflicts by protecting downside first.
 
+## 4. Amazon Search Term Harvest Planner
+
+Folder: `amazon-search-term-harvest-planner`
+
+Use when the operator wants to mine Amazon Ads search terms for exact-match harvesting, controlled tests, source-negative routing, product-target expansion, bid-downs, or watchlist decisions.
+
+Best for:
+
+- Finding search terms ready for exact-match harvesting from auto, broad, phrase, or discovery campaigns.
+- Choosing safe destination campaigns and ad groups.
+- Avoiding duplicate exact keywords or product targets.
+- Deciding whether source negatives are justified.
+- Separating brand defense, own-ASIN defense, launch/rank-defense, category generic, competitor, and exploratory traffic.
+- Producing approval-gated action rows for harvesting and routing.
+
+Key outputs:
+
+- Data coverage and harvest gate.
+- Executive summary.
+- Search term classification table.
+- Harvest action rows.
+- Negative and routing decisions.
+- Blocked/watchlist terms.
+- Monitoring plan.
+- Missing data and next pulls.
+
+Important guardrail:
+
+Do not add source negatives just because a term was harvested. Source negatives require safe routing or waste evidence and must not cut brand defense, own-ASIN defense, launch/rank-defense, profitable discovery, or low-sample strategic traffic.
+
+## 5. Rocketcart Amazon Ads Live Optimization Review
+
+Folder: `rocketcart-amazon-ads-live-optimization-review`
+
+Use when the operator wants a read-first Amazon Sponsored Products optimization review that can run from static exports or use Rocketcart MCP live reads.
+
+Best for:
+
+- Inspecting live Sponsored Products campaigns before proposing changes.
+- Listing Rocketcart profiles when the target profile is unknown.
+- Detecting recent budget changes.
+- Detecting live drift since the latest optimization snapshot.
+- Reviewing snapshots and changelogs before recommending actions.
+- Producing exact, approval-gated action rows.
+
+Key outputs:
+
+- Mode, scope, and data trust.
+- Executive verdict.
+- Live state and change review.
+- Read-only findings.
+- Proposed action rows.
+- Execution gate.
+- Readback and monitoring plan.
+- Missing data and next reads.
+
+Important guardrail:
+
+This skill does not execute writes by default. Bid, budget, placement, negative, pause, relaunch, or campaign-creation actions require explicit approval, live preflight, exact entity IDs, expected impact and risk, readback, and monitoring.
+
+## Adding More Skills
+
+Use `templates/amazon-ppc-skill-template/` when adding a new skill. New skills should usually be specialist workflows that can feed into `amazon-account-growth-operating-system`.
+
+Good next categories:
+
+- Wasted-spend triage.
+- Budget reallocation.
+- Inventory-aware scaling.
+- BSR/rank rescue.
+- Placement optimization.
+- Brand-defense audit.
+- Product-target expansion.
+- Launch-readiness PPC planning.
+- Rocketcart post-change monitoring.
+- Rocketcart approval-action verifier.
+
+See [../ROADMAP.md](../ROADMAP.md) for scoped good-first-skill ideas.

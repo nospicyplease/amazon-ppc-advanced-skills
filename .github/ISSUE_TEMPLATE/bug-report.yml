@@ -1,0 +1,34 @@
+name: Bug or unsafe recommendation
+description: Report a broken instruction, confusing output, or unsafe recommendation pattern.
+title: "Bug: "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Describe the incorrect, confusing, or unsafe behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What should have happened?
+      description: Explain the safer or more useful behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: Include anonymized prompt text, available data fields, and the skill used.
+    validations:
+      required: false
+  - type: checkboxes
+    id: impact
+    attributes:
+      label: Impact
+      options:
+        - label: Could lead to an unsafe bid, budget, negative, pause, relaunch, or campaign creation recommendation.
+        - label: Could overstate PPC-to-BSR, organic rank, TACoS, or incrementality causality.
+        - label: Could mis-handle missing data or low sample size.

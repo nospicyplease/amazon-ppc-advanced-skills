@@ -1,0 +1,57 @@
+name: New skill proposal
+description: Propose a new Amazon PPC agent skill.
+title: "Skill proposal: "
+labels: ["skill proposal"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this for a new reusable Amazon PPC workflow. Keep it scoped to one operator job.
+  - type: input
+    id: skill-name
+    attributes:
+      label: Proposed skill name
+      description: Use lowercase kebab-case if you have a name.
+      placeholder: amazon-search-term-harvest-planner
+    validations:
+      required: true
+  - type: textarea
+    id: operator-job
+    attributes:
+      label: Operator job
+      description: What decision or workflow should this skill help with?
+      placeholder: "Find search terms that should be harvested into exact campaigns without adding unsafe negatives."
+    validations:
+      required: true
+  - type: textarea
+    id: inputs
+    attributes:
+      label: Inputs
+      description: What data does the skill need?
+      placeholder: "Search term report, targeting report, campaign structure, margin or target ACoS, current budgets..."
+    validations:
+      required: true
+  - type: textarea
+    id: outputs
+    attributes:
+      label: Expected outputs
+      description: What should the skill produce?
+      placeholder: "Action table with source campaign, destination campaign, match type, bid direction, negative recommendation, confidence, and approval status."
+    validations:
+      required: true
+  - type: textarea
+    id: safety
+    attributes:
+      label: Safety gates
+      description: What should block or downgrade recommendations?
+      placeholder: "Low sample size, missing margin, strategic defense traffic, weak relevance, unclear source/destination routing..."
+    validations:
+      required: true
+  - type: textarea
+    id: rocketcart
+    attributes:
+      label: Optional Rocketcart MCP support
+      description: If useful, what live reads, preflight checks, or write actions could Rocketcart support?
+      placeholder: "Read live campaign states and bids; proposed exact targets only after approval."
+    validations:
+      required: false

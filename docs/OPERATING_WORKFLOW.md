@@ -4,6 +4,8 @@
 
 Use this workflow for a weekly or monthly account review.
 
+If Rocketcart MCP is available, `rocketcart-amazon-ads-live-optimization-review` can be used before finalizing actions to compare the plan against live Sponsored Products campaign state, recent budget changes, live drift, and optimization snapshots.
+
 ### Step 1: Establish Data Trust
 
 Collect or state missing:
@@ -63,6 +65,20 @@ Carry forward:
 - Retail-readiness gates.
 - Action rows.
 
+### Optional Step 3b: Plan Search-Term Harvesting
+
+Run or apply `amazon-search-term-harvest-planner` when search-term exports are available and the account needs exact-match harvesting, routing cleanup, or negative decisions.
+
+Use it to:
+
+- Classify search terms by harvest readiness, traffic type, strategic role, relevance, economics, and retail-readiness fit.
+- Choose exact destination campaigns or mark `Needs Destination`.
+- Check duplicate exact keywords, product targets, and existing negatives.
+- Decide whether source negatives are safe, blocked, or need more data.
+- Produce approval-gated action rows with monitoring windows.
+
+Do not add source negatives solely because a term was harvested. Preserve brand defense, own-ASIN defense, launch/rank-defense, profitable discovery, and low-sample strategic traffic unless waste or routing evidence is clear.
+
 ### Step 4: Orchestrate The Account
 
 Run or apply `amazon-account-growth-operating-system`.
@@ -81,6 +97,21 @@ Resolve conflicts:
 - Branded/defensive efficiency requires incrementality evidence before expansion.
 - Low-confidence downside adds monitoring rather than blocking reversible high-confidence growth.
 - Waste can fund growth only when isolated and not strategically protective.
+
+### Optional Step 4b: Run Rocketcart Live Review
+
+Run or apply `rocketcart-amazon-ads-live-optimization-review` when Rocketcart MCP is available or when live Sponsored Products state may differ from static exports.
+
+Use it to:
+
+- Confirm the correct profile.
+- Inspect current campaign budgets, states, bidding strategies, and placement modifiers.
+- Detect budget changes.
+- Detect live drift since optimization snapshots.
+- Review previous snapshots and changelogs.
+- Convert the operating plan into exact action rows with entity IDs, current values, proposed values, preflight checks, approval status, readback checks, and monitoring windows.
+
+Do not execute writes during this review. Treat it as the live-state bridge between analysis and approval.
 
 ### Step 5: Build The Action Queue
 
@@ -141,3 +172,4 @@ Require approval for:
 - Competitor attack expansion.
 - Low-confidence recommendations.
 
+For Rocketcart MCP execution, every approved write also requires live preflight, exact entity IDs, current value, proposed value, expected impact, risk, readback, and monitoring criteria.

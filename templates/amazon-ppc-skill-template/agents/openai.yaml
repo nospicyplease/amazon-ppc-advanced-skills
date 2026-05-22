@@ -1,0 +1,5 @@
+interface:
+  display_name: "Amazon Example PPC Skill"
+  short_description: "Replace with a concise user-facing skill summary"
+  default_prompt: >
+    Use $amazon-example-ppc-skill to analyze the provided Amazon PPC data and produce an approval-gated action plan. Start with data coverage and trust, separate facts from hypotheses, lower confidence when data is missing, and do not recommend live bid, budget, placement, negative, pause, relaunch, or campaign-creation actions without approval, preflight, and readback.
