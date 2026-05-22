@@ -1,5 +1,9 @@
-entity_type,entity_id,campaign_id,ad_group_id,text,match_type,state
-keyword,kw-100,999,ag-999,steel water bottle 1 liter,exact,enabled
-keyword,kw-101,998,ag-998,delta bottle replacement lid,exact,enabled
-negative,neg-200,333,ag-333,competitor mug,phrase,enabled
-campaign,camp-997,997,ag-997,SP-US-DELTA-EXACT-CORE,exact,enabled
+entity_type,entity_id,campaign_id,ad_group_id,text,match_type,state,budget_status,notes
+keyword,kw-100,999,ag-999,steel water bottle 1 liter,exact,paused,healthy,existing exact paused; repair delivery instead of duplicate harvest
+keyword,kw-101,998,ag-998,delta bottle replacement lid,exact,enabled,healthy,brand defense exact exists
+negative,neg-200,333,ag-333,competitor mug,phrase,enabled,healthy,current source negative family exists
+negative,neg-201,997,ag-997,kids steel water bottle,exact,enabled,healthy,destination exact negative blocks delivery
+campaign,camp-997,997,ag-997,SP-US-DELTA-EXACT-CORE,exact,enabled,budget_starved,exact destination exists but is budget starved
+campaign,camp-998,998,ag-998,SP-US-DELTA-BRAND-EXACT,exact,enabled,healthy,brand destination exists
+campaign,camp-995,995,ag-995,SP-US-DELTA-LAUNCH-RANK,exact,enabled,healthy,launch rank destination exists
+campaign,camp-996,996,ag-996,SP-US-DELTA-COMPETITOR,exact,enabled,healthy,competitor conquest destination exists

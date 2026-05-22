@@ -1,5 +1,5 @@
 interface:
   display_name: "Amazon Search Term Harvest Planner"
-  short_description: "Plan safe exact-match harvesting from search terms"
+  short_description: "Plan execution-safe search-term harvesting with deterministic gates"
   default_prompt: >
-    Use $amazon-search-term-harvest-planner to classify Amazon Ads search terms for exact-match harvesting, controlled tests, product-target expansion, bid-downs, negatives, or watchlist. Check relevance, order volume, ACoS/CPA, margin fit, retail readiness, duplicate risk, source/destination routing, and strategic role. Do not recommend source negatives or live execution without evidence, approval, preflight, exact entity IDs, readback, and monitoring.
+    Use $amazon-search-term-harvest-planner to classify Amazon Ads search terms for exact-match harvesting, controlled tests, product-target expansion, bid-downs, negatives, or watchlist. Check relevance, order volume, ACoS/CPA, margin fit, retail readiness, duplicate risk, current negatives, source/destination routing, destination feasibility, traffic type, lifecycle stage, and strategic role. Use write-readiness statuses: PLANNING_ONLY, NEEDS_DATA, BLOCKED, APPROVAL_REQUIRED, or APPROVAL_READY. Do not recommend source negatives or live execution without evidence, approval, preflight, exact entity IDs, current/proposed values, readback, and monitoring.

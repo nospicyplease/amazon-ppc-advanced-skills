@@ -42,6 +42,18 @@ Current cases:
 - `weak-reviews-rating`
 - `competitor-price-drop`
 - `product-context-unavailable`
+- `existing-exact-paused`
+- `brand-defense-harvest-gate`
+- `own-asin-query-ambiguity`
+- `competitor-conquest-high-acos`
+- `launch-rank-high-acos`
+- `phrase-negative-blast-radius`
+- `missing-existing-keyword-report`
+- `missing-destination`
+- `budget-starved-destination`
+- `current-negative-conflict`
+- `one-order-overfit`
+- `mixed-sp-sb-harvest`
 
 Run the structure checker:
 

@@ -47,6 +47,7 @@ Every skill should:
 - Keep the main `SKILL.md` concise and move detailed logic into `references/` when needed.
 - Separate facts, hypotheses, missing data, confidence, and recommendations.
 - Use exact Amazon entities when recommending actions: ASIN, campaign, ad group, keyword, search term, target, placement, or budget.
+- Use machine-readable action rows and explicit readiness statuses when a skill can produce execution candidates.
 - Preserve approval gates for live write actions.
 - Avoid unsupported claims about PPC causing BSR, organic rank, or incrementality.
 - Work with partial data by lowering confidence and stating what cannot be concluded.
@@ -125,6 +126,7 @@ Use the pull request template. A strong PR explains the operator problem, the ch
 
 - [ ] The contribution has a clear operator use case.
 - [ ] Safety gates are explicit for bid, budget, placement, negative, pause, relaunch, or campaign-creation actions.
+- [ ] Execution-candidate rows include readiness status, exact IDs where applicable, current/proposed values, preflight, readback, and monitoring.
 - [ ] Missing data and confidence handling are described.
 - [ ] `agents/openai.yaml` matches the skill purpose.
 - [ ] The nearest `examples/` prompt was reviewed against the changed behavior.

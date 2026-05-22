@@ -1,6 +1,11 @@
-campaign_id,campaign_name,ad_group_id,ad_group_name,targeting,match_type,search_term,advertised_asin,spend_30d,sales_30d,orders_30d,acos
-111,SP-US-DELTA-AUTO,ag-111,auto-main,close-match,auto,steel water bottle 1 liter,US-DELTA-01,36,300,10,0.120
-222,SP-US-DELTA-BROAD,ag-222,broad-main,water bottle,broad,delta bottle replacement lid,US-DELTA-01,14,180,6,0.078
-333,SP-US-DELTA-PHRASE,ag-333,phrase-main,insulated bottle,phrase,competitor travel mug,US-DELTA-01,72,0,0,
-444,SP-US-DELTA-AUTO,ag-444,auto-rank,substitute asin b0example,US-DELTA-02,22,120,3,0.183
-555,SP-US-DELTA-BROAD,ag-555,broad-main,water bottle,broad,steel bottle,US-DELTA-01,18,90,1,0.200
+ad_type,campaign_id,campaign_name,ad_group_id,ad_group_name,targeting,match_type,search_term,advertised_asin,spend_30d,sales_30d,orders_30d,acos,traffic_role,lifecycle_stage,destination_campaign_id,destination_ad_group_id,destination_budget_status
+SP,111,SP-US-DELTA-AUTO,ag-111,auto-main,close-match,auto,steel water bottle 1 liter,US-DELTA-01,36,300,10,0.120,category_generic,mature,997,ag-997,healthy
+SP,222,SP-US-DELTA-BROAD,ag-222,broad-main,water bottle,broad,delta bottle replacement lid,US-DELTA-01,14,180,6,0.078,brand_defense,mature,998,ag-998,healthy
+SP,333,SP-US-DELTA-PHRASE,ag-333,phrase-main,insulated bottle,phrase,competitor travel mug,US-DELTA-01,72,0,0,,competitor_conquest,mature,996,ag-996,healthy
+SP,444,SP-US-DELTA-AUTO,ag-444,auto-rank,substitute asin b0example,US-DELTA-02,22,120,3,0.183,own_asin_or_substitute,launch,,ag-missing,unknown
+SP,555,SP-US-DELTA-BROAD,ag-555,broad-main,water bottle,broad,steel bottle,US-DELTA-01,18,90,1,0.200,category_generic,mature,997,ag-997,healthy
+SP,556,SP-US-DELTA-BROAD,ag-555,broad-main,water bottle,broad,delta steel bottle,US-DELTA-01,44,260,5,0.169,category_generic,mature,997,ag-997,budget_starved
+SP,557,SP-US-DELTA-BROAD,ag-555,broad-main,water bottle,broad,kids steel water bottle,US-DELTA-01,38,240,4,0.158,category_generic,mature,997,ag-997,healthy
+SP,558,SP-US-DELTA-BROAD,ag-555,broad-main,water bottle,broad,water bottle straw replacement,US-DELTA-01,60,0,0,,irrelevant_query_family,mature,997,ag-997,healthy
+SP,559,SP-US-DELTA-LAUNCH,ag-559,launch-main,water bottle,broad,insulated kids bottle,US-DELTA-03,92,160,4,0.575,launch_rank,launch,995,ag-995,healthy
+SB,660,SB-US-DELTA-BROAD,ag-660,sb-main,water bottle,broad,steel bottle,US-DELTA-01,28,140,2,0.200,category_generic,mature,997,ag-997,healthy

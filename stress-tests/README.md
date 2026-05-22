@@ -61,3 +61,15 @@ Each stress test must name target production skills, include a prompt, describe 
 - `32-weak-reviews-rating-scale-block.md`
 - `33-competitor-price-drop-scale-risk.md`
 - `34-product-context-unavailable.md`
+- `35-existing-exact-paused.md`
+- `36-brand-defense-discovery-term.md`
+- `37-own-asin-query-ambiguity.md`
+- `38-competitor-conquest-high-acos.md`
+- `39-launch-rank-high-acos.md`
+- `40-phrase-negative-blast-radius.md`
+- `41-missing-existing-keyword-report.md`
+- `42-missing-destination-campaign.md`
+- `43-budget-starved-destination.md`
+- `44-current-negative-conflict.md`
+- `45-one-order-overfit-harvest.md`
+- `46-mixed-sp-sb-harvest.md`

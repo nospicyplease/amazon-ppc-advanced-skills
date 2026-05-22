@@ -112,7 +112,8 @@ Use it to:
 - Choose exact destination campaigns or mark `Needs Destination`.
 - Check duplicate exact keywords, product targets, and existing negatives.
 - Decide whether source negatives are safe, blocked, or need more data.
-- Produce approval-gated action rows with monitoring windows.
+- Produce machine-readable action rows with write-readiness statuses: `PLANNING_ONLY`, `NEEDS_DATA`, `BLOCKED`, `APPROVAL_REQUIRED`, or `APPROVAL_READY`.
+- Mark a row `APPROVAL_READY` only when exact profile, source, destination, keyword/target/negative IDs where applicable, current/proposed values, duplicate checks, current negative checks, destination feasibility, approval text, preflight checks, readback checks, and monitoring criteria are complete.
 
 Do not add source negatives solely because a term was harvested. Preserve brand defense, own-ASIN defense, launch/rank-defense, profitable discovery, and low-sample strategic traffic unless waste or routing evidence is clear.
 

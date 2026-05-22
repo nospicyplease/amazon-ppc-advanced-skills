@@ -11,7 +11,7 @@ AI assistant workflows for Amazon PPC diagnosis, growth planning, search-term ha
 | Something dropped: sales, orders, ROAS, TACoS, BSR, CVR, rank, or traffic | `amazon-ads-performance-drop-diagnosis` | Diagnose before changing bids, budgets, negatives, or launches. |
 | Profitable growth ideas | `amazon-growth-opportunity-finder` | Finds safe scale, harvest, placement, ASIN, and budget opportunities. |
 | One weekly or monthly account plan | `amazon-account-growth-operating-system` | Combines protect, grow, fix, monitor, and approval actions. |
-| Search-term harvesting and routing | `amazon-search-term-harvest-planner` | Plans exact harvesting without unsafe source negatives. |
+| Search-term harvesting and routing | `amazon-search-term-harvest-planner` | Plans exact harvesting with readiness statuses and without unsafe source negatives. |
 | Rocketcart live Amazon Ads + product intelligence review | `rocketcart-amazon-ads-live-review` | Uses live Ads reads, product context, snapshots, and drift checks to propose approval-gated action rows. |
 
 ## What This Repo Is
@@ -176,7 +176,7 @@ Do not upload the whole repository to Claude as one skill. See [Installation](do
 
 4. `amazon-search-term-harvest-planner`
    - Finds search terms ready for exact-match harvesting from auto, broad, phrase, or discovery campaigns.
-   - Blocks unsafe source negatives when traffic may be brand defense, own-ASIN defense, launch/rank support, or low-sample discovery.
+   - Produces `PLANNING_ONLY`, `NEEDS_DATA`, `BLOCKED`, `APPROVAL_REQUIRED`, or `APPROVAL_READY` rows and blocks unsafe source negatives when traffic may be brand defense, own-ASIN defense, launch/rank support, or low-sample discovery.
 
 5. `rocketcart-amazon-ads-live-review`
    - Runs read-first live optimization, product-aware growth, preflight readiness, and post-change monitoring reviews in standalone or Rocketcart MCP mode.
