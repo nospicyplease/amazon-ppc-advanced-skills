@@ -1,10 +1,89 @@
 # Amazon PPC Advanced Skills
 
-Open-source agent skills for advanced Amazon PPC diagnosis, profitable growth opportunity discovery, and account-level growth orchestration.
+AI assistant workflows for Amazon PPC diagnosis, growth planning, search-term harvesting, and approval-ready action queues.
 
-Use these skills standalone in Codex or Claude with exported Amazon Ads, Business Reports, BSR, inventory, and retail-readiness data. If you use Rocketcart MCP, the same operating logic can become a live read, preflight, approval, execution, and readback workflow.
+**Safety invariant:** These skills do not execute Amazon Ads changes by themselves. Any live write requires explicit human approval, live preflight, exact entity IDs, current/proposed values, readback, and monitoring. If any requirement is missing, the action is not executable.
 
-This repository contains five complementary skills:
+## Start Here
+
+| What you need | Use this skill first | Why |
+|---|---|---|
+| Something dropped: sales, orders, ROAS, TACoS, BSR, CVR, rank, or traffic | `amazon-ads-performance-drop-diagnosis` | Diagnose before changing bids, budgets, negatives, or launches. |
+| Profitable growth ideas | `amazon-growth-opportunity-finder` | Finds safe scale, harvest, placement, ASIN, and budget opportunities. |
+| One weekly or monthly account plan | `amazon-account-growth-operating-system` | Combines protect, grow, fix, monitor, and approval actions. |
+| Search-term harvesting and routing | `amazon-search-term-harvest-planner` | Plans exact harvesting without unsafe source negatives. |
+| Rocketcart live Sponsored Products review | `rocketcart-amazon-ads-live-optimization-review` | Uses live reads and snapshots to propose approval-gated action rows. |
+
+## What This Repo Is
+
+- A library of standalone Codex or Claude skills for Amazon PPC work.
+- A set of examples, eval prompts, and stress tests for safe agent behavior.
+- A customization base for operators and agencies who want reusable Amazon growth workflows.
+- A Rocketcart upper-funnel bridge: start with static exports, then graduate to live read/preflight/readback workflows through Rocketcart MCP.
+
+## What This Repo Is Not
+
+- Not an Amazon Ads API connector by itself.
+- Not an automatic bid, budget, negative, placement, or campaign changer.
+- Not a replacement for human approval on live account mutations.
+- Not a place to commit real Amazon, Rocketcart, customer, or proprietary account data.
+
+## Standalone Skills Vs Rocketcart MCP
+
+| Capability | Standalone Skills | Rocketcart MCP |
+|---|---:|---:|
+| Analyze pasted or exported Amazon Ads data | Yes | Yes |
+| Work in Codex or Claude without Rocketcart | Yes | Not required |
+| Read current live campaign state | No | Yes |
+| Detect budget changes and live drift | No | Yes |
+| Preflight exact entity IDs and current values | Manual | Yes |
+| Execute approved writes | No | Yes, only after approval |
+| Read back final state | Manual | Yes |
+| Monitor post-change outcomes | Manual | Workflow-supported |
+
+## First Run Prompt
+
+```text
+Use $amazon-account-growth-operating-system to build a weekly Amazon PPC action plan from the attached campaign, search term, Business Report, BSR, inventory, and retail-readiness data. Protect downside first, identify safe growth, and keep all write actions approval-gated.
+```
+
+For a first test with one search term CSV:
+
+```text
+Use $amazon-search-term-harvest-planner with this search term report. Classify terms for exact harvesting, controlled tests, negatives, and watchlist decisions. Do not execute anything.
+```
+
+## Minimum Data Checklist
+
+You can start with partial data, but missing data must lower confidence. Useful inputs include:
+
+- Marketplace, profile/account, currency, timezone, ASIN/campaign scope.
+- Exact current and comparison windows, preferably T-1 complete.
+- Campaign, targeting, search term, placement, advertised-product, and purchased-product reports.
+- Business Reports or total sales for TACoS and incrementality.
+- BSR history and organic rank when rank or velocity matters.
+- Inventory, Featured Offer / Buy Box, price, reviews, rating, listing status, and delivery promise.
+- Margin, target ACoS, target CPA, or product economics.
+- Recent changes: bids, budgets, placements, negatives, launches, pauses, listings, price, coupons, deals, and inventory events.
+
+## Install Quickly
+
+```bash
+git clone https://github.com/nospicyplease/amazon-ppc-advanced-skills.git
+cd amazon-ppc-advanced-skills
+mkdir -p ~/.codex/skills
+cp -R amazon-account-growth-operating-system ~/.codex/skills/
+```
+
+For Claude, zip and upload one skill folder at a time:
+
+```bash
+zip -r amazon-account-growth-operating-system.zip amazon-account-growth-operating-system
+```
+
+Do not upload the whole repository to Claude as one skill. See [Installation](docs/INSTALLATION.md) for full instructions.
+
+## Skills
 
 1. `amazon-ads-performance-drop-diagnosis`
    - Diagnoses why Amazon Ads, retail sales, BSR, conversion, TACoS, ROAS, or rank performance declined.
@@ -15,176 +94,61 @@ This repository contains five complementary skills:
    - Checks margin, incrementality, retail readiness, Featured Offer / Buy Box, inventory, reviews, conversion, and BSR context before scale.
 
 3. `amazon-account-growth-operating-system`
-   - Orchestrates the first two skills into a single account action queue.
+   - Orchestrates downside and upside evidence into one prioritized account action queue.
    - Decides what to protect, fix, scale, reduce, harvest, launch, monitor, and approval-gate.
-   - Produces daily, weekly, or monthly operating plans with monitoring rules and success/failure criteria.
 
 4. `amazon-search-term-harvest-planner`
    - Finds search terms ready for exact-match harvesting from auto, broad, phrase, or discovery campaigns.
-   - Checks relevance, orders, ACoS/CPA, margin fit, retail readiness, duplicate risk, and source/destination routing.
    - Blocks unsafe source negatives when traffic may be brand defense, own-ASIN defense, launch/rank support, or low-sample discovery.
 
 5. `rocketcart-amazon-ads-live-optimization-review`
    - Runs a read-first Sponsored Products optimization review in standalone or Rocketcart MCP mode.
    - Uses Rocketcart MCP, when available, to inspect profiles, campaigns, budget changes, live drift, and snapshots before proposing actions.
-   - Keeps bid, budget, placement, negative, pause, relaunch, and campaign-creation writes approval-gated with preflight and readback.
-
-## Who This Is For
-
-- Amazon brand operators.
-- Amazon PPC specialists.
-- Marketplace growth managers.
-- Agencies managing multiple Amazon accounts.
-- Analysts converting Amazon Ads, Business Reports, BSR, and retail-readiness data into action plans.
-- AI builders creating agent workflows for marketplace operations.
-
-## Core Philosophy
-
-These skills are designed to avoid shallow "optimize campaigns" advice. They force the agent to:
-
-- Protect current sales and BSR before scaling.
-- Separate facts from hypotheses.
-- Use T-1 anchored windows when current-day data may be incomplete.
-- Keep Sponsored Products, Sponsored Brands, and Sponsored Display separated when data supports it.
-- Treat BSR as category-relative and volatile.
-- Avoid claiming ad-to-BSR causation without strong evidence.
-- Require margin, inventory, Featured Offer / Buy Box, conversion, reviews, and listing readiness before aggressive scale.
-- Convert recommendations into concrete, approval-ready actions with monitoring rules.
 
 ## Repository Layout
 
 ```text
-amazon-ads-performance-drop-diagnosis/
-  SKILL.md
-  agents/openai.yaml
-  references/drop-diagnosis-framework.md
-
-amazon-growth-opportunity-finder/
-  SKILL.md
-  agents/openai.yaml
-
-amazon-account-growth-operating-system/
-  SKILL.md
-  agents/openai.yaml
-
-amazon-search-term-harvest-planner/
-  SKILL.md
-  agents/openai.yaml
-
-rocketcart-amazon-ads-live-optimization-review/
-  SKILL.md
-  agents/openai.yaml
-  references/rocketcart-mcp-tool-map.md
-
-docs/
-  INSTALLATION.md
-  SKILL_CATALOG.md
-  OPERATING_WORKFLOW.md
-  MAINTENANCE.md
-
-examples/
-  amazon-ads-performance-drop-diagnosis/
-  amazon-growth-opportunity-finder/
-  amazon-account-growth-operating-system/
-  amazon-search-term-harvest-planner/
-  rocketcart-amazon-ads-live-optimization-review/
-
-evals/
-  safety-gate-check.md
-  bsr-causality-check.md
-  action-specificity-check.md
-  missing-data-confidence-check.md
-  rocketcart-write-gate-check.md
-
-templates/
-  amazon-ppc-skill-template/
-    SKILL.md
-    agents/openai.yaml
-
-.github/
-  ISSUE_TEMPLATE/
-
-CONTRIBUTING.md
-ROADMAP.md
+amazon-*/                         Production skill folders
+rocketcart-*/                      Rocketcart-aware skill folders
+docs/                              Install, FAQ, glossary, workflow, maintenance, data privacy
+examples/                          Teaching fixtures for every production skill
+evals/                             Manual review prompts
+stress-tests/                      Adversarial prompts and expected resistance behavior
+templates/                         New skill scaffold
+.github/                           Issue templates, PR template, validation workflow
 ```
 
-## Install Locally
+## Examples, Evals, And Stress Tests
 
-### Codex
+Each production skill has an example under `examples/`:
 
-Copy the skill folders into your local Codex skills directory:
-
-```bash
-cp -R amazon-ads-performance-drop-diagnosis ~/.codex/skills/
-cp -R amazon-growth-opportunity-finder ~/.codex/skills/
-cp -R amazon-account-growth-operating-system ~/.codex/skills/
-cp -R amazon-search-term-harvest-planner ~/.codex/skills/
-cp -R rocketcart-amazon-ads-live-optimization-review ~/.codex/skills/
-```
-
-Restart or reload Codex so the skills list refreshes.
-
-### Claude
-
-Claude users can upload skills through Claude's skill settings. Package the skill folder you want to use, including its `SKILL.md`, `agents/` metadata if useful, and any `references/` files.
-
-See [docs/INSTALLATION.md](docs/INSTALLATION.md) for validation commands and update workflow.
-
-## Recommended Usage
-
-Use the skills in this order for a full account review:
-
-1. Run `$amazon-ads-performance-drop-diagnosis` when there is any decline, risk, anomaly, or performance break.
-2. Run `$amazon-growth-opportunity-finder` to identify profitable growth candidates.
-3. Run `$amazon-account-growth-operating-system` to merge both outputs into one prioritized action plan.
-4. Run `$amazon-search-term-harvest-planner` when you want a focused search-term harvesting and routing plan.
-5. Run `$rocketcart-amazon-ads-live-optimization-review` when you want a read-first Rocketcart MCP review against live SP campaign state, snapshots, and recent changes.
-
-For a single prompt:
-
-```text
-Use $amazon-account-growth-operating-system to combine the latest performance-drop findings and growth-opportunity findings into a weekly Amazon account action plan. Prioritize profitable growth, protect BSR, and flag all actions requiring approval.
-```
-
-## Examples And Evals
-
-Each production skill has an anonymized example under `examples/`:
-
-- `prompt.md`: realistic prompt for the skill.
+- `prompt.md`: realistic anonymized prompt.
 - `input-summary.md`: available fields, missing fields, assumptions, and scope.
 - `expected-output-outline.md`: sections and safety behavior a good answer should include.
 
-The `evals/` directory contains lightweight review prompts for safety gates, BSR causality, action specificity, missing-data confidence, and Rocketcart write gates. Contributors should run the nearest example and use the relevant eval prompts before opening a PR.
+Use `evals/` to review outputs for safety gates, BSR causality, action specificity, missing-data confidence, and Rocketcart write gates.
+
+Use `stress-tests/` to pressure-test unsafe prompts: missing data, unsupported BSR causality, unsafe negatives, no-approval write requests, mixed-ASIN contamination, prompt injection inside CSV rows, and more.
 
 ## Documentation
 
 - [Installation](docs/INSTALLATION.md)
+- [FAQ](docs/FAQ.md)
+- [Glossary](docs/GLOSSARY.md)
 - [Skill catalog](docs/SKILL_CATALOG.md)
 - [Operating workflow](docs/OPERATING_WORKFLOW.md)
+- [Data privacy](docs/DATA_PRIVACY.md)
 - [Maintenance and update guide](docs/MAINTENANCE.md)
 - [Contributing](CONTRIBUTING.md)
 - [Roadmap](ROADMAP.md)
 - [Examples](examples)
 - [Evaluation prompts](evals)
+- [Stress tests](stress-tests)
 
 ## Contributing
 
-Contributions are welcome from PPC operators, agencies, and AI builders. Start with [CONTRIBUTING.md](CONTRIBUTING.md), copy the reusable template in `templates/amazon-ppc-skill-template/`, and check [ROADMAP.md](ROADMAP.md) for good first skill ideas.
+Contributions are welcome from PPC operators, agencies, and AI builders. Start with [CONTRIBUTING.md](CONTRIBUTING.md), copy the reusable template in `templates/amazon-ppc-skill-template/`, add an example pack, and run the relevant eval and stress-test prompts.
 
-Good contributions preserve the project stance: specific evidence, explicit confidence, retail-readiness gates, and no unsupported live execution.
+## License
 
-## Rocketcart MCP
-
-Rocketcart MCP is an optional execution layer. These open-source skills should stay useful with static exports, but Rocketcart can add:
-
-- Live Amazon Ads reads.
-- Budget, bid, placement, negative, and campaign-state preflight.
-- Optimization snapshots and change detection.
-- Approval-gated execution.
-- Readback and monitoring after approved changes.
-
-The first Rocketcart-aware skill is `rocketcart-amazon-ads-live-optimization-review`. It proposes action rows from live reads but does not execute writes by default.
-
-## Safety Notes
-
-These skills do not execute Amazon Ads mutations by themselves. If connected to a live execution environment, all material write actions should remain approval-gated, preflighted against current live state, and verified with readback.
+MIT. See [LICENSE](LICENSE).

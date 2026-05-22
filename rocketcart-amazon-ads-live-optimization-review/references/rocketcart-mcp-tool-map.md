@@ -22,6 +22,36 @@ Never call these during the initial review. Use only after explicit approval, li
 - `delete_negatives`: archive SP negative keywords by ID.
 - `create_campaigns_now`: create campaigns immediately through the Amazon Ads API; use `dry_run` for validation where available before any real creation.
 
+## Tool Use Examples
+
+List profiles when profile is missing:
+
+```text
+list_profiles()
+```
+
+Then ask the user to choose when more than one profile plausibly matches the request. Do not infer from country or name alone when multiple profiles are possible.
+
+Inspect live campaigns after profile is confirmed:
+
+```text
+list_campaigns(profile: "example_profile")
+detect_budget_changes(profile: "example_profile")
+detect_live_changes(profile: "example_profile")
+list_snapshots(profile: "example_profile")
+```
+
+Preflight a budget action by checking at least:
+
+- Profile and marketplace.
+- Exact campaign ID.
+- Current campaign state.
+- Current budget.
+- Recent budget or placement drift.
+- Inventory, Featured Offer / Buy Box, margin, and strategic role.
+
+If any field differs from the approved row, the approval is stale.
+
 ## Preflight By Action Type
 
 Budget change:
@@ -63,3 +93,40 @@ After an approved write, read back the affected entity:
 - Negative creation/deletion or keyword bid readback: use the available Rocketcart or Amazon MCP read path in the host environment.
 
 Report what changed, what did not change, and what must be monitored over 3, 7, and 14 days.
+
+## Failure Modes
+
+Profile ambiguity:
+
+- If multiple profiles match the user's request, list the candidates and ask the user to pick one.
+- Do not inspect or execute against a guessed profile.
+
+Missing IDs:
+
+- Campaign names, keyword text, and search terms are not enough for live writes.
+- Classify the row as `Needs IDs` until the exact Amazon Ads entity IDs are known.
+
+Stale snapshot or changelog:
+
+- Treat old snapshots as context, not approval.
+- Refresh live state before any execution decision.
+
+Current value mismatch:
+
+- If live preflight shows a current bid, budget, placement modifier, negative state, or campaign state that differs from the approved row, do not execute.
+- Produce a refreshed row and request refreshed approval for the new current/proposed pair.
+
+Dry-run failure:
+
+- Treat dry-run errors as blockers until resolved.
+- Report the error, affected entity, likely cause, and the safest next read or edit.
+
+Dry run passes but business gate fails:
+
+- API validation does not override inventory, Featured Offer / Buy Box, margin, or brand/rank-defense gates.
+- Keep the row blocked or downgrade it to a controlled test when business risk is high.
+
+Write tool available during initial review:
+
+- Availability is not permission.
+- Do not call write tools during initial review even when they are exposed in the environment.

@@ -1,5 +1,17 @@
 # Skill Catalog
 
+If you are new to the project, start with [FAQ](FAQ.md). The fastest rule is: use the narrowest skill that matches the job, then use `amazon-account-growth-operating-system` to combine findings into a prioritized plan.
+
+## Decision Matrix
+
+| User situation | Start with | Minimum useful data | Why | Main safety blocker |
+|---|---|---|---|---|
+| Sales, orders, ROAS, TACoS, BSR, CVR, rank, or traffic worsened | `amazon-ads-performance-drop-diagnosis` | Current and baseline windows, campaign metrics, total sales if TACoS matters, BSR, retail readiness, change history | Diagnose the break before changing controls | Missing comparison windows, BSR, total sales, retail readiness, or change history |
+| No obvious drop, want profitable upside | `amazon-growth-opportunity-finder` | Campaign/targeting/search-term data, economics or target ACoS, inventory, Featured Offer / Buy Box, total sales if incrementality matters | Finds safe scale, harvest, budget, ASIN, and placement opportunities | Missing margin, inventory, total sales, search terms, or retail readiness |
+| Need one weekly account action plan | `amazon-account-growth-operating-system` | Drop findings, growth findings, or raw account data with scope, economics, readiness, and rank context | Prioritizes protect/grow/fix/monitor into one queue | Conflicting upstream findings or unresolved high-confidence downside risk |
+| Search-term cleanup or exact harvesting | `amazon-search-term-harvest-planner` | Search term report, targeting/keyword map, destination structure, existing exact/negatives, economics/readiness | Separates harvest, route, negative, bid-down, and watchlist decisions | Missing source/destination map, exact keyword map, or strategic-role context |
+| Rocketcart live Sponsored Products review | `rocketcart-amazon-ads-live-optimization-review` | Rocketcart profile, live campaigns, budget changes, snapshots, action goal | Compares analysis to live state and proposes approval-gated rows | Missing profile, exact IDs, live preflight, approval, or readback |
+
 ## 1. Amazon Ads Performance Drop Diagnosis
 
 Folder: `amazon-ads-performance-drop-diagnosis`

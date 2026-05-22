@@ -1,0 +1,35 @@
+name: Validate
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  repo-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check required files
+        run: make check-docs
+
+      - name: Check skill and example layout
+        run: make check-examples
+
+      - name: List production skills
+        run: make list-skills
+
+      - name: Parse YAML metadata
+        run: |
+          ruby -e 'require "yaml"; ARGV.each { |f| YAML.load_file(f); puts "yaml ok #{f}" }' .github/ISSUE_TEMPLATE/*.yml */agents/openai.yaml templates/amazon-ppc-skill-template/agents/openai.yaml
+
+      - name: Validate repo layout
+        run: |
+          for skill in amazon-ads-performance-drop-diagnosis amazon-growth-opportunity-finder amazon-account-growth-operating-system amazon-search-term-harvest-planner rocketcart-amazon-ads-live-optimization-review; do
+            test -f "$skill/SKILL.md"
+            test -f "$skill/agents/openai.yaml"
+            test -f "examples/$skill/prompt.md"
+            test -f "examples/$skill/input-summary.md"
+            test -f "examples/$skill/expected-output-outline.md"
+          done

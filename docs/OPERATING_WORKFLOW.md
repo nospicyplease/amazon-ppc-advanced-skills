@@ -1,5 +1,36 @@
 # Operating Workflow
 
+## Choose A Path
+
+### Path A: Static-Export Workflow
+
+Use this path when the user provides CSVs, pasted tables, screenshots, or summaries.
+
+1. Confirm marketplace, account/profile, currency, timezone, ASIN/campaign scope, current window, and comparison window.
+2. Map available exports to the relevant skill:
+   - Performance drop: `amazon-ads-performance-drop-diagnosis`.
+   - Growth review: `amazon-growth-opportunity-finder`.
+   - Search-term harvest: `amazon-search-term-harvest-planner`.
+   - Unified plan: `amazon-account-growth-operating-system`.
+3. State missing data and confidence limits before recommendations.
+4. Produce approval-ready action rows, not live writes.
+5. Use examples, evals, and stress tests to review output quality.
+
+Static exports can be stale. Any future live execution still requires approval, preflight, exact IDs, current/proposed values, readback, and monitoring.
+
+### Path B: Rocketcart Live-Read Workflow
+
+Use this path when Rocketcart MCP is available.
+
+1. Run `rocketcart-amazon-ads-live-optimization-review` in read-first mode.
+2. Confirm profile. If multiple profiles match, do not assume; ask for selection.
+3. Inspect live campaigns, budget changes, live drift, and snapshots.
+4. Convert findings into proposed action rows.
+5. Do not execute writes during the initial review.
+6. Execute only after explicit approval, live preflight, exact entity IDs, current/proposed values, expected impact/risk, readback, and monitoring criteria.
+
+If live state differs from an approved row, do not execute without refreshed approval.
+
 ## Full Account Review
 
 Use this workflow for a weekly or monthly account review.

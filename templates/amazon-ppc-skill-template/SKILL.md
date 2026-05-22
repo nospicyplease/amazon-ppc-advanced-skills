@@ -27,6 +27,15 @@ Gather, derive, or mark unavailable:
 - BSR, organic rank, total sales, and competitor context when rank or incrementality matters.
 - Known changes: bids, budgets, placements, negatives, launches, pauses, listings, pricing, promotions, and inventory events.
 
+## Data Schema
+
+Document the minimum useful fields for this skill. Replace this placeholder with a concise schema, for example:
+
+- Entity fields: ASIN, campaign ID, ad group ID, keyword ID, target ID, search term, match type, placement, state.
+- Performance fields: spend, sales, orders, impressions, clicks, CTR, CPC, CVR, ACoS, ROAS.
+- Retail fields: inventory, Featured Offer / Buy Box, price, reviews, rating, margin, BSR, total sales.
+- Context fields: date window, comparison window, marketplace, currency, timezone, recent changes.
+
 ## Safety Gates
 
 Before recommending execution, classify the case as `Actionable`, `Directional`, or `Non-actionable`.
@@ -40,6 +49,17 @@ Do not recommend bid, budget, placement, negative, pause, relaunch, or campaign-
 - The recommendation includes monitoring or rollback criteria.
 
 If connected to Rocketcart MCP or any live Amazon Ads execution layer, require explicit approval, preflight against live state, and readback after execution.
+
+## Common Failure Modes
+
+Replace or extend these with skill-specific blockers:
+
+- Missing entity IDs but live write is requested.
+- Same-day or stale data is treated as complete.
+- Margin, inventory, Featured Offer / Buy Box, total sales, or BSR is missing but the output makes firm profitability or causality claims.
+- A negative, pause, or budget cut would harm brand defense, own-ASIN defense, launch/rank support, or low-sample discovery.
+- Action rows are vague and omit entity, evidence, current state, proposed state, risk, approval status, or monitoring.
+- Rocketcart or other live-write tooling is available but no explicit approval, preflight, readback, or monitoring plan exists.
 
 ## Workflow
 
@@ -64,3 +84,12 @@ Return these sections unless the user asks for a shorter version:
 ## Optional References
 
 Move detailed formulas, examples, schemas, and long workflow variants into `references/` and link them here only when needed.
+
+## Minimum Example And Eval
+
+When turning this template into a production skill, add:
+
+- `examples/<skill-name>/prompt.md`: realistic synthetic or anonymized prompt.
+- `examples/<skill-name>/input-summary.md`: available fields, missing fields, assumptions, and scope.
+- `examples/<skill-name>/expected-output-outline.md`: required sections and safety behavior.
+- At least one relevant `evals/` or `stress-tests/` addition when the skill introduces a new safety, causality, or actionability risk.

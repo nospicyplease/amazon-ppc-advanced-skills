@@ -10,6 +10,7 @@
 - Keep Amazon terminology current. Use `Featured Offer / Buy Box` when referring to offer ownership.
 - Keep open-source skills useful with static exports; treat Rocketcart MCP as an optional live read, preflight, approval, execution, and readback layer.
 - Keep examples and eval prompts aligned with skill behavior whenever a skill's output format, safety gates, or actionability rules change.
+- Keep stress tests aligned with the most important ways a skill could become unsafe or overconfident.
 
 ## Validation Checklist
 
@@ -22,10 +23,27 @@ Before committing updates:
 5. Confirm the Growth Operating System still references both upstream skills correctly.
 6. Confirm new skills are listed in `README.md` and `docs/SKILL_CATALOG.md` when they are user-facing.
 7. Confirm each production skill has an example with `prompt.md`, `input-summary.md`, and `expected-output-outline.md`.
-8. Review changed outputs with the relevant `evals/` prompt before opening a PR.
-9. Validate all skills with `quick_validate.py` if available.
+8. Confirm new-user docs answer what the skill is, how to install it, what data is needed, and whether live execution can occur.
+9. Review changed outputs with the relevant `evals/` prompt before opening a PR.
+10. Run or review at least one relevant stress test from `stress-tests/` when safety gates, BSR claims, negatives, budget cuts, or Rocketcart writes are affected.
+11. Validate all skills with `quick_validate.py` if available.
 
 ## Recommended Commands
+
+Use the Makefile for repo-level checks:
+
+```bash
+make check-docs
+make check-examples
+make list-skills
+make validate
+```
+
+`make validate` checks required docs, production skill layout, example packs, YAML metadata, and the Codex `quick_validate.py` script when it is available locally. If the local Codex validator is unavailable, the make target skips that step and still runs the structural checks.
+
+GitHub Actions runs the same repo-level checks on pull requests and pushes to `main` through `.github/workflows/validate.yml`.
+
+Manual validator commands are still useful when iterating on one skill:
 
 ```bash
 find . -maxdepth 2 -name SKILL.md -print | sort
@@ -58,6 +76,16 @@ Use examples and evals as lightweight regression checks:
    - `evals/missing-data-confidence-check.md` for partial data.
    - `evals/rocketcart-write-gate-check.md` for Rocketcart MCP write candidates.
 5. Fix the skill or docs when an eval returns `Needs revision` or `Fail`.
+
+## Stress-Test Review
+
+Use stress tests when changing skill instructions, adding a skill, or reviewing whether the docs are clear for new users:
+
+1. Pick a stress test from `stress-tests/`.
+2. Run its prompt against the relevant skill or docs.
+3. Confirm the output shows the expected resistance behavior.
+4. Paste the output into the listed eval prompts.
+5. Strengthen the skill or docs if the output overstates confidence, recommends unsafe execution, cuts strategic traffic, or fails to explain missing data.
 
 ## Release Notes Template
 

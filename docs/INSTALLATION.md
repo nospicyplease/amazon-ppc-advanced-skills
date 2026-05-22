@@ -1,15 +1,33 @@
 # Installation
 
+Read [FAQ](FAQ.md) first if you are new to Codex skills, Claude skills, or Rocketcart MCP.
+
 ## Requirements
 
 - Codex with local skills support, or Claude with skill upload support.
-- Access to the local Codex skills directory, usually `~/.codex/skills`, when using Codex.
-- Optional: Amazon Ads, Business Reports, BSR, inventory, and retail-readiness data for actual analysis.
-- Optional: Rocketcart MCP or another live execution layer for read, preflight, approval, write, and readback workflows.
+- This repository cloned locally.
+- Optional: Amazon Ads, Business Reports, BSR, inventory, and retail-readiness exports.
+- Optional: Rocketcart MCP for live reads, preflight, approval-gated writes, and readback.
 
-## Install All Skills
+## Clone The Repo
 
-From the repository root:
+```bash
+git clone https://github.com/nospicyplease/amazon-ppc-advanced-skills.git
+cd amazon-ppc-advanced-skills
+```
+
+## Install One Skill In Codex
+
+Use this when you only want one workflow.
+
+```bash
+mkdir -p ~/.codex/skills
+cp -R amazon-account-growth-operating-system ~/.codex/skills/
+```
+
+Reload Codex so the skills list refreshes.
+
+## Install All Skills In Codex
 
 ```bash
 mkdir -p ~/.codex/skills
@@ -22,19 +40,31 @@ cp -R rocketcart-amazon-ads-live-optimization-review ~/.codex/skills/
 
 Reload Codex after copying.
 
-## Install In Claude
+## Install One Skill In Claude
 
-Claude skills are uploaded as skill folders. Package one skill folder at a time, including:
+Claude skills are uploaded as skill folders. Zip one skill folder at a time:
+
+```bash
+zip -r amazon-account-growth-operating-system.zip amazon-account-growth-operating-system
+```
+
+Upload that ZIP in Claude's skill settings.
+
+Do not upload the entire repository as one Claude skill. Each top-level skill folder is intended to be installed separately.
+
+Include:
 
 - `SKILL.md`.
-- `agents/openai.yaml` if you want to keep shared UI-facing metadata.
+- `agents/openai.yaml` if useful.
 - Any `references/`, `scripts/`, or `assets/` folders used by that skill.
-
-Do not upload the entire repository as one skill. Each top-level skill folder is intended to be installed separately.
 
 ## Verify Installation
 
-Each skill must contain a valid `SKILL.md` with YAML frontmatter.
+In Codex or Claude, start a new chat and invoke the skill by name, for example:
+
+```text
+Use $amazon-account-growth-operating-system to build a weekly Amazon PPC action plan from this account data.
+```
 
 If you have the Codex skill validator available, run:
 
@@ -52,21 +82,22 @@ Expected result for each skill:
 Skill is valid!
 ```
 
+Manual validation if the Codex validator is unavailable:
+
+- Confirm the installed skill folder contains `SKILL.md`.
+- Confirm `SKILL.md` starts with YAML frontmatter containing only `name` and `description`.
+- Confirm any linked `references/` files exist.
+- Confirm `agents/openai.yaml` exists if the skill includes UI metadata.
+
 ## Update An Existing Installation
 
-From the repository root:
+Copy the updated skill folder again, then reload Codex:
 
 ```bash
-cp -R amazon-ads-performance-drop-diagnosis ~/.codex/skills/
-cp -R amazon-growth-opportunity-finder ~/.codex/skills/
 cp -R amazon-account-growth-operating-system ~/.codex/skills/
-cp -R amazon-search-term-harvest-planner ~/.codex/skills/
-cp -R rocketcart-amazon-ads-live-optimization-review ~/.codex/skills/
 ```
 
-Reload Codex so the updated skill descriptions and instructions are picked up.
-
-For Claude, re-upload the updated skill folder.
+For Claude, rebuild and re-upload the ZIP for the updated skill folder.
 
 ## Invocation Examples
 
@@ -90,10 +121,42 @@ Use $amazon-search-term-harvest-planner to classify search terms for exact harve
 Use $rocketcart-amazon-ads-live-optimization-review to inspect live Sponsored Products campaign state with Rocketcart MCP, detect recent changes, and propose approval-gated optimization actions without executing writes.
 ```
 
+## First Smoke Test
+
+After installing one skill, use the matching `examples/<skill-name>/prompt.md` with the context in `input-summary.md`. A good output should follow `expected-output-outline.md`.
+
+## Troubleshooting
+
+Skill does not appear:
+
+- Reload Codex or Claude after installing.
+- Confirm the folder is directly under `~/.codex/skills/`, not nested one level deeper.
+- Confirm the folder contains `SKILL.md`.
+
+Wrong folder zipped for Claude:
+
+- The ZIP should contain the skill folder and its `SKILL.md`.
+- Do not zip the whole repository for a single Claude skill.
+
+Stale copied skill:
+
+- Re-copy the skill folder from the repo and reload the app.
+
+Missing `SKILL.md`:
+
+- Install one of the top-level skill folders, not `docs/`, `examples/`, `evals/`, or `templates/` unless you are creating a new skill.
+
+Examples and evals do not trigger as skills:
+
+- `examples/`, `evals/`, and `stress-tests/` are teaching and review materials. They are not installed as runtime skills.
+
+Rocketcart MCP unavailable:
+
+- Use standalone mode with static exports or pasted data.
+- The Rocketcart-aware skill should lower confidence when live reads, preflight, or readback are unavailable.
+
 ## Data Handling
 
 The skills can work with partial data, but they must state confidence limits. Missing margin, total sales, BSR, inventory, Featured Offer / Buy Box, search terms, or comparison windows should lower confidence and block unsafe recommendations.
 
-## Rocketcart MCP Handling
-
-Rocketcart MCP is optional. When available, it should be used to read current state, detect changes, preflight proposed actions, execute only approved writes, and read back the final state. The skills should still produce useful guidance when Rocketcart MCP is unavailable and the user only provides static exports.
+See [Data privacy](DATA_PRIVACY.md) before adding examples or sharing account data.

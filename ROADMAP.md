@@ -21,6 +21,32 @@ The skills must remain useful with static exports in Codex or Claude. Rocketcart
 4. Add more specialist PPC skills that plug into the existing operating system.
 5. Add validation and evaluation examples that show what good outputs look like.
 
+## Current Maturity
+
+| Skill | Status | Main Gap Before v1 |
+|---|---|---|
+| `amazon-ads-performance-drop-diagnosis` | Production-oriented draft | More sample data fixtures and known-bad outputs. |
+| `amazon-growth-opportunity-finder` | Production-oriented draft | Clearer thresholds for scale vs watchlist decisions by data volume. |
+| `amazon-account-growth-operating-system` | Orchestrator draft | More examples showing conflict resolution across upstream findings. |
+| `amazon-search-term-harvest-planner` | Good-first-skill complete | Fixture coverage for duplicate exact keywords and source-negative blockers. |
+| `rocketcart-amazon-ads-live-optimization-review` | Rocketcart bridge draft | Live-read examples, preflight examples, and post-change monitor skill. |
+
+## Needed Before v1
+
+- Add sample CSV/JSON fixtures for each production skill.
+- Add one full `expected-output.md` and one `known-bad-output.md` per production skill.
+- Turn the strongest stress tests into repeatable eval cases with pass/fail criteria.
+- Add link checks and frontmatter checks to CI.
+- Extract common Amazon PPC guardrails into shared references when duplication becomes hard to maintain.
+- Confirm the license, security, and data privacy docs are visible in the README and PR template.
+
+## Contributor Priority Levels
+
+- `P0 safety`: approval gates, live write blockers, BSR causality, data privacy, prompt injection, and missing-data confidence.
+- `P1 onboarding`: README clarity, install friction, glossary, FAQ, examples, and first-run prompts.
+- `P2 skill coverage`: narrow Amazon PPC workflows that plug into the operating system.
+- `P3 polish`: formatting, wording, taxonomy cleanup, and non-blocking reference improvements.
+
 ## Good First Skill Ideas
 
 These are scoped so a PPC operator can contribute one workflow without needing to redesign the whole project.
@@ -90,6 +116,14 @@ The first bridge skill is `rocketcart-amazon-ads-live-optimization-review`. Futu
 7. Read back the resulting state and define monitoring windows.
 
 Open-source skills should describe the workflow even when Rocketcart MCP is unavailable.
+
+## Rocketcart Upper-Funnel Goals
+
+- Let operators prove value with static exports before they connect live tooling.
+- Make Rocketcart feel like the natural next layer for live reads, drift detection, preflight, readback, and monitoring.
+- Keep trust high by making no-write-by-default behavior obvious in README, examples, evals, and Rocketcart-specific skills.
+- Encourage agencies and AI builders to customize open-source skills while preserving Rocketcart-compatible action rows.
+- Turn repeated contributor ideas into Rocketcart-aware workflows only when live state materially improves safety or execution quality.
 
 ## Success Signals
 

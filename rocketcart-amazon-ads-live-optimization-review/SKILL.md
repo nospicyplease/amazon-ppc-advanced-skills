@@ -7,7 +7,11 @@ description: Use for read-first Amazon Sponsored Products optimization reviews t
 
 ## Purpose
 
+Initial review is read-only.
+
 Review Amazon Sponsored Products accounts with a read-first, approval-gated operating model. Use static exports when Rocketcart MCP is unavailable. When Rocketcart MCP tools are available, use them to inspect live account state, campaign settings, budget changes, live changes since optimization snapshots, and previous snapshots/changelogs before proposing actions.
+
+MCP means Model Context Protocol: a structured way for an assistant to use external tools and data sources. See the repo [glossary](../docs/GLOSSARY.md) for definitions of MCP, preflight, readback, action gates, and exact entity IDs.
 
 This skill is the bridge between open-source Amazon PPC reasoning and Rocketcart's live account layer. It should produce sharper recommendations because it can compare proposed actions against current state, but it must not execute writes by default.
 
@@ -84,6 +88,26 @@ Any bid, budget, placement, negative, pause, archive, relaunch, or campaign-crea
 - Monitoring window with success and failure criteria.
 
 If any requirement is missing, classify the action as `Approval Required`, `Preflight Required`, `Needs IDs`, `Needs Data`, or `Monitor Only` rather than executable.
+
+### Example Action Rows
+
+Blocked write row:
+
+| Entity Type | Entity ID | Name | Current State | Proposed Action | Reason | Expected Impact | Risk | Confidence | Preflight | Approval |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Campaign budget | Missing | Branded Defense | Budget unknown | Increase daily budget | Strong branded ROAS in static export | Could reduce budget caps | Missing live budget and campaign ID | Low | Needs exact ID and current budget | Needs IDs |
+
+Approval-ready but not executed row:
+
+| Entity Type | Entity ID | Name | Current State | Proposed Action | Reason | Expected Impact | Risk | Confidence | Preflight | Approval |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Campaign budget | 1234567890 | Nonbrand Exact - Core | Budget 40 EUR/day, campaign enabled | Increase to 55 EUR/day | T-1 complete data shows budget-capped profitable orders and inventory is safe | More eligible impressions and orders | CPC inflation or weaker marginal CVR | Medium | Recheck profile, campaign ID, budget, state, inventory, and recent drift immediately before execution | Explicit approval required; not executed |
+
+Example approval text for the second row:
+
+```text
+Approve campaign budget change for entity ID 1234567890 from 40 EUR/day to 55 EUR/day after live preflight confirms the current value is still 40 EUR/day, campaign is enabled, inventory and Featured Offer are safe, and readback plus 3/7/14-day monitoring are reported.
+```
 
 ## Output Format
 
