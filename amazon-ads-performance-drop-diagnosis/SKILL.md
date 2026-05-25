@@ -9,6 +9,12 @@ description: Diagnose why Amazon advertising performance declined for a product,
 
 Diagnose the cause of a decline. Do not produce a generic performance recap. Trace when the break started, quantify the impact, isolate the entities causing the loss, connect ads movement to BSR/rank movement, and recommend only the actions supported by evidence gates. Protect sales velocity and organic momentum; do not optimize only for lower ACOS or lower spend.
 
+## Public-Safe And Vendor-Neutral Guidance
+
+This skill is intended for reusable public guidance. Do not include client-sensitive, account-sensitive, competitor-sensitive, or private examples in the skill, its references, or generated reusable templates. Use synthetic examples only when examples are necessary.
+
+Do not depend on or name any specific third-party retail-data vendor. Refer generically to `retail intelligence data`, `rank history`, `offer snapshot`, `cached retail data`, or `external retail data source`.
+
 ## Required Inputs
 
 Gather, derive from available data, or mark unavailable before diagnosing:
@@ -19,8 +25,9 @@ Gather, derive from available data, or mark unavailable before diagnosing:
 - Amazon Ads metrics by SP/SB/SD where available: spend, sales, orders, impressions, clicks, CTR, CPC, CVR, ACOS, ROAS, budgets, budget usage, placements, campaigns, ad groups, keywords, targets, search terms, product ads, advertised ASINs, and purchased ASINs.
 - Total retail sales/orders for TACoS or organic-momentum claims; if unavailable, do not diagnose TACoS.
 - BSR/rank history for the affected advertised ASINs, including category and date granularity.
+- Retail intelligence freshness/coverage labels before making BSR/rank trend claims; distinguish dated trend history from a point-in-time offer or rank snapshot.
 - Retail readiness: Buy Box, stock, suppression, Prime/FBA/shipping promise, price, coupon/promo/deal, reviews/ratings, listing/content changes, and parent/child variation changes.
-- Change history: bids, budgets, placements, states, product ads, negatives, campaign launches, pauses, portfolio budgets, budget rules, automated rules, bulk edits, and third-party optimization changes.
+- Change history: bids, budgets, placements, campaign/ad group/keyword/target/product ad states, negatives added/removed/archived/unarchived, newly enabled or removed keywords/targets, product ad mapping, campaign launches, pauses, portfolio budgets, budget rules, automated rules, bulk edits, and third-party optimization changes.
 - Competitor/category context: competitor BSR/rank, price, coupon/deal, reviews/ratings, stock, ad visibility, and category demand where available.
 
 ## Diagnostic Gates
@@ -30,6 +37,7 @@ Start every diagnosis with a data reliability and actionability gate:
 - Classify the case as `Actionable`, `Directional`, or `Non-actionable`.
 - Print exact windows, freshness/T-1 status, ad type scope, attribution window, ASIN scope, and any reconciliation gaps.
 - Flag mixed-ASIN contamination, brand-halo/view-through risk, reporting lag, missing BSR, missing total sales, missing retail readiness, missing competitor data, or weak sample size.
+- For ASIN-scoped work, explicitly state whether product-level KPIs are reliable and whether keyword, target, search-term, negative, bid, and pause actions are `Action-safe`, `Directional only`, or `Blocked` because of mixed-ASIN ad groups, halo/other-SKU attribution, weak sample size, or unresolved retail-readiness risk.
 - Do not make definitive root-cause claims when missing data could materially change the diagnosis.
 - Do not recommend bid, budget, negative, pause, or relaunch execution unless the relevant action gate in the diagnostic reference is satisfied.
 
@@ -38,18 +46,21 @@ Start every diagnosis with a data reliability and actionability gate:
 1. Establish data coverage, freshness, and exact windows.
    - Anchor recent windows on T-1 when current data may be incomplete.
    - Print exact date ranges used for L7, L14, L30, L60, L90, suspected drop, and baseline.
+   - Define any `fresh baseline snapshot` as the current trusted ads, retail/rank, campaign-control, and action-state baseline captured before optimization changes are made.
    - Separate SP, SB, and SD when the data supports it; do not blend ad types unless the user asks for an all-ad-type view.
    - Normalize uneven windows to per-day values before comparing them.
 
 2. Find the break point.
    - Inspect daily or weekly trends for the first sustained change in sales/orders, clicks, impressions, CPC, CVR, ACOS/ROAS, TACoS, budget usage, placement mix, and BSR.
-   - Build a control-change timeline for at least 14 days before the break through the drop window.
-   - For each suspected break date, list budget, bid, placement, state, product ad, portfolio, budget rule, automation, negative, or structure changes within +/- 7 days.
+   - Build a control-change timeline for at least 14 days before the break through the drop window, plus any post-drop fixes that should not be treated as root causes.
+   - For each suspected break date, list budget, bid increase/decrease, placement modifier, campaign/ad group/keyword/target/product ad state, product ad mapping, portfolio, budget rule, automation, negative, newly enabled or removed keyword/target, or structure changes within +/- 7 days.
+   - For negative keyword or negative product-target changes, verify whether the changed negative was attached to campaigns/ad groups serving the affected ASIN, whether the blocked/unblocked query or product target had historical sales, whether the ASIN also dropped in untouched campaigns, and whether the change happened before/during the measured drop or only after it.
    - Mark whether the break is abrupt, gradual, intermittent, or isolated to a campaign/entity.
 
 3. Quantify impact and decompose drivers.
    - Build an impact table with baseline, drop window, absolute delta, percent delta, per-day delta, confidence, and driver read.
-   - Use bridge math where possible: traffic effect, conversion effect, ASP/AOV effect, CPC/spend effect, mix effect, and control-change effect.
+   - Use bridge math whenever baseline and drop-window metrics exist: impressions, clicks, CTR, CPC, spend, orders, CVR, AOV/ASP, sales, ACOS, and ROAS.
+   - Classify the primary driver as traffic loss, CPC inflation, conversion-rate decline, AOV/ASP decline, query/placement mix shift, control-change driven, retail-readiness driven, rank/BSR driven, market driven, or mixed.
    - Include spend efficiency and volume together. ACOS, ROAS, and TACoS changes are symptoms; do not treat them as root causes.
 
 4. Isolate the biggest contributors.
@@ -59,6 +70,8 @@ Start every diagnosis with a data reliability and actionability gate:
 
 5. Connect PPC, retail readiness, competitors, and BSR.
    - Compare timing and direction of ad orders, total orders, organic sales proxy, retail-readiness changes, BSR/rank, category demand, and competitor rank/offer movement.
+   - Require freshness and coverage labels before making BSR/rank trend claims. Handle multiple BSR/rank category series explicitly, and warn when parent/child or variation-level rank sharing makes ASIN-level rank causality ambiguous.
+   - Separate current offer snapshots from dated trend history. A current price, deal, Buy Box, or rank snapshot can support a watch item, but it cannot prove a trend without dated observations.
    - Decide whether PPC decline likely caused rank deterioration, rank deterioration likely weakened PPC, both reinforced each other, or both were driven by retail, competitor, or market movement.
    - Treat BSR as a velocity signal, not a standalone cause. Explain the mechanism and confidence.
 
@@ -74,10 +87,10 @@ Always return these sections, in this order:
 
 1. **Data Reliability And Actionability Gate**: available data, missing data, reconciliation issues, attribution/scope risks, sample-size confidence, and whether bid/budget/negative/pause/relaunch recommendations are action-safe.
 2. **Executive Verdict**: 3-6 bullets with the most likely cause, confidence, impact, what to do first, and which major causes cannot be ruled out because of missing data.
-3. **Drop Timeline**: exact dates, break point, control changes, and whether ads, retail readiness, competitors, or BSR moved first.
-4. **Impact Summary Table**: baseline vs drop window with deltas, per-day values, confidence, and driver read for the primary KPI and driver metrics.
+3. **Drop Timeline**: exact dates, break point, control-change audit, post-drop fixes separated from causes, and whether ads, retail readiness, competitors, or BSR moved first.
+4. **Impact Summary Table**: baseline vs drop window with deltas, per-day values, bridge math, confidence, and driver read for the primary KPI and driver metrics.
 5. **Root-Cause Diagnosis**: facts, likely causes, assumptions, and missing/unreliable data.
-6. **Biggest Losers**: campaigns, ad groups, keywords, targets, search terms, product ads, advertised ASINs, and purchased ASINs ranked by business impact and attribution risk.
+6. **Biggest Losers**: campaigns, ad groups, keywords, targets, search terms, product ads, advertised ASINs, and purchased ASINs ranked by business impact, attribution risk, and action-safety status.
 7. **BSR And Competitor Interpretation**: whether PPC hurt rank, rank hurt PPC, both reinforced each other, or retail/competitor/market factors drove both.
 8. **Recommended Actions**: prioritized by expected impact, confidence, urgency, reversibility, rank/velocity risk, and action-gate status.
 9. **Verification Plan**: what to check after 3, 7, and 14 days, including KPI thresholds and rollback/scale criteria.
