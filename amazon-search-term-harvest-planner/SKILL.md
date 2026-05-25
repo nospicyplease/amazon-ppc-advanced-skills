@@ -7,7 +7,7 @@ description: "Find Amazon Ads search terms ready for exact-match harvesting from
 
 ## Purpose
 
-Turn Amazon Ads search term data into a safe, specific harvesting plan. Identify search terms that deserve exact-match isolation, product-target expansion, bid direction, destination routing, or watchlist treatment. Do not treat every converting query as harvest-ready, and do not add source negatives unless routing or waste evidence supports it.
+Turn Amazon Ads search term data into a safe, specific harvesting plan. Identify search terms that deserve exact-match isolation, product-target expansion, bid direction, destination routing, or watchlist treatment. Do not treat every converting query as harvest-ready, and do not add source negatives unless routing or waste evidence supports it. Use orders or conversions as the negative-safety signal; treat sales as revenue, not order count.
 
 Optimize for clean traffic control, profitable growth, and learning. Preserve brand defense, own-ASIN defense, launch/rank-defense traffic, and strategically valuable discovery until the data proves a safer route.
 
@@ -61,6 +61,7 @@ Gather, derive, or mark unavailable:
 - Product context: advertised ASIN, purchased ASIN where available, parent/child relationship, category, price, margin or target ACoS/CPA, inventory, Featured Offer / Buy Box, reviews, rating, delivery promise, and listing readiness.
 - Traffic segmentation: branded, own-brand generic, category generic, competitor brand, competitor ASIN, own-ASIN defense, auto close/loose/substitute/complement, launch/rank-defense, and exploratory discovery where data supports it.
 - Existing exact keywords, negatives, product targets, and campaign routing rules when available.
+- Recent orders or conversions by normalized search term, keyword, target, ASIN-like term, and phrase family for negative decisions. Default to L30 when available; state any different window.
 - Destination delivery feasibility: destination campaign/ad group state, budget status, negative conflicts, advertised ASIN fit, and whether the destination can receive traffic.
 - In Rocketcart MCP mode: exact profile, live entity IDs, current live values, recent drift, snapshots/changelogs, entity history, product-ad ASIN/SKU mapping, and product-intelligence freshness where available.
 
@@ -73,6 +74,7 @@ Gather, derive, or mark unavailable:
 - Missing current negative map: do not mark harvest or destination rows `APPROVAL_READY`.
 - Missing exact profile, campaign, ad group, keyword, target, or destination IDs: keep write rows below `APPROVAL_READY`.
 - Missing purchased-product data: avoid ASIN leakage conclusions.
+- Missing recent order/conversion data or unmapped normalized traffic for a proposed negative: mark the negative row `NEEDS_DATA`, not `APPROVAL_READY`.
 - Missing inventory or Featured Offer / Buy Box: do not recommend aggressive bid or budget scale.
 - Missing comparison period: classify by current signal strength and confidence, not trend.
 - Missing Rocketcart profile in live mode: list or request profile selection before live reads or execution.
@@ -104,8 +106,9 @@ Classify the row as `BLOCKED` or `NEEDS_DATA`, not `APPROVAL_READY`, when any of
 - Destination campaign/ad group is missing, paused, budget-starved, wrong ASIN, wrong traffic type, or missing exact IDs.
 - Search term is a brand-defense, own-ASIN-defense, launch/rank, or strategic discovery term and the proposed source negative would cut protected traffic.
 - Competitor conquesting term has high ACoS but the source campaign's strategic role is conquesting or share defense; prefer `Bid Down / Keep Learning`, `Watchlist`, or controlled test.
+- Proposed negative keyword, search-term negative, product-target negative, or ASIN/product-target negative has `>= 2` recent orders or conversions for the same normalized term, target, ASIN-like value, or covered phrase family. Default to L30 when available, aggregate across relevant campaigns/ad groups in live mode, and do not use sales revenue as an order count.
 - One order, one large order, or thin samples create attractive ACoS; use `Controlled Test` or `Watchlist`, not `Harvest Ready`.
-- Negative phrase would block relevant query families, own-brand variants, size/color variants, or profitable discovery. Use narrower negative exact or block the negative.
+- Negative phrase would block relevant query families, own-brand variants, size/color variants, profitable discovery, protected strategic traffic, or any covered query/variant/target/ASIN-like value with `>= 2` recent orders or conversions. Use narrower negative exact or block the negative.
 - Sponsored Products, Sponsored Brands, and Sponsored Display data are blended and cannot be separated for the action.
 - Product readiness, inventory, Featured Offer / Buy Box, margin, or listing relevance could change the decision and is unavailable.
 - Rocketcart live state shows a current value, entity state, negative, destination, product-readiness gate, or recent drift that differs from the candidate row.
@@ -115,11 +118,11 @@ Classify the row as `BLOCKED` or `NEEDS_DATA`, not `APPROVAL_READY`, when any of
 Use user-provided thresholds when available. Otherwise use these defaults, adjusted for product price, category, lifecycle stage, and account volume:
 
 - `Harvest Ready`: at least 2-3 orders, relevant intent, ACoS/CPA within target economics, acceptable CVR, no retail-readiness blocker, duplicate checks passed, current negative checks passed, destination is feasible, and a clear exact destination exists.
-- `Controlled Test`: 1-2 orders or promising CVR/CTR but not enough volume for a confident harvest; use lower bid, limited budget, or watchlist.
+- `Controlled Test`: 1-2 orders or promising CVR/CTR but not enough volume for a confident harvest; use lower bid, limited budget, routing review, or watchlist. Do not default a one-order term to a negative.
 - `Scale Existing Exact`: the term already exists as exact and has enough profitable volume; recommend delivery, bid, budget, state, negative-conflict, or placement review instead of duplicate harvesting.
 - `Product Target Candidate`: search term or purchased ASIN indicates an ASIN target should be tested, with relevance and economics checked.
 - `Bid Down / Keep Learning`: relevant term with orders but above target economics; reduce bid only when current evidence and strategic role support it.
-- `Negative Candidate`: irrelevant or structurally mismatched term, or spend exceeds 1.5-2.0x target CPA with zero orders and no strategic defense, launch, ranking, or discovery reason.
+- `Negative Candidate`: irrelevant or structurally mismatched term, or spend exceeds 1.5-2.0x target CPA with zero orders and no strategic defense, launch, ranking, discovery, or recent-order guard reason.
 - `Watchlist`: below threshold, missing data, unclear relevance, or strategic role not yet resolved.
 
 Do not overfit tiny samples. If evidence is thin, use `Watchlist`, `Controlled Test`, or `Needs Data`.
@@ -160,6 +163,10 @@ Before recommending an exact harvest, check:
 Before recommending a source negative, check:
 
 - The term has been safely captured elsewhere or the source traffic is clearly wasteful.
+- Recent order/conversion data is available for the normalized term, target, ASIN-like value, and covered phrase family. Default to L30 when available; state any different window.
+- Orders/conversions are aggregated across relevant campaigns/ad groups when live data is available, not judged only from the source row.
+- The proposed negative is blocked when the same normalized traffic has `>= 2` recent orders or conversions. If it has exactly 1 order/conversion, default to `Watchlist`, `Controlled Test`, `Bid Down / Keep Learning`, or routing review instead of a negative.
+- Sales revenue is not used as an order count.
 - Adding a negative will not cut brand defense, own-ASIN defense, launch/rank-defense, or profitable discovery.
 - The negative scope is correct: campaign-level versus ad-group-level.
 - The negative match type is justified: negative exact for routing control, negative phrase only for clearly irrelevant query families.
@@ -201,6 +208,9 @@ proposed_action
 source_negative_decision
 duplicate_check
 current_negative_check
+recent_orders_window
+recent_orders_check
+negative_conversion_guard
 destination_feasibility
 live_resolution_status
 live_preflight_status
@@ -234,14 +244,14 @@ Use `missing` for unavailable IDs or checks; do not invent them. If any required
    - Classify terms by traffic type, source campaign/ad group, advertised ASIN, purchased ASIN where available, and strategic role.
 
 4. Score harvest candidates.
-   - Evaluate orders, spend, sales, ACoS/CPA, ROAS, CVR, CPC, relevance, margin fit, retail readiness, lifecycle stage, destination clarity, duplicate risk, current negative conflicts, source-negative blast radius, and incrementality caveats.
+   - Evaluate orders, spend, sales, ACoS/CPA, ROAS, CVR, CPC, relevance, margin fit, retail readiness, lifecycle stage, destination clarity, duplicate risk, current negative conflicts, recent-order negative guard, source-negative blast radius, and incrementality caveats.
 
 5. Decide the route.
    - Assign each meaningful term to one primary outcome: `Harvest Ready`, `Controlled Test`, `Scale Existing Exact`, `Product Target Candidate`, `Bid Down / Keep Learning`, `Negative Candidate`, `Watchlist`, or `Needs Data`.
 
 6. Build action rows.
    - Use the machine-readable schema and write-readiness statuses.
-   - No row can be `APPROVAL_READY` unless all required exact IDs, current/proposed values, duplicate checks, negative checks, destination feasibility, approval text, preflight, readback, and monitoring fields are complete.
+   - No row can be `APPROVAL_READY` unless all required exact IDs, current/proposed values, duplicate checks, negative checks, recent-order guard, destination feasibility, approval text, preflight, readback, and monitoring fields are complete.
 
 7. In Rocketcart MCP mode, separate approval from execution.
    - In live review and preflight modes, produce proposed rows only.
@@ -263,7 +273,7 @@ Return these sections unless the user asks for a shorter version:
 2. **Rocketcart Live Context**: mode, profile, live reads used, snapshots/changelogs checked, product context checked, stale-state findings, and live limitations. In standalone mode, say Rocketcart MCP was not used.
 3. **Executive Summary**: top harvest-ready terms, blocked terms, negative-risk warnings, and budget/bid posture.
 4. **Search Term Classification Table**: Search Term | Source Campaign / Ad Group | Traffic Type | Orders | Spend | Sales | ACoS/CPA | Relevance | Destination | Classification | Confidence.
-5. **Harvest Action Rows**: include the machine-readable schema fields, especially mode, write readiness, approval status, execution status, exact IDs, current/proposed values, duplicate check, current negative check, live resolution status, live preflight status, destination feasibility, approval text, preflight, readback, and monitoring fields.
+5. **Harvest Action Rows**: include the machine-readable schema fields, especially mode, write readiness, approval status, execution status, exact IDs, current/proposed values, duplicate check, current negative check, recent-order negative guard, live resolution status, live preflight status, destination feasibility, approval text, preflight, readback, and monitoring fields.
 6. **Negative And Routing Decisions**: explain which source negatives are safe, blocked, or need more data.
 7. **Blocked / Watchlist Terms**: terms below threshold, missing data, duplicate-risk, retail-readiness blocked, or strategically sensitive.
 8. **Execution Gate**: state which rows are planning-only, blocked, approval-required, approval-ready, executed, readback-pending, or readback-confirmed.
@@ -276,7 +286,7 @@ This skill proposes actions by default. If connected to Rocketcart MCP or anothe
 
 When execution is explicitly requested and approved:
 
-- Execute only rows whose `write_readiness` is `APPROVAL_READY`, whose `approval_status` is explicitly approved, and whose live preflight still matches the approved current values.
+- Execute only rows whose `write_readiness` is `APPROVAL_READY`, whose `approval_status` is explicitly approved, whose live preflight still matches the approved current values, and whose recent-order negative guard still passes.
 - Never execute `PLANNING_ONLY`, `NEEDS_DATA`, `BLOCKED`, or merely `APPROVAL_REQUIRED` rows.
 - Never execute rows selected by vague language such as "all recommendations"; require exact row IDs or exact entity/action approval.
 - Execute only the approved subset; leave unrelated rows untouched.

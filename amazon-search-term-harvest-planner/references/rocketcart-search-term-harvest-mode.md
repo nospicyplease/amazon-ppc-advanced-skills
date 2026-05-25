@@ -12,7 +12,8 @@ Use this reference when `amazon-search-term-harvest-planner` runs with Rocketcar
 3. Read product ads and ASIN/SKU mapping when product context, own-ASIN defense, launch/rank, or mixed-ASIN risk matters.
 4. Read existing keywords, product targets, negatives, bids, budgets, states, and destination campaign/ad group context where available.
 5. Read recent drift, snapshots, changelogs, and entity history before trusting static rows.
-6. Read product intelligence where available: inventory or availability, Featured Offer / Buy Box, price, reviews/rating, category rank/BSR movement, estimated demand, competitor signals, margin/readiness, and data freshness.
+6. Read recent orders or conversions for any proposed negative across relevant campaigns/ad groups by normalized search term, keyword, target, ASIN-like value, and phrase family. Default to L30 when available; do not treat sales revenue as an order count.
+7. Read product intelligence where available: inventory or availability, Featured Offer / Buy Box, price, reviews/rating, category rank/BSR movement, estimated demand, competitor signals, margin/readiness, and data freshness.
 
 ## Live Resolution
 
@@ -47,8 +48,11 @@ Mark the row below `APPROVAL_READY` when:
 ### Source Negative
 
 - Confirm exact source campaign/ad group scope, negative match type, negative text, and current negative coverage.
+- Confirm recent order/conversion coverage for the normalized term, target, ASIN-like value, or covered phrase family. Block the negative if the same normalized traffic has `>= 2` recent orders or conversions, defaulting to L30 when available and aggregating across relevant live campaigns/ad groups.
+- If recent order/conversion coverage is missing or cannot be mapped, keep the row `NEEDS_DATA`; if it has exactly 1 order/conversion, prefer watchlist, controlled test, bid-down, or routing review.
 - Confirm the term is safely captured elsewhere or is clear waste.
 - Review blast radius before phrase negatives.
+- Block phrase negatives that could cover any query family, variant, target, or ASIN-like value with `>= 2` recent orders or conversions.
 - Block negatives that could cut brand defense, own-ASIN defense, launch/rank support, competitor strategy, profitable discovery, or low-sample learning.
 
 ### Delivery Fix For Existing Exact
@@ -69,6 +73,7 @@ An approval packet must include:
 - Reason, expected impact, and primary risk.
 - Product-readiness result.
 - Duplicate check, current negative check, destination feasibility, and source-negative blast-radius result.
+- Recent-order/conversion guard result and window for any proposed negative.
 - Approval text the user can approve or reject.
 - Readback checks.
 - 3/7/14-day monitoring success and failure criteria.
@@ -81,6 +86,7 @@ Before execution:
 
 - Re-run live preflight.
 - Confirm current values still match the approved row.
+- Re-run the recent-order/conversion guard before any negative write and block if the guard now fails.
 - Block stale approvals and request refreshed approval.
 
 After execution:
