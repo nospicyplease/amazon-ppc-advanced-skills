@@ -7,6 +7,7 @@ Use this reference to turn Amazon Ads and BSR data into a causal diagnosis with 
 - Window Design
 - Data Reliability And Actionability Gate
 - ASIN Action-Safety Gate
+- Negative Keyword/Target Multi-Window Gate
 - Statistical Confidence And Materiality
 - Core Decomposition
 - TACoS Rules
@@ -33,6 +34,71 @@ Use these windows unless the user specifies another structure:
 - User-provided suspected drop and baseline windows when they are more specific than rolling windows.
 
 Compare per-day metrics when windows have different lengths. For very low-volume products, prefer L14/L30/L60 over L7 and state that confidence is limited by sample size.
+
+For repeatable drop analysis, prefer the following T-1 anchored windows:
+
+- Freshness check: latest trusted reporting date.
+- Drop window: T-7 through T-1.
+- Baseline window: T-14 through T-8.
+- Control-change audit: 14-30 days before the latest trusted reporting date, with special attention to changes before or during the drop window.
+- Retail, rank, and competitor context: 30-90 days when dated history exists, plus current snapshots for offer and listing checks.
+
+Do not compare partial current-day data against complete historical windows. If a user supplies exact dates, use those dates and state how they map to baseline, drop, and control-change windows.
+
+## Repeatable Eight-Flow Diagnosis Checklist
+
+Run these flows in order and preserve their outputs in the final answer. Skip a flow only when the user explicitly narrows the scope or the required data is unavailable; in that case, label the flow `Missing Data` or `Directional`, not `Confirmed`.
+
+### Flow 1: Account Drop Sizing
+
+Output an account-level verdict with exact baseline/drop dates, marketplace, currency, timezone, ad type scope, primary KPI delta, SP/SB/SD split, and primary driver classification. Classify the account drop as sales-volume, efficiency, traffic, conversion, AOV/ASP, query/placement mix, control-change, retail-readiness, rank, market, or mixed.
+
+### Flow 2: ASIN Drop Contribution
+
+Rank advertised ASINs and, where available, purchased ASINs by absolute sales/order loss, per-day loss, percent change, and contribution to total drop. Group parent/child or variation ASINs when relevant. Label attribution risk as `Clean ASIN`, `Halo-heavy`, `Mixed campaign`, or `Unknown`.
+
+### Flow 3: Retail Signals Check-Up Of Each Dropped ASIN
+
+For each priority ASIN, check stock/availability, Featured Offer / Buy Box, price, coupon, promo/deal, delivery promise, BSR/rank history, reviews/ratings, suppression/listing/content/variation issues, and competitor offer/rank movement. Output a retail verdict: `Likely`, `Possible`, `Rejected`, or `Missing Data`.
+
+### Flow 4: Deep ASIN Ads Diagnosis
+
+Filter ads data to the dropped ASINs and split by campaign, ad group, keyword/target, search term, placement, product ad, and ad type. Run bridge math from impressions to clicks to spend to orders to CVR to sales to ROAS. Segment brand, generic, auto, competitor, own-ASIN defense, discovery, launch/rank-defense, and exploratory traffic when data supports it.
+
+### Flow 5: Lost-Traction Target Isolation
+
+Compare target-level baseline vs drop performance for each priority ASIN. Rank targets by sales loss, then order loss, then strategic relevance. Preserve campaign ID, ad group ID, keyword/target ID, product ad ID, target type, current state, and the specific metric that dropped.
+
+### Flow 6: Mixed-ASIN Safety Check
+
+Check whether each campaign/ad group advertises one ASIN or multiple ASINs, and whether same-SKU, other-SKU halo, brand halo, or view-through attribution materially changes interpretation. Mark every target/action candidate as `Action-safe`, `Directional`, or `Blocked`.
+
+### Flow 7: Bid / State / Placement / Budget / Negative Keywords Change Audit
+
+Build a 14-30 day control-change timeline. Check bid increases/decreases, keyword/target state, campaign/ad group/product-ad state, budget and placement modifier changes, and negative keyword/product-target additions/removals/archives/unarchives. For negatives, verify attachment to the affected ASIN route and timing before/during the drop.
+
+### Flow 8: Final Causality Read
+
+Combine account, ASIN, retail, ads, target, mixed-ASIN, and control-change evidence. Separate facts from hypotheses. Assign `Confirmed`, `Likely`, `Directional`, `Rejected`, or `Missing Data` per ASIN and target. Identify primary cause, secondary causes, non-causes, approval-gated recovery actions, and monitoring windows at 3, 7, and 14 days.
+
+## Data Source And Period Map
+
+Use trusted current data APIs and canonical optimization endpoints when available. If Rocketcart MCP tools are available, prefer the fast batch/context tools for broad prompts and lightweight single tools for narrow prompts. Do not use screenshots or stale exports for optimization recommendations.
+
+| Analysis point | Preferred data | Period |
+|---|---|---|
+| Freshness and trust | Data status and reporting freshness | Latest trusted reporting date, usually T-1 |
+| Account KPI drop | Account/profile KPI comparison and ad-type facts | Baseline vs drop |
+| SP/SB/SD split | Campaign/profile facts by ad type | Baseline vs drop |
+| ASIN contribution | Product-level advertised-ASIN and purchased-ASIN performance | Baseline vs drop |
+| Parent/variation grouping | Product-ad mapping and catalog context | Latest mapping plus drop window |
+| Retail readiness | Product intelligence, retail cache, and live product context where available | Current, baseline, drop, and dated history |
+| Rank and competitor movement | Rank history, offer snapshots, and competitor/category context | 30-90 days plus baseline/drop focus |
+| Deep ASIN ads diagnosis | Campaign, ad group, target, search-term, placement, and product-ad performance | Baseline vs drop |
+| Lost-traction targets | Target-level and search-term comparison | Baseline vs drop plus latest state |
+| Mixed-ASIN safety | Product-ad mapping, advertised/purchased product facts, and ASIN control checks | Drop/baseline plus latest mapping |
+| Control changes | Optimization memory, campaign history, live state, and control-change records | Last 14-30 days |
+| Negative causality | Current negative inventory, negative change history, target/search-term history | L7, L14, L30 plus control window |
 
 ## Data Reliability And Actionability Gate
 
@@ -74,6 +140,29 @@ Classify action safety:
 - `Blocked`: Entity-level writes such as bid cuts, negatives, pauses, or relaunches could harm the wrong ASIN or suppress previously valuable demand. Recommend isolation, manual review, or more data first.
 
 Do not let a clean ASIN-level product drop automatically authorize keyword, target, negative, or pause actions when those entities are contaminated by mixed-ASIN scope.
+
+## Negative Keyword/Target Multi-Window Gate
+
+This gate is mandatory for any drop analysis involving campaigns, ad groups, keywords, targets, search terms, or any user request mentioning negatives, target waste, keyword waste, search-term waste, or dropped campaigns.
+
+Before assigning root cause or recommending negatives, pauses, or bid cuts, pull or explicitly mark unavailable:
+
+- Freshness and attribution status for the profile and ad type scope.
+- L7, L14, and L30 zero-order waste summaries for `targets`, `keywords`, and `search_terms`; add L60 when L7/L14 volume is weak or the entity was historically important.
+- Target and search-term performance for the affected campaigns/ad groups across L7, L14, and L30, including spend, sales, orders, clicks, CVR, ACOS/ROAS, and whether the entity was a previous winner.
+- Current negative keyword and negative product-target inventory for the affected campaigns/ad groups, including scope, match type, state, and first/last seen dates when available.
+- Change history for negatives, bids, budgets, placements, states, newly enabled or removed targets/keywords, and product ads from at least 14 days before the break through the drop window.
+- ASIN action-safety status before any ASIN-scoped keyword, target, negative, bid, or pause recommendation.
+
+Classify each entity into exactly one primary bucket:
+
+- `Negative-change causality`: a negative was added, removed, archived, or unarchived before/during the drop and passes attachment, timing, historical-value, and untouched-route checks.
+- `New negative candidate`: current material zero-order waste exists, the query/target is non-strategic, longer-window history does not show meaningful value, and action scope is clean.
+- `Target waste / bid-pause candidate`: the waste is at target or product-target level, not a search-term negative; use bid, isolation, or pause gates before considering execution.
+- `Previous winner stopped converting`: L30 or baseline history shows meaningful sales/orders, but L7 has zero or weaker conversion. Treat as a conversion/retail/query-mix diagnosis first, not an automatic negative.
+- `Watch only / blocked`: sample is weak, scope is mixed, query is branded/own-ASIN/rank-sensitive, timing is unknown, or retail readiness could explain the conversion loss.
+
+Fail closed: if this gate cannot be completed, say `negative gate incomplete`, identify the missing reads, and do not label negative, pause, or bid-cut actions as action-safe.
 
 ## Statistical Confidence And Materiality
 
@@ -583,6 +672,12 @@ Use compact tables. Add or remove columns only when the available data requires 
 | Negative | Scope | Timing | Attached to affected ASIN route | Historical sales/orders | Untouched-route check | Verdict |
 |---|---|---|---|---|---|---|
 | | Campaign/ad group | Pre-drop/During-drop/Post-drop fix | Yes/No/Unknown | Yes/No/Unknown | Confirms/Contradicts/Unknown | Causal/Directional/Rejected |
+
+### Negative Keyword/Target Multi-Window Gate
+
+| Entity | Type | Scope | L7 waste | L14 waste | L30 history | Negative inventory attached | Previous winner? | Action-safety | Verdict |
+|---|---|---|---|---|---|---|---|---|---|
+| | Search term/keyword/target/product target | Campaign/ad group | Spend/clicks/orders | Spend/clicks/orders | Sales/orders/CVR | Yes/No/Unknown | Yes/No | Action-safe/Directional/Blocked | Cause/Candidate/Watch/Rejected |
 
 ### Contribution Bridge
 
