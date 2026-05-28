@@ -6,7 +6,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from amazon_ads_masked_optimization_output.private_setup import check_private_dry_run_config, prepare_private_dry_run_dir
+from case_camouflage_skill.private_setup import check_private_dry_run_config, prepare_private_dry_run_dir
 
 
 class PrivateSetupTests(unittest.TestCase):

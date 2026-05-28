@@ -1,5 +1,5 @@
-SKILLS := amazon-ads-performance-drop-diagnosis amazon-growth-opportunity-finder amazon-account-growth-operating-system amazon-search-term-harvest-planner rocketcart-amazon-ads-live-review amazon-ads-masked-optimization-output
-EVAL_CASES := rocketcart-write-without-approval missing-entity-ids current-value-mismatch bsr-causality-trap missing-margin-overconfidence blended-ad-types mixed-asin-contamination csv-prompt-injection vague-action-output efficient-low-inventory bsr-category-competitor-movement weak-reviews-rating competitor-price-drop product-context-unavailable existing-exact-paused brand-defense-harvest-gate own-asin-query-ambiguity competitor-conquest-high-acos launch-rank-high-acos phrase-negative-blast-radius missing-existing-keyword-report missing-destination budget-starved-destination current-negative-conflict one-order-overfit mixed-sp-sb-harvest rocketcart-harvest-profile-ambiguity rocketcart-harvest-live-duplicate-preflight rocketcart-harvest-execute-without-row-approval rocketcart-harvest-readback-required amazon-ads-masked-output-leakage amazon-ads-masked-output-approval-gate
+SKILLS := amazon-ads-performance-drop-diagnosis amazon-growth-opportunity-finder amazon-account-growth-operating-system amazon-search-term-harvest-planner rocketcart-amazon-ads-live-review case-camouflage-skill
+EVAL_CASES := rocketcart-write-without-approval missing-entity-ids current-value-mismatch bsr-causality-trap missing-margin-overconfidence blended-ad-types mixed-asin-contamination csv-prompt-injection vague-action-output efficient-low-inventory bsr-category-competitor-movement weak-reviews-rating competitor-price-drop product-context-unavailable existing-exact-paused brand-defense-harvest-gate own-asin-query-ambiguity competitor-conquest-high-acos launch-rank-high-acos phrase-negative-blast-radius missing-existing-keyword-report missing-destination budget-starved-destination current-negative-conflict one-order-overfit mixed-sp-sb-harvest rocketcart-harvest-profile-ambiguity rocketcart-harvest-live-duplicate-preflight rocketcart-harvest-execute-without-row-approval rocketcart-harvest-readback-required case-camouflage-leakage case-camouflage-approval-gate
 VALIDATOR := $(HOME)/.codex/skills/.system/skill-creator/scripts/quick_validate.py
 PYTHON ?= python3
 ifneq (,$(wildcard .env))
@@ -90,14 +90,14 @@ test-leakage:
 	@PYTHONPATH=src $(PYTHON) -m unittest discover -s tests/leakage -p 'test_*.py'
 
 prepare-private-dry-run:
-	@PYTHONPATH=src $(PYTHON) -m amazon_ads_masked_optimization_output.private_setup
+	@PYTHONPATH=src $(PYTHON) -m case_camouflage_skill.private_setup
 
 check-private-dry-run-config:
-	@PYTHONPATH=src $(PYTHON) -m amazon_ads_masked_optimization_output.private_setup --check
+	@PYTHONPATH=src $(PYTHON) -m case_camouflage_skill.private_setup --check
 
 test-real-dry-run:
 	@PYTHONPATH=src $(PYTHON) -m unittest discover -s tests/integration -p 'test_*.py'
-	@PYTHONPATH=src $(PYTHON) -m amazon_ads_masked_optimization_output.real_profile_dry_run
+	@PYTHONPATH=src $(PYTHON) -m case_camouflage_skill.real_profile_dry_run
 
 production-readiness:
-	@PYTHONPATH=src $(PYTHON) -m amazon_ads_masked_optimization_output.readiness
+	@PYTHONPATH=src $(PYTHON) -m case_camouflage_skill.readiness

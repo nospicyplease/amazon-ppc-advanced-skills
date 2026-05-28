@@ -5,23 +5,23 @@ import unittest
 from datetime import timedelta
 from pathlib import Path
 
-from amazon_ads_masked_optimization_output.approval import (
+from case_camouflage_skill.approval import (
     ApprovalAction,
     ApprovalPacketBuilder,
     PrivateManifestBuilder,
     utc_now,
 )
-from amazon_ads_masked_optimization_output.errors import (
+from case_camouflage_skill.errors import (
     MissingSecretError,
     RegistryCollisionError,
     SanitizedError,
     StaleApprovalError,
     UnsafeAliasError,
 )
-from amazon_ads_masked_optimization_output.masking import MaskingResolver
-from amazon_ads_masked_optimization_output.metrics import MetricValidator, group_sum_by_source, rank_groups_by_metric
-from amazon_ads_masked_optimization_output.planned_entities import PlannedEntityManager
-from amazon_ads_masked_optimization_output.registry import InMemoryRegistryProvider
+from case_camouflage_skill.masking import MaskingResolver
+from case_camouflage_skill.metrics import MetricValidator, group_sum_by_source, rank_groups_by_metric
+from case_camouflage_skill.planned_entities import PlannedEntityManager
+from case_camouflage_skill.registry import InMemoryRegistryProvider
 
 
 class RegistryTests(unittest.TestCase):

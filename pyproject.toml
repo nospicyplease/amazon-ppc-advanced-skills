@@ -1,7 +1,7 @@
 [project]
-name = "amazon-ads-masked-optimization-output"
+name = "case-camouflage-skill"
 version = "0.1.0"
-description = "Masked Amazon Ads optimization output helpers with exact KPI preservation."
+description = "Case camouflage helpers for masked Amazon Ads optimization output with exact KPI preservation."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }

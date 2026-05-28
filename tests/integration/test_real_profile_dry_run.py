@@ -8,11 +8,11 @@ from contextlib import contextmanager
 from pathlib import Path
 from typing import Iterator
 
-from amazon_ads_masked_optimization_output.real_profile_dry_run import (
+from case_camouflage_skill.real_profile_dry_run import (
     require_live_execution_adapter,
     run_real_profile_dry_run_from_env,
 )
-from amazon_ads_masked_optimization_output.errors import SanitizedError
+from case_camouflage_skill.errors import SanitizedError
 
 
 class RealProfileDryRunTests(unittest.TestCase):

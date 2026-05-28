@@ -1,4 +1,4 @@
-"""Masked Amazon Ads optimization output helpers."""
+"""Case camouflage helpers for masked Amazon Ads optimization output."""
 
 from .approval import ApprovalPacketBuilder, PrivateManifestBuilder
 from .masking import MaskingResolver

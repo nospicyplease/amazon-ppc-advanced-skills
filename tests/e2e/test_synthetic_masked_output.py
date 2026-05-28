@@ -5,17 +5,17 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from amazon_ads_masked_optimization_output.errors import RegistryCollisionError
-from amazon_ads_masked_optimization_output.optimization import (
+from case_camouflage_skill.errors import RegistryCollisionError
+from case_camouflage_skill.optimization import (
     build_masked_optimization_output,
     plan_creation_entities,
 )
-from amazon_ads_masked_optimization_output.registry import InMemoryRegistryProvider, SyntheticFileRegistryProvider
-from amazon_ads_masked_optimization_output.scanners import LeakScanner
-from amazon_ads_masked_optimization_output.synthetic_loader import load_synthetic_fixture
+from case_camouflage_skill.registry import InMemoryRegistryProvider, SyntheticFileRegistryProvider
+from case_camouflage_skill.scanners import LeakScanner
+from case_camouflage_skill.synthetic_loader import load_synthetic_fixture
 
 
-FIXTURE = Path("examples/amazon-ads-masked-optimization-output/sample-data/synthetic-profile.json")
+FIXTURE = Path("examples/case-camouflage-skill/sample-data/synthetic-profile.json")
 
 
 class SyntheticE2ETests(unittest.TestCase):
