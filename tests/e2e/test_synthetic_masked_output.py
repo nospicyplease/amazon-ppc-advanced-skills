@@ -10,7 +10,7 @@ from amazon_ads_masked_optimization_output.optimization import (
     build_masked_optimization_output,
     plan_creation_entities,
 )
-from amazon_ads_masked_optimization_output.registry import SyntheticFileRegistryProvider
+from amazon_ads_masked_optimization_output.registry import InMemoryRegistryProvider, SyntheticFileRegistryProvider
 from amazon_ads_masked_optimization_output.scanners import LeakScanner
 from amazon_ads_masked_optimization_output.synthetic_loader import load_synthetic_fixture
 
@@ -40,6 +40,14 @@ class SyntheticE2ETests(unittest.TestCase):
         self.assertTrue(all(row["readback_status"] == "READBACK_CONFIRMED" for row in public["readback"]))
         self.assertNotIn("camp_syn", json.dumps(public))
         self.assertNotIn("Synthetic Alpha Launch", json.dumps(public))
+
+    def test_campaign_labels_are_masked_without_preloaded_registry_entries(self) -> None:
+        registry = InMemoryRegistryProvider("tenant_synthetic_masking", hmac_secret="synthetic-secret")
+        result = build_masked_optimization_output(self.records, registry)
+        public_text = json.dumps(result["public_output"])
+
+        self.assertNotIn("Synthetic Beta Discovery", public_text)
+        self.assertNotIn("Synthetic Canada Launch", public_text)
 
     def test_creation_plan_reserves_and_activates_planned_entities(self) -> None:
         plan = plan_creation_entities(self.registry, profile_id="profile_syn_us_001", plan_key="creation-plan-001")

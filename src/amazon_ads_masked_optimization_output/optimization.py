@@ -29,8 +29,9 @@ def diagnose_campaigns(records: Iterable[Mapping[str, Any]], resolver: MaskingRe
     for group in source_groups:
         campaign_id = str(group["campaign_id"])
         profile_id = _first_profile_for_campaign(records_list, campaign_id)
+        campaign_name = _first_campaign_name(records_list, campaign_id)
         profile_handle = resolver.handle("profile", raw_id=profile_id)
-        campaign_handle = resolver.handle("campaign", raw_id=campaign_id, profile_id=profile_id)
+        campaign_handle = resolver.handle("campaign", raw_id=campaign_id, label=campaign_name, profile_id=profile_id)
         diagnostics.append(
             {
                 "profile": profile_handle,
@@ -182,6 +183,13 @@ def _first_profile_for_campaign(records: Iterable[Mapping[str, Any]], campaign_i
         if str(record["campaign_id"]) == campaign_id:
             return str(record["profile_id"])
     return "profile-unknown"
+
+
+def _first_campaign_name(records: Iterable[Mapping[str, Any]], campaign_id: str) -> str | None:
+    for record in records:
+        if str(record["campaign_id"]) == campaign_id and record.get("campaign_name"):
+            return str(record["campaign_name"])
+    return None
 
 
 def _metrics(record: Mapping[str, Any]) -> Dict[str, Any]:

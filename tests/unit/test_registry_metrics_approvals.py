@@ -82,7 +82,7 @@ class MetricTests(unittest.TestCase):
     def test_metric_preservation_detects_changes(self) -> None:
         validator = MetricValidator(["spend", "sales"])
         source = [{"target_id": "target-1", "spend": "12.340", "sales": "100.00"}]
-        display = [{"target": "TARGET-000001", "spend": "12.34", "sales": "100.00"}]
+        display = [{"target": "TARGET-000001", "spend": "12.340", "sales": "100.00"}]
         validator.assert_record_metrics_preserved(
             source,
             display,
@@ -90,6 +90,15 @@ class MetricTests(unittest.TestCase):
             display_id_field="target",
             id_map={"target-1": "TARGET-000001"},
         )
+        rounded = [{"target": "TARGET-000001", "spend": "12.34", "sales": "100.00"}]
+        with self.assertRaises(SanitizedError):
+            validator.assert_record_metrics_preserved(
+                source,
+                rounded,
+                source_id_field="target_id",
+                display_id_field="target",
+                id_map={"target-1": "TARGET-000001"},
+            )
         changed = [{"target": "TARGET-000001", "spend": "12.35", "sales": "100.00"}]
         with self.assertRaises(SanitizedError):
             validator.assert_record_metrics_preserved(

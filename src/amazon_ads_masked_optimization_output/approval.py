@@ -74,8 +74,9 @@ class ApprovalPacketBuilder:
         now = created_at or utc_now()
         factory = action_id_factory or ActionIdFactory()
         masked_actions: List[Dict[str, Any]] = []
-        for action in actions:
-            action_map = self._coerce_action(action)
+        action_maps = [self._coerce_action(action) for action in actions]
+        masked_entities: List[tuple[str, str]] = []
+        for action_map in action_maps:
             profile_handle = self.resolver.handle("profile", raw_id=str(action_map["profile_id"]))
             entity_handle = self.resolver.handle(
                 str(action_map["entity_type"]),
@@ -83,6 +84,8 @@ class ApprovalPacketBuilder:
                 label=action_map.get("entity_label"),
                 profile_id=str(action_map["profile_id"]),
             )
+            masked_entities.append((profile_handle, entity_handle))
+        for action_map, (profile_handle, entity_handle) in zip(action_maps, masked_entities):
             masked_actions.append(
                 {
                     "action_id": factory.new(),

@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-from collections import defaultdict
 from decimal import Decimal
 from typing import Any, Dict, Iterable, List, Mapping, Sequence
 
@@ -37,8 +36,7 @@ class MetricValidator:
             if display is None:
                 raise SanitizedError("Metric validation failed: masked record missing.", code="METRIC_RECORD_MISSING")
             for field in self.metric_fields:
-                if as_decimal(source[field]) != as_decimal(display[field]):
-                    raise SanitizedError("Metric validation failed: KPI value changed.", code="METRIC_CHANGED")
+                _assert_metric_preserved(source[field], display[field])
 
     def assert_group_metrics_preserved(
         self,
@@ -56,8 +54,12 @@ class MetricValidator:
             if not display:
                 raise SanitizedError("Metric validation failed: masked group missing.", code="METRIC_GROUP_MISSING")
             for field in self.metric_fields:
-                if as_decimal(source[field]) != as_decimal(display[field]):
-                    raise SanitizedError("Metric validation failed: grouped KPI value changed.", code="METRIC_CHANGED")
+                _assert_metric_preserved(source[field], display[field])
+
+
+def _assert_metric_preserved(source_value: Any, display_value: Any) -> None:
+    if as_decimal(source_value) != as_decimal(display_value) or str(source_value) != str(display_value):
+        raise SanitizedError("Metric validation failed: KPI value changed.", code="METRIC_CHANGED")
 
 
 def group_sum_by_source(
