@@ -1,0 +1,146 @@
+{
+  "tenant_id": "tenant_synthetic_masking",
+  "profiles": [
+    {
+      "profile_id": "profile_syn_us_001",
+      "marketplace": "US"
+    },
+    {
+      "profile_id": "profile_syn_ca_001",
+      "marketplace": "CA"
+    }
+  ],
+  "unsafe_aliases": [
+    "Synthetic Alpha Launch",
+    "synthetic-alpha-export.csv"
+  ],
+  "entries": [
+    {
+      "entity_type": "profile",
+      "handle": "PROFILE-000001",
+      "raw_id": "profile_syn_us_001"
+    },
+    {
+      "entity_type": "profile",
+      "handle": "PROFILE-000002",
+      "raw_id": "profile_syn_ca_001"
+    },
+    {
+      "entity_type": "campaign",
+      "handle": "CAMPAIGN-000001",
+      "profile_id": "profile_syn_us_001",
+      "raw_id": "camp_syn_launch_001",
+      "raw_label": "Synthetic Alpha Launch"
+    },
+    {
+      "entity_type": "campaign",
+      "handle": "CAMPAIGN-000002",
+      "profile_id": "profile_syn_us_001",
+      "raw_id": "camp_syn_waste_001",
+      "raw_label": "Synthetic Beta Discovery"
+    },
+    {
+      "entity_type": "target",
+      "handle": "TARGET-000001",
+      "profile_id": "profile_syn_us_001",
+      "raw_id": "target_syn_keyword_001",
+      "raw_label": "synthetic efficient keyword"
+    },
+    {
+      "entity_type": "target",
+      "handle": "TARGET-000002",
+      "profile_id": "profile_syn_us_001",
+      "raw_id": "target_syn_waste_001",
+      "raw_label": "synthetic waste keyword"
+    },
+    {
+      "entity_type": "search_term",
+      "handle": "ST-000001",
+      "profile_id": "profile_syn_us_001",
+      "raw_id": "st_syn_alpha_001",
+      "raw_label": "synthetic efficient query"
+    },
+    {
+      "entity_type": "search_term",
+      "handle": "ST-000002",
+      "profile_id": "profile_syn_us_001",
+      "raw_id": "st_syn_rival_001",
+      "raw_label": "rivalco comparison query"
+    },
+    {
+      "entity_type": "asin",
+      "handle": "ASIN-000001",
+      "profile_id": "profile_syn_us_001",
+      "raw_id": "B0SYNTH001"
+    },
+    {
+      "entity_type": "sku",
+      "handle": "SKU-000001",
+      "profile_id": "profile_syn_us_001",
+      "raw_id": "SKU-SYN-ALPHA-001"
+    }
+  ],
+  "records": [
+    {
+      "profile_id": "profile_syn_us_001",
+      "campaign_id": "camp_syn_launch_001",
+      "campaign_name": "Synthetic Alpha Launch",
+      "target_id": "target_syn_keyword_001",
+      "search_term_id": "st_syn_alpha_001",
+      "search_term": "synthetic efficient query",
+      "keyword": "synthetic efficient keyword",
+      "asin": "B0SYNTH001",
+      "sku": "SKU-SYN-ALPHA-001",
+      "spend": "12.34",
+      "sales": "123.40",
+      "orders": "5",
+      "clicks": "40",
+      "impressions": "4000",
+      "current_bid": "1.25",
+      "current_budget": "50.00",
+      "budget_utilization": "0.98",
+      "target_acos": "0.20"
+    },
+    {
+      "profile_id": "profile_syn_us_001",
+      "campaign_id": "camp_syn_waste_001",
+      "campaign_name": "Synthetic Beta Discovery",
+      "target_id": "target_syn_waste_001",
+      "search_term_id": "st_syn_rival_001",
+      "search_term": "rivalco comparison query",
+      "keyword": "synthetic waste keyword",
+      "asin": "B0SYNTH001",
+      "sku": "SKU-SYN-ALPHA-001",
+      "spend": "30.00",
+      "sales": "0.00",
+      "orders": "0",
+      "clicks": "31",
+      "impressions": "3050",
+      "current_bid": "1.50",
+      "current_budget": "35.00",
+      "budget_utilization": "0.44",
+      "target_acos": "0.20"
+    },
+    {
+      "profile_id": "profile_syn_ca_001",
+      "campaign_id": "camp_syn_ca_001",
+      "campaign_name": "Synthetic Canada Launch",
+      "target_id": "target_syn_ca_001",
+      "search_term_id": "st_syn_ca_001",
+      "search_term": "synthetic canada query",
+      "keyword": "synthetic canada keyword",
+      "asin": "B0SYNTH002",
+      "sku": "SKU-SYN-CA-001",
+      "spend": "6.75",
+      "sales": "67.50",
+      "orders": "3",
+      "clicks": "18",
+      "impressions": "1900",
+      "current_bid": "1.10",
+      "current_budget": "25.00",
+      "budget_utilization": "0.96",
+      "target_acos": "0.25"
+    }
+  ],
+  "readback": []
+}

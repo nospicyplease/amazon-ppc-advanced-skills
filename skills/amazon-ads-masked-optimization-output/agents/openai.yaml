@@ -1,0 +1,3 @@
+display_name: Amazon Ads Masked Optimization Output
+short_description: Preserve exact Amazon Ads KPIs while masking customer-facing identifiers in public output.
+default_prompt: Use this skill to produce masked Amazon Ads optimization diagnostics and approval packets from synthetic or private source data. Preserve exact KPIs, mask display labels and source-derived identifiers, scan artifacts for leakage, and do not execute Amazon Ads changes.

@@ -13,16 +13,19 @@ Do not commit:
 - Rocketcart customer data, credentials, private connection details, snapshots, changelogs, or proprietary performance data.
 - Rocketcart product-intelligence results tied to real products, including BSR/category rank, stock/availability, price, estimated demand, competitor alerts, reviews, rating, or ASIN-level controls.
 - Search terms that reveal confidential launch strategy, competitor strategy, or brand-sensitive information.
+- Masking registries, raw-to-handle mappings, HMAC secrets or digests, raw source IDs, private execution manifests, raw API readbacks, real dry-run fixtures, or execution allowlists.
 
-## Anonymization Rules
+## Synthetic Fixture Rules
 
-Use synthetic or heavily anonymized values:
+Use synthetic values for public fixtures:
 
 - ASINs: `ASIN-A`, `B0EXAMPLE1`, `PARENT-ALPHA`.
 - Campaigns: `SP-US-EXACT-WINNER`, `SP-DE-AUTO-DISCOVERY`.
 - Profiles: `example_us`, `example_de`.
 - Search terms: use generic category examples or redacted terms.
-- Metrics: change enough that they cannot be tied back to a real account.
+- Metrics in synthetic fixtures may be invented because the whole fixture is fake.
+
+For private real-profile masked output, do not alter KPI values for privacy. Preserve exact metrics and mask only display-plane labels and identifiers.
 
 ## Examples And Stress Tests
 

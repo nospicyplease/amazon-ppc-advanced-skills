@@ -1,6 +1,6 @@
 # Amazon PPC Advanced Skills
 
-AI assistant workflows for Amazon PPC diagnosis, growth planning, search-term harvesting, product-aware Rocketcart MCP reviews, and approval-ready action queues.
+AI assistant workflows for Amazon PPC diagnosis, growth planning, search-term harvesting, product-aware Rocketcart MCP reviews, masked optimization output, and approval-ready action queues.
 
 **Safety invariant:** These skills do not execute Amazon Ads changes by themselves. Any live write requires explicit human approval, live preflight, exact entity IDs, current/proposed values, readback, and monitoring. If any requirement is missing, the action is not executable.
 
@@ -13,6 +13,7 @@ AI assistant workflows for Amazon PPC diagnosis, growth planning, search-term ha
 | One weekly or monthly account plan | `amazon-account-growth-operating-system` | Combines protect, grow, fix, monitor, and approval actions. |
 | Search-term harvesting and routing | `amazon-search-term-harvest-planner` | Plans and preflights exact harvesting with readiness statuses and without unsafe source negatives. |
 | Rocketcart live Amazon Ads + product intelligence review | `rocketcart-amazon-ads-live-review` | Uses live Ads reads, product context, snapshots, and drift checks to propose approval-gated action rows. |
+| Public, demo, or recording-safe optimization output | `amazon-ads-masked-optimization-output` | Preserves exact KPIs and real optimization logic while masking source-derived display labels and building approval packets only. |
 
 ## What This Repo Is
 
@@ -27,6 +28,7 @@ AI assistant workflows for Amazon PPC diagnosis, growth planning, search-term ha
 - Not an automatic bid, budget, negative, placement, or campaign changer.
 - Not a replacement for human approval on live account mutations.
 - Not a place to commit real Amazon, Rocketcart, customer, or proprietary account data.
+- Not a public home for masking registries, source-ID mappings, raw reports, credentials, private execution manifests, or customer-specific codenames.
 
 ## Standalone Skills Vs Rocketcart MCP
 
@@ -190,11 +192,21 @@ Do not upload the whole repository to Claude as one skill. See [Installation](do
    - Runs read-first live optimization, product-aware growth, preflight readiness, and post-change monitoring reviews in standalone or Rocketcart MCP mode.
    - Uses Rocketcart MCP, when available, to inspect profiles, live campaigns, product ads/ASIN mapping, budget and targeting drift, snapshots, changelogs, category/BSR movement, product context, and readiness blockers before classifying ASINs/campaigns as Grow, Fix Before Scaling, Protect, Monitor, or Blocked.
 
+6. `amazon-ads-masked-optimization-output`
+   - Lives under `skills/amazon-ads-masked-optimization-output`.
+   - Keeps analytical-plane optimization logic on raw source IDs and exact KPIs, then masks only user-facing display labels and identifiers.
+   - Provides a Python reference package under `src/amazon_ads_masked_optimization_output/` for registry providers, masking, metric validation, approval packets, private manifests, scanners, synthetic E2E tests, real-profile dry-run gating, and readiness reporting.
+   - Does not mutate Amazon Ads. It may produce masked approval packets and private execution manifests for a separate approved execution tool.
+
 ## Repository Layout
 
 ```text
 amazon-*/                         Production skill folders
 rocketcart-*/                      Rocketcart-aware skill folders
+skills/                            New-style skill folders, including masked optimization output
+src/                               Testable helper modules for masked optimization output
+schemas/                           JSON schemas for masked packets, registries, manifests, and inputs
+tests/                             Unit, leakage, E2E, and gated real-profile dry-run tests
 docs/                              Install, FAQ, glossary, workflow, maintenance, data privacy
 examples/                          Reproducible fixture packs for every production skill
 evals/                             Manual review prompts and concrete eval cases
@@ -218,6 +230,37 @@ Each production skill has an example under `examples/`:
 Use `evals/` to review outputs for safety gates, BSR causality, action specificity, missing-data confidence, and Rocketcart write gates. Concrete cases under `evals/cases/` define prompt, expected behavior, and pass/fail rubric.
 
 Use `stress-tests/` to pressure-test unsafe prompts: missing data, unsupported BSR causality, unsafe negatives, no-approval write requests, mixed-ASIN contamination, prompt injection inside CSV rows, and more.
+
+## Masked Optimization Output Commands
+
+The masked-output package uses synthetic fixtures by default and does not require real credentials:
+
+```bash
+make test
+make test-unit
+make test-e2e
+make test-leakage
+make test-real-dry-run
+make production-readiness
+```
+
+`make production-readiness` reports `NOT_PRODUCTION_READY` unless synthetic tests, leakage tests, and gated read-only real-profile dry-runs pass. Live execution tests remain disabled unless `ALLOW_LIVE_EXECUTION_TESTS=true`, an allowlist, and a separate execution adapter are configured.
+
+For real-profile dry-runs, use ignored private paths only:
+
+```text
+private-test-data/registry.json
+private-test-data/profile-<profile_id>.json
+```
+
+Create the ignored local scaffold with:
+
+```bash
+make prepare-private-dry-run
+make check-private-dry-run-config
+```
+
+Set `ALLOW_REAL_PROFILE_TESTS=true`, `PRIVATE_TEST_DATA_DIR`, `MASKING_REGISTRY_URI`, `MASKING_HMAC_SECRET`, and Amazon Ads credential/profile env vars in your shell or ignored `.env`. Profile fixtures must use `fixture_kind: real_profile_read_only`; the harness will block placeholder-looking sensitive env values and non-private fixture paths.
 
 Run the structural checks before opening a PR:
 
