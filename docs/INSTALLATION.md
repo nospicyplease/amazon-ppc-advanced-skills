@@ -34,6 +34,13 @@ mkdir -p ~/.codex/skills
 cp -R rocketcart-amazon-ads-live-review ~/.codex/skills/
 ```
 
+For the case camouflage skill:
+
+```bash
+mkdir -p ~/.codex/skills
+cp -R skills/case-camouflage-skill ~/.codex/skills/
+```
+
 ## Install All Skills In Codex
 
 ```bash
@@ -43,6 +50,7 @@ cp -R amazon-growth-opportunity-finder ~/.codex/skills/
 cp -R amazon-account-growth-operating-system ~/.codex/skills/
 cp -R amazon-search-term-harvest-planner ~/.codex/skills/
 cp -R rocketcart-amazon-ads-live-review ~/.codex/skills/
+cp -R skills/case-camouflage-skill ~/.codex/skills/
 ```
 
 Reload Codex after copying.
@@ -63,7 +71,13 @@ For the Rocketcart bridge only:
 zip -r rocketcart-amazon-ads-live-review.zip rocketcart-amazon-ads-live-review
 ```
 
-Do not upload the entire repository as one Claude skill. Each top-level skill folder is intended to be installed separately.
+For the case camouflage skill:
+
+```bash
+(cd skills && zip -r ../case-camouflage-skill.zip case-camouflage-skill)
+```
+
+Do not upload the entire repository as one Claude skill. Each skill folder is intended to be installed separately.
 
 Include:
 
@@ -97,6 +111,21 @@ Missing data: campaign metrics, search terms, product/ASIN context, inventory, o
 Next step: provide exports or connect Rocketcart MCP for live reads
 ```
 
+To smoke-test the case camouflage skill after install:
+
+```text
+Use $case-camouflage-skill with synthetic Amazon Ads optimization data. Preserve exact KPIs, mask all display labels and identifiers, produce approval packets only, and do not execute Amazon Ads changes.
+```
+
+Expected first output:
+
+```text
+Mode: masked_output
+Execution: read-only; no Amazon Ads mutation
+Output: masked diagnostics, approval packet rows, registry coverage summary, and leak-scan result
+Gate: separate approved execution tool required for any future writes
+```
+
 If you have the Codex skill validator available, run:
 
 ```bash
@@ -105,6 +134,7 @@ python3 ~/.codex/skills/.system/skill-creator/scripts/quick_validate.py ~/.codex
 python3 ~/.codex/skills/.system/skill-creator/scripts/quick_validate.py ~/.codex/skills/amazon-account-growth-operating-system
 python3 ~/.codex/skills/.system/skill-creator/scripts/quick_validate.py ~/.codex/skills/amazon-search-term-harvest-planner
 python3 ~/.codex/skills/.system/skill-creator/scripts/quick_validate.py ~/.codex/skills/rocketcart-amazon-ads-live-review
+python3 ~/.codex/skills/.system/skill-creator/scripts/quick_validate.py ~/.codex/skills/case-camouflage-skill
 ```
 
 Expected result for each skill:
@@ -126,6 +156,7 @@ Copy the updated skill folder again, then reload Codex:
 
 ```bash
 cp -R amazon-account-growth-operating-system ~/.codex/skills/
+cp -R skills/case-camouflage-skill ~/.codex/skills/
 ```
 
 For Claude, rebuild and re-upload the ZIP for the updated skill folder.
@@ -217,7 +248,7 @@ Stale copied skill:
 
 Missing `SKILL.md`:
 
-- Install one of the top-level skill folders, not `docs/`, `examples/`, `evals/`, or `templates/` unless you are creating a new skill.
+- Install one of the skill folders, not `docs/`, `examples/`, `evals/`, or `templates/` unless you are creating a new skill.
 
 Examples and evals do not trigger as skills:
 
