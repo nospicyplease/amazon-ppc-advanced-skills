@@ -203,8 +203,8 @@ Do not upload the whole repository to Claude as one skill. See [Installation](do
 ```text
 amazon-*/                         Production skill folders
 rocketcart-*/                      Rocketcart-aware skill folders
-skills/                            New-style skill folders, including masked optimization output
-src/                               Testable helper modules for masked optimization output
+skills/                            New-style skill folders, including case-camouflage-skill
+src/                               Testable helper modules for case-camouflage-skill
 schemas/                           JSON schemas for masked packets, registries, manifests, and inputs
 tests/                             Unit, leakage, E2E, and gated real-profile dry-run tests
 docs/                              Install, FAQ, glossary, workflow, maintenance, data privacy
