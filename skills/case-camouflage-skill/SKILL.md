@@ -1,11 +1,11 @@
 ---
-name: amazon-ads-masked-optimization-output
+name: case-camouflage-skill
 description: Use when Amazon Ads optimization analysis, recommendations, approval packets, demos, recordings, or public artifacts must preserve exact source KPIs while masking account/profile/project names, products, ASINs, SKUs, campaigns, ad groups, keywords, search terms, targets, placements, filenames, URLs, and source-derived identifiers. Produces masked approval packets only; it must not directly mutate Amazon Ads.
 ---
 
-# Amazon Ads Masked Optimization Output
+# Case Camouflage Skill
 
-Use this skill when preparing Amazon Ads optimization output that may be shown to users, reviewers, public repos, demos, recordings, docs, or evals. The job is to keep optimization math real and exact while masking only user-facing labels and source-derived identifiers.
+Use this skill when preparing Amazon Ads optimization output that may be shown to users, reviewers, public repos, demos, recordings, docs, or evals. The job is to camouflage the case context: keep optimization math real and exact while masking only user-facing labels and source-derived identifiers.
 
 ## Non-Negotiables
 

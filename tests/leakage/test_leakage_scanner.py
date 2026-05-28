@@ -7,11 +7,11 @@ import zipfile
 from contextlib import redirect_stderr, redirect_stdout
 from pathlib import Path
 
-from amazon_ads_masked_optimization_output.approval import ApprovalAction, ApprovalPacketBuilder, sanitize_api_readback
-from amazon_ads_masked_optimization_output.errors import SanitizedError
-from amazon_ads_masked_optimization_output.masking import MaskingResolver
-from amazon_ads_masked_optimization_output.registry import InMemoryRegistryProvider
-from amazon_ads_masked_optimization_output.scanners import LeakScanner, sanitize_for_log
+from case_camouflage_skill.approval import ApprovalAction, ApprovalPacketBuilder, sanitize_api_readback
+from case_camouflage_skill.errors import SanitizedError
+from case_camouflage_skill.masking import MaskingResolver
+from case_camouflage_skill.registry import InMemoryRegistryProvider
+from case_camouflage_skill.scanners import LeakScanner, sanitize_for_log
 
 
 class LeakageScannerTests(unittest.TestCase):

@@ -41,7 +41,7 @@ def build_readiness_report(*, run_tests: bool = True, cwd: Optional[Path] = None
         limitations.append("Live execution was requested but lacks a separate approved adapter and allowlist.")
     verdict = "PRODUCTION_READY" if synthetic_ok and real_ok and live_guard_ok else "NOT_PRODUCTION_READY"
     return {
-        "package": "amazon-ads-masked-optimization-output",
+        "package": "case-camouflage-skill",
         "tests": test_results,
         "scanner_coverage": {
             "public_artifacts": "text, json, xlsx XML, hidden sheets, metadata, stdout, stderr",

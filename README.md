@@ -13,7 +13,7 @@ AI assistant workflows for Amazon PPC diagnosis, growth planning, search-term ha
 | One weekly or monthly account plan | `amazon-account-growth-operating-system` | Combines protect, grow, fix, monitor, and approval actions. |
 | Search-term harvesting and routing | `amazon-search-term-harvest-planner` | Plans and preflights exact harvesting with readiness statuses and without unsafe source negatives. |
 | Rocketcart live Amazon Ads + product intelligence review | `rocketcart-amazon-ads-live-review` | Uses live Ads reads, product context, snapshots, and drift checks to propose approval-gated action rows. |
-| Public, demo, or recording-safe optimization output | `amazon-ads-masked-optimization-output` | Preserves exact KPIs and real optimization logic while masking source-derived display labels and building approval packets only. |
+| Public, demo, or recording-safe optimization output | `case-camouflage-skill` | Preserves exact KPIs and real optimization logic while masking source-derived display labels and building approval packets only. |
 
 ## What This Repo Is
 
@@ -192,10 +192,10 @@ Do not upload the whole repository to Claude as one skill. See [Installation](do
    - Runs read-first live optimization, product-aware growth, preflight readiness, and post-change monitoring reviews in standalone or Rocketcart MCP mode.
    - Uses Rocketcart MCP, when available, to inspect profiles, live campaigns, product ads/ASIN mapping, budget and targeting drift, snapshots, changelogs, category/BSR movement, product context, and readiness blockers before classifying ASINs/campaigns as Grow, Fix Before Scaling, Protect, Monitor, or Blocked.
 
-6. `amazon-ads-masked-optimization-output`
-   - Lives under `skills/amazon-ads-masked-optimization-output`.
+6. `case-camouflage-skill`
+   - Lives under `skills/case-camouflage-skill`.
    - Keeps analytical-plane optimization logic on raw source IDs and exact KPIs, then masks only user-facing display labels and identifiers.
-   - Provides a Python reference package under `src/amazon_ads_masked_optimization_output/` for registry providers, masking, metric validation, approval packets, private manifests, scanners, synthetic E2E tests, real-profile dry-run gating, and readiness reporting.
+   - Provides a Python reference package under `src/case_camouflage_skill/` for registry providers, masking, metric validation, approval packets, private manifests, scanners, synthetic E2E tests, real-profile dry-run gating, and readiness reporting.
    - Does not mutate Amazon Ads. It may produce masked approval packets and private execution manifests for a separate approved execution tool.
 
 ## Repository Layout

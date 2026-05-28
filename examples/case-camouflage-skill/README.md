@@ -1,6 +1,6 @@
-# Amazon Ads Masked Optimization Output Examples
+# Case Camouflage Skill Examples
 
-This folder contains synthetic-only fixtures for the `amazon-ads-masked-optimization-output` package.
+This folder contains synthetic-only fixtures for the `case-camouflage-skill` package.
 
 - `sample-data/synthetic-profile.json` includes fake profile, campaign, target, search-term, ASIN, and SKU values for local tests.
 - Public expected outputs must use masked handles only.

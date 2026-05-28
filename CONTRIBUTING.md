@@ -86,7 +86,7 @@ make validate
 make eval
 ```
 
-For `amazon-ads-masked-optimization-output`, also run:
+For `case-camouflage-skill`, also run:
 
 ```bash
 make test

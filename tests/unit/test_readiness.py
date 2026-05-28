@@ -5,7 +5,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from amazon_ads_masked_optimization_output.readiness import build_readiness_report
+from case_camouflage_skill.readiness import build_readiness_report
 
 
 class ReadinessTests(unittest.TestCase):
