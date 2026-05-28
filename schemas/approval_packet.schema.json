@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MaskedApprovalPacket",
+  "type": "object",
+  "required": ["packet_version", "created_at", "expires_at", "packet_hash", "actions", "public_output", "contains_raw_identifiers"],
+  "properties": {
+    "packet_version": { "type": "string" },
+    "created_at": { "type": "string" },
+    "expires_at": { "type": "string" },
+    "packet_hash": { "type": "string", "pattern": "^PACKET-[A-F0-9]{16}$" },
+    "public_output": { "const": true },
+    "contains_raw_identifiers": { "const": false },
+    "actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["action_id", "status", "profile", "entity", "action_type", "current_values", "proposed_values", "exact_metrics", "preflight_required", "readback_required", "execution"],
+        "properties": {
+          "action_id": { "type": "string", "pattern": "^ACTION-[0-9]{6}$" },
+          "status": { "const": "APPROVAL_REQUIRED" },
+          "profile": { "type": "string", "pattern": "^PROFILE-[0-9]{6}$" },
+          "entity": {
+            "type": "object",
+            "required": ["type", "handle"],
+            "properties": {
+              "type": { "type": "string" },
+              "handle": { "type": "string" }
+            }
+          },
+          "action_type": { "type": "string" },
+          "current_values": { "type": "object" },
+          "proposed_values": { "type": "object" },
+          "exact_metrics": { "type": "object" },
+          "rationale": { "type": "string" },
+          "preflight_required": { "const": true },
+          "readback_required": { "const": true },
+          "execution": { "const": "not_in_skill_scope" }
+        }
+      }
+    }
+  }
+}

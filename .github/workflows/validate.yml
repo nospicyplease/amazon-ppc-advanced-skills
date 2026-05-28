@@ -28,7 +28,10 @@ jobs:
 
       - name: Parse YAML metadata
         run: |
-          ruby -e 'require "yaml"; ARGV.each { |f| YAML.load_file(f); puts "yaml ok #{f}" }' .github/ISSUE_TEMPLATE/*.yml */agents/openai.yaml templates/amazon-ppc-skill-template/agents/openai.yaml
+          ruby -e 'require "yaml"; ARGV.each { |f| YAML.load_file(f); puts "yaml ok #{f}" }' .github/ISSUE_TEMPLATE/*.yml */agents/openai.yaml skills/*/agents/openai.yaml templates/amazon-ppc-skill-template/agents/openai.yaml
 
       - name: Validate repo layout
         run: make validate
+
+      - name: Run masked output tests
+        run: make test

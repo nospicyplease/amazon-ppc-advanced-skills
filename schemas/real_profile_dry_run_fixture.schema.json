@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PrivateRealProfileDryRunFixture",
+  "type": "object",
+  "required": ["fixture_kind", "profile_id", "records"],
+  "properties": {
+    "fixture_kind": { "const": "real_profile_read_only" },
+    "profile_id": { "type": "string", "minLength": 1 },
+    "records": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "profile_id",
+          "campaign_id",
+          "campaign_name",
+          "target_id",
+          "search_term_id",
+          "search_term",
+          "spend",
+          "sales",
+          "orders",
+          "clicks",
+          "impressions",
+          "current_bid",
+          "current_budget"
+        ],
+        "properties": {
+          "profile_id": { "type": "string" },
+          "campaign_id": { "type": "string" },
+          "campaign_name": { "type": "string" },
+          "target_id": { "type": "string" },
+          "search_term_id": { "type": "string" },
+          "search_term": { "type": "string" },
+          "keyword": { "type": "string" },
+          "asin": { "type": "string" },
+          "sku": { "type": "string" },
+          "spend": { "type": "string" },
+          "sales": { "type": "string" },
+          "orders": { "type": "string" },
+          "clicks": { "type": "string" },
+          "impressions": { "type": "string" },
+          "current_bid": { "type": "string" },
+          "current_budget": { "type": "string" },
+          "budget_utilization": { "type": "string" },
+          "target_acos": { "type": "string" }
+        }
+      }
+    }
+  }
+}

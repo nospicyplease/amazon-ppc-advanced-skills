@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SyntheticMaskingRegistry",
+  "type": "object",
+  "required": ["tenant_id", "entries"],
+  "properties": {
+    "tenant_id": { "type": "string" },
+    "unsafe_aliases": { "type": "array", "items": { "type": "string" } },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["entity_type", "handle"],
+        "properties": {
+          "entity_type": { "type": "string" },
+          "handle": { "type": "string" },
+          "profile_id": { "type": "string" },
+          "raw_id": { "type": "string" },
+          "raw_label": { "type": "string" },
+          "aliases": { "type": "array", "items": { "type": "string" } },
+          "status": { "type": "string", "enum": ["active", "placeholder", "planned", "retired", "blocked"] },
+          "planned": { "type": "boolean" }
+        }
+      }
+    }
+  }
+}

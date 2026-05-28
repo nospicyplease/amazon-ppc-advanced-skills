@@ -11,6 +11,7 @@ If you are new to the project, start with [FAQ](FAQ.md). The fastest rule is: us
 | Need one weekly account action plan | `amazon-account-growth-operating-system` | Drop findings, growth findings, or raw account data with scope, economics, readiness, and rank context | Prioritizes protect/grow/fix/monitor into one queue | Conflicting upstream findings or unresolved high-confidence downside risk |
 | Search-term cleanup, exact harvesting, or Rocketcart live harvest preflight | `amazon-search-term-harvest-planner` | Search term report, targeting/keyword map, destination structure, existing exact/negatives, destination feasibility, economics/readiness; Rocketcart profile and live state when available | Separates harvest, route, negative, bid-down, watchlist, live preflight, execution, and readback decisions with write-readiness statuses | Missing source/destination map, exact keyword map, current negative map, destination feasibility, live profile, exact IDs, or strategic-role context |
 | Rocketcart live Amazon Ads + product-intelligence review | `rocketcart-amazon-ads-live-review` | Rocketcart profile, live campaigns, product ads/ASIN mapping, category/BSR movement, product context, budget changes, snapshots, action goal | Compares analysis to live Ads state, product readiness, product intelligence, and recent-change context before proposing approval-gated rows | Missing profile, product context, exact IDs, live preflight, approval, or readback |
+| Public, demo, or recording-safe optimization output | `amazon-ads-masked-optimization-output` | Source data in private context, tenant-scoped registry, HMAC secret for text-only identifiers, output destination | Preserves exact KPIs and source-plane optimization logic while masking display labels and producing approval packets only | Missing masking registry, HMAC secret, leakage scan, private manifest path, or real-profile dry-run validation |
 
 ## 1. Amazon Ads Performance Drop Diagnosis
 
@@ -180,6 +181,33 @@ Key outputs:
 Important guardrail:
 
 This skill does not execute writes by default. Bid, budget, placement, negative, pause, relaunch, or campaign-creation actions require explicit approval, live preflight, exact entity IDs, expected impact and risk, readback, and monitoring.
+
+## 6. Amazon Ads Masked Optimization Output
+
+Folder: `skills/amazon-ads-masked-optimization-output`
+
+Use when Amazon Ads optimization output must be safe for public repos, demos, recordings, user-facing summaries, or eval artifacts while preserving exact metrics and real recommendation logic.
+
+Best for:
+
+- Masking account, profile, product, ASIN, SKU, campaign, ad group, keyword, search-term, target, placement, filename, URL, and source-derived identifiers.
+- Keeping analytical grouping/ranking on raw source IDs before display masking.
+- Building masked approval packets with immutable non-sensitive action IDs.
+- Keeping raw execution payloads in private manifests for a separate approved execution tool.
+- Scanning artifacts, logs, metadata, hidden sheets, rationales, and readbacks before release.
+
+Key outputs:
+
+- Masked diagnostics with exact KPIs.
+- Masked approval packet rows.
+- Private manifest boundary.
+- Registry coverage summary with counts only.
+- Leakage scan result.
+- Production readiness report.
+
+Important guardrail:
+
+Never alter KPIs for privacy and never execute Amazon Ads changes from this skill.
 
 ## Adding More Skills
 

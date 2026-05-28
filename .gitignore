@@ -4,4 +4,15 @@
 __pycache__/
 .pytest_cache/
 .codex/
-
+.env
+!.env.example
+.private/
+private/
+private-test-data/
+raw-reports/
+execution-manifests/
+*.private.json
+*.private-manifest.json
+*.raw.json
+*.raw.csv
+*.raw.tsv

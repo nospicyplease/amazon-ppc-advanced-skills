@@ -7,6 +7,7 @@ Thanks for helping build Amazon PPC agent skills. This project is for operators,
 Good contributions usually fit one of these shapes:
 
 - A new skill for a repeatable Amazon PPC workflow.
+- Masking, leakage-scanning, or approval-packet improvements for public/demo-safe optimization output.
 - A sharper evidence threshold, safety gate, or output format for an existing skill.
 - A reference file that keeps a complex skill concise.
 - An anonymized example pack with synthetic sample data, expected output, known-bad output, and eval result.
@@ -19,7 +20,7 @@ Open an issue before large rewrites or new skill families so the scope can be di
 
 By contributing, you agree that your contribution can be released under the repo's MIT license.
 
-Do not commit real Amazon Ads, Rocketcart, seller, agency, customer, ASIN, keyword, search-term, campaign, or financial data unless it is already public and clearly safe to publish. Examples, eval cases, and stress tests should use synthetic or heavily anonymized data. See [docs/DATA_PRIVACY.md](docs/DATA_PRIVACY.md).
+Do not commit real Amazon Ads, Rocketcart, seller, agency, customer, ASIN, keyword, search-term, campaign, or financial data unless it is already public and clearly safe to publish. Do not commit real masking registries, raw-to-handle mappings, source IDs, credentials, private execution manifests, raw API readbacks, or real dry-run fixtures. Examples, eval cases, and stress tests should use synthetic data. See [docs/DATA_PRIVACY.md](docs/DATA_PRIVACY.md).
 
 ## What Maintainers Usually Accept
 
@@ -84,6 +85,17 @@ make list-skills
 make validate
 make eval
 ```
+
+For `amazon-ads-masked-optimization-output`, also run:
+
+```bash
+make test
+make prepare-private-dry-run
+make test-real-dry-run
+make production-readiness
+```
+
+Normal tests must not require real credentials. Real-profile dry-runs must stay gated behind `ALLOW_REAL_PROFILE_TESTS=true` and private ignored data paths.
 
 `make review-fixtures` is the main contributor quality gate for examples and evals. It checks that every production skill has a complete example pack, every eval case has a prompt, expected behavior, and pass/fail rubric, every stress test names target skills and eval prompts, and unsafe write-language appears only with blocked or approval-gated expected behavior.
 

@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PrivateExecutionManifest",
+  "type": "object",
+  "required": ["private_manifest", "public_output", "approval_packet_hash", "actions"],
+  "properties": {
+    "private_manifest": { "const": true },
+    "public_output": { "const": false },
+    "approval_packet_hash": { "type": "string" },
+    "actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["action_id", "profile_id", "entity_type", "entity_id", "current_values", "proposed_values", "raw_payload", "requires_explicit_approval", "requires_live_preflight", "requires_readback"],
+        "properties": {
+          "action_id": { "type": "string" },
+          "profile_id": { "type": "string" },
+          "entity_type": { "type": "string" },
+          "entity_id": { "type": "string" },
+          "current_values": { "type": "object" },
+          "proposed_values": { "type": "object" },
+          "raw_payload": { "type": "object" },
+          "requires_explicit_approval": { "const": true },
+          "requires_live_preflight": { "const": true },
+          "requires_readback": { "const": true }
+        }
+      }
+    }
+  }
+}
